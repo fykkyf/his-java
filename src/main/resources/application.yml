@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///his
+    username: root
+    password: 123
+  redis:
+    host: 192.168.228.60
+    port: 6379
+    password: 123
+    database: 0
+    lettuce:
+      pool:
+        max-wait: -1  # 最长等待时间
+        min-idle: 2   # 最小连接数
+        max-idle: 10   # 最da连接数
+        max-active: 5 # 最大活动数
+  rabbitmq:
+    host: 192.168.228.60
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    publisher-confirm-type: correlated          #开启confirm监听
+    publisher-returns: true                     #开启return监听
+    listener:
+      simple:
+        acknowledge-mode: manual                #消费者手动确认
+        prefetch: 1                             #每次从队列中准备多少个预处理的消息
+mybatis:
+  type-aliases-package: com.woniu.hospital_information_system.entity
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  configuration:
+    lazy-loading-enabled: true
+    aggressive-lazy-loading: false
+
+logging:
+  level:
+    com.woniu.springboot.mapper: debug
+
