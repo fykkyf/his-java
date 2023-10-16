@@ -16,4 +16,6 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     public List<PatientInfo> getAllPatientInfo() {
         return patientInfoMapper.selectAllPatientInfo();
     }
+
+
 }
