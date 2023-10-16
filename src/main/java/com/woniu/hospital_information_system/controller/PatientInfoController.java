@@ -17,6 +17,6 @@ public class PatientInfoController {
     * */
     @GetMapping("/get")
     public Object getAllPatientInfo() {
-        return new ResponseEntity(200,"request success",patientInfoService.getAllPatientInfo());
+        return new ResponseEntity(200,"request success",patientInfoService.getAllPatientInfos());
     }
 }
