@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间：对应的接口的全类名-->
+<mapper namespace="com.woniu.hospital_information_system.mapper.VisitorInfoMapper">
+    <!--id和对应的mapper接口中的方法名一样-->
+    <insert id="addVisitorInfo" >
+        <selectKey keyProperty="visitor_id" resultType="int" statementType="PREPARED" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        <if test="gender==1">
+            insert into visitor_info values (null,#{visitorName},1,#{idNumber},#{phone},#{unitId},#{doctorId},null,now(),1)
+        </if>
+        <if test="gender==0">
+            insert into visitor_info values (null,#{visitorName},0,#{idNumber},#{phone},#{unitId},#{doctorId},null,now(),1)
+        </if>
+    </insert>
+</mapper>

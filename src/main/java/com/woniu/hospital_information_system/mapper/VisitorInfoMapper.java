@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface VisitorInfoMapper {
 
-    @Insert("insert into visitor_info values (null,#{visitorName},#{gender},#{idNumber},#{phone},#{unitId},#{doctorId},null,#{clinicStartTime},1)")
+//    @Insert("insert into visitor_info values (null,#{visitorName},#{gender},#{idNumber},#{phone},#{unitId},#{doctorId},null,#{clinicStartTime},1)")
     void addVisitorInfo(VisitorInfo visitorInfo);
 
     @Select("select * from visitor_info where visitor_id=#{visitorId}")

@@ -1,19 +1,40 @@
 package com.woniu.hospital_information_system.service.impl;
 
 import com.woniu.hospital_information_system.entity.VisitorInfo;
+import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
+import com.woniu.hospital_information_system.util.NowTime;
+import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 
 @Service
 public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Autowired
     VisitorInfoMapper visitorInfoMapper;
+    @Autowired
+    VisitorBillMapper visitorBillMapper;
+    @Autowired
+    NowTime nowTime;
 
+
+
+    @Transactional
     @Override
+    @Options(useGeneratedKeys = true, keyColumn = "visitor_id", keyProperty = "visitorId")
     public void addVisitorInfo(VisitorInfo visitorInfo) {
-        visitorInfoMapper.addVisitorInfo(visitorInfo);
+        /*
+        挂号成功的同时,生成门诊患者费用表
+         */
+        visitorInfoMapper.addVisitorInfo(visitorInfo);//添加患者信息
+        Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getDoctorId());//得到项目id
+        Double treatmentPrice = visitorBillMapper.getPriceByTreatmentId(treatmentId);//得到挂号的那个医生的费用
+        Timestamp orderDate = nowTime.getNow();//获取当前datetime
+        visitorBillMapper.addVisitorBill(visitorInfo.getVisitorId(),treatmentId,treatmentPrice,orderDate);//在门诊患者费用表中生成数据
     }
 
     @Override
