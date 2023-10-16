@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class clinicOrder {
+public class ClinicOrder {
     private Integer clinicOrderId;
     private Integer visitorId;
     private Integer doctorId;
