@@ -8,5 +8,5 @@ import java.util.List;
 @Mapper
 public interface PatientInfoMapper {
     @Select("select * from patientInfo")
-    public List<PatientInfo> selectAllPatientInfo();
+    List<PatientInfo> selectAllPatientInfo();
 }
