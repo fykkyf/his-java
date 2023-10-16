@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.DTO.MenuDTO;
 import com.woniu.hospital_information_system.entity.Menu;
 import com.woniu.hospital_information_system.mapper.MenuMapper;
 import com.woniu.hospital_information_system.service.MenuService;
@@ -35,5 +36,26 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void removeByMenuId(int menuId) {
         menuMapper.removeByMenuId(menuId);
+    }
+
+    @Override
+    public boolean checkExist(Integer menuId) {
+        Menu menu = menuMapper.checkExist(menuId);
+        if(menu == null){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+
+    @Override
+    public void update(MenuDTO menuDTO) {
+        menuMapper.update(menuDTO);
+    }
+
+    @Override
+    public void add(MenuDTO menuDTO) {
+        menuMapper.add(menuDTO);
     }
 }

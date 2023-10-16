@@ -1,12 +1,12 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.woniu.hospital_information_system.entity.DTO.MenuDTO;
+import com.woniu.hospital_information_system.entity.Menu;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -24,5 +24,16 @@ public class MenuController {
     public ResponseEntity removeByMenuId(@PathVariable int menuId){
         menuService.removeByMenuId(menuId);
         return new ResponseEntity(200,"success","删除成功");
+    }
+    @PostMapping("/update")
+    public ResponseEntity updateMenu(@RequestBody MenuDTO menuDTO){
+        boolean exist = menuService.checkExist(menuDTO.getMenuId());
+        if(exist){
+            menuService.update(menuDTO);
+            return new ResponseEntity(200,"success","修改成功");
+        }else {
+            menuService.add(menuDTO);
+            return new ResponseEntity(200,"success","添加成功");
+        }
     }
 }
