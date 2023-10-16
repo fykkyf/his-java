@@ -1,4 +1,4 @@
-package entity;
+package com.woniu.hospital_information_system.entity;
 
 import cn.hutool.core.date.DateTime;
 import lombok.AllArgsConstructor;

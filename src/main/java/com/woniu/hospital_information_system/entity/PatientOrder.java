@@ -1,20 +1,17 @@
-package entity;
+package com.woniu.hospital_information_system.entity;
 
 import cn.hutool.core.date.DateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/*
-* 门诊医嘱表
-* */
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ClinicOrder {
-    private Integer clinicOrderId;
-    private Integer visitorId;
+@NoArgsConstructor
+//住院医嘱表
+public class PatientOrder {
+    private Integer patientOrderId;
+    private Integer patientId;
     private Integer doctorId;
     private Integer treatmentId;
     private String treatmentName;
@@ -23,4 +20,6 @@ public class ClinicOrder {
     private Integer treatmentCount;
     private DateTime executionTime;
     private DateTime dispenseTime;
+    private Integer executionStatus;
+    private Integer orderType;
 }

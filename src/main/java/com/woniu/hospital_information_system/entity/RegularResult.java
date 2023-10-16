@@ -1,4 +1,4 @@
-package entity;
+package com.woniu.hospital_information_system.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,12 +9,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-//住院检验表
-public class PatientLab {
-    private Integer patientLabId;
+//住院三测表
+public class RegularResult {
+    private Integer regularTestId;
     private Integer patientId;
-    private Integer treatmentId;
-    private String labResult;
+    private Integer pressure;
+    private Double sugar;
+    private Double temp;
     private Date testDate;
-    private Integer testStatus;
 }

@@ -1,22 +1,24 @@
-package entity;
-
+package com.woniu.hospital_information_system.entity;
 
 import cn.hutool.core.date.DateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
+/*
+* 门诊患者费用表
+* */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//住院患者费用表
-public class PatientBill {
-
-    private Integer patientBillId;
-    private Integer patientId;
+public class VisitorBill {
+    private Integer visitorBillId;
+    private Integer visitorId;
     private Integer treatmentId;
-    private Integer drugCount;
-    private Double treatmentPrice;
+    private Integer drugId;
+    private BigDecimal treatmentPrice;
     private DateTime orderDate;
     private DateTime paymentDate;
     private Integer paymentStatus;

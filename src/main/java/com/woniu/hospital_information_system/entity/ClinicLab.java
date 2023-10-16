@@ -1,4 +1,4 @@
-package entity;
+package com.woniu.hospital_information_system.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
