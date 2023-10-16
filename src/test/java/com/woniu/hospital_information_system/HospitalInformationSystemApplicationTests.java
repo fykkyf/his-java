@@ -9,7 +9,7 @@ class HospitalInformationSystemApplicationTests {
 
     @Test
     void contextLoads() {
-
+        System.out.println("我是六哥");
 
 
 

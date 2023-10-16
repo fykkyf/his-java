@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,6 +9,7 @@ public class HospitalInformationSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HospitalInformationSystemApplication.class, args);
+        System.out.println("我是六哥");
     }
 
 }
