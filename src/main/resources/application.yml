@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///his
+    url: jdbc:mysql:///hospital_information_system
     username: root
     password: 123
   redis:
