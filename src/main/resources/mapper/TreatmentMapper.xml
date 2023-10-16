@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间：对应的接口的全类名-->
+<mapper namespace="com.woniu.hospital_information_system.mapper.TreatmentMapper">
+    <!--id和对应的mapper接口中的方法名一样-->
+    <select id="selectAllTreatment" resultType="TreatmentVO">
+      select * from treatment
+      <where>
+
+          <if test="keyword!=null and keyword!=''">
+              concat(treatment_name,manufacturer) like "%${keyword}%"
+          </if>
+
+          <if test="treatmentName!=null and treatmentName!=''">
+              and  treatment_name=#{treatmentName}
+          </if>
+          <if test="treatmentId!=null and treatmentId!=''">
+           and  treatment_id=#{treatmentId}
+          </if>
+
+          <if test="manufacturer!=null and manufacturer!=''">
+              and   manufacturer=#{manufacturer}
+          </if>
+
+          <if test="treatmentStatus!=null and treatmentStatus!=''">
+              and   treatment_status=#{treatmentStatus}
+          </if>
+          <if test="treatmentCategory!=null and treatmentCategory!=''">
+              and   treatment_category=#{treatmentCategory}
+          </if>
+
+      </where>
+    </select>
+</mapper>

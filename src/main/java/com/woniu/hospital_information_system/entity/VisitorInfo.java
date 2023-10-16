@@ -16,7 +16,6 @@ public class VisitorInfo {
     private Integer visitorId;
     private String visitorName;
     private Integer gender;
-    private Integer age;
     private String idNumber;
     private BigInteger phone;
     private Integer unitId;

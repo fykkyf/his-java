@@ -1,4 +1,4 @@
-package com.woniu.hospital_information_system.entity;
+package com.woniu.hospital_information_system.entity.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 //菜单表
-public class Menu {
+public class MenuDTO {
     private Integer menuId;
     private String menuName;
     private String path;
     private Integer pmenuId;
-    private List<Menu> children = new ArrayList<>();
+
 }
