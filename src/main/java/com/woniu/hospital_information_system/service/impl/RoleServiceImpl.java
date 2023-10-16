@@ -42,4 +42,9 @@ public class RoleServiceImpl implements RoleService {
     public void add(Role role) {
         roleMapper.add(role);
     }
+
+    @Override
+    public List<Integer> selectMenuIdsByRoleId(int roleId) {
+        return roleMapper.selectMenuIdsByRoleId(roleId);
+    }
 }
