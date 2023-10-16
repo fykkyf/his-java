@@ -2,10 +2,7 @@ package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.DTO.MenuDTO;
 import com.woniu.hospital_information_system.entity.Menu;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -22,6 +19,8 @@ public interface MenuMapper {
     Menu checkExist(Integer menuId);
     @Update("update menu set menu_name = #{menuName}, path = #{path} where menu_id = #{menuId} and isdelete = 0")
     void update(MenuDTO menuDTO);
-    @Insert(("insert into menu values(null,#{menuName},#{path},#{pmenuId},0) "))
+    @Insert("insert into menu values(null,#{menuName},#{path},#{pmenuId},0) ")
     void add(MenuDTO menuDTO);
+    @Delete("delete from employee_menu where role_id = #{roleId} ")
+    void removeMenuByRoleId(int roleId);
 }

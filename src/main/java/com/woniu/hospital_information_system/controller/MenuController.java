@@ -25,6 +25,7 @@ public class MenuController {
         menuService.removeByMenuId(menuId);
         return new ResponseEntity(200,"success","删除成功");
     }
+    //根据是否存在菜单id判断添加或修改
     @PostMapping("/update")
     public ResponseEntity updateMenu(@RequestBody MenuDTO menuDTO){
         boolean exist = menuService.checkExist(menuDTO.getMenuId());
