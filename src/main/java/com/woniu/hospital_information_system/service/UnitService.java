@@ -7,4 +7,10 @@ import java.util.List;
 
 public interface UnitService {
     List<Unit> getAllUnits();
+
+    void add(Unit unit);
+
+    void update(Unit unit);
+
+    void removeUnit(int unitId);
 }
