@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,4 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class MenuController {
     @Autowired
     MenuService menuService;
+
+    @RequestMapping("/getAll")
+    public ResponseEntity getAllMenus(){
+        return new ResponseEntity(200,"success",menuService.getAllMenus());
+    }
+
 }
