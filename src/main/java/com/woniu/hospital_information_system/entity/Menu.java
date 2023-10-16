@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -13,4 +16,5 @@ public class Menu {
     private String menuName;
     private String path;
     private Integer pmenuId;
+    private List<Menu> children = new ArrayList<>();
 }

@@ -6,6 +6,7 @@ import com.woniu.hospital_information_system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +15,20 @@ public class MenuServiceImpl implements MenuService {
     MenuMapper menuMapper;
     @Override
     public List<Menu> getAllMenus() {
-        return menuMapper.getAllMenus();
+
+        List<Menu> allMenus = menuMapper.getAllMenus();
+        List<Menu> menus = new ArrayList<>();
+        for (Menu menu : allMenus){
+            if(menu.getPmenuId().equals(0)){
+                menus.add(menu);
+                for (Menu child : allMenus){
+                    if(child.getPmenuId().equals(menu.getMenuId())){
+                        menu.getChildren().add(child);
+                    }
+                }
+            }
+        }
+        return  menus;
+//        return  menuMapper.getAllMenus();
     }
 }
