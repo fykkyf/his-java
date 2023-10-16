@@ -8,6 +8,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+//门诊检查表
 public class ClinicRaidology {
     private Integer clinicRaidologyId;
     private Integer visitorId;

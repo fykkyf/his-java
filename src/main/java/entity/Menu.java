@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+//菜单表
 public class Menu {
     private Integer menuId;
     private String menuName;

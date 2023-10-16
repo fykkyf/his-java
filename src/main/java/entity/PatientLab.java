@@ -9,6 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+//住院检验表
 public class PatientLab {
     private Integer patientLabId;
     private Integer patientId;

@@ -9,6 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+//住院三测表
 public class RegularResult {
     private Integer regularTestId;
     private Integer patientId;
