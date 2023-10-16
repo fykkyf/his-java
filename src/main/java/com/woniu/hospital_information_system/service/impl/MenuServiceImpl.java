@@ -31,4 +31,9 @@ public class MenuServiceImpl implements MenuService {
         return  menus;
 //        return  menuMapper.getAllMenus();
     }
+
+    @Override
+    public void removeByMenuId(int menuId) {
+        menuMapper.removeByMenuId(menuId);
+    }
 }

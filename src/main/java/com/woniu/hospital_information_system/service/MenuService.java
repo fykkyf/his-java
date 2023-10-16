@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MenuService {
     List<Menu> getAllMenus();
+
+    void removeByMenuId(int menuId);
 }

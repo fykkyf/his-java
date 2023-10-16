@@ -20,4 +20,8 @@ class MenuServiceImplTest {
        List<Menu> menus =  menuService.getAllMenus();
         System.out.println(menus);
     }
+    @Test
+    public void testDeleteMenu(){
+        menuService.removeByMenuId(1);
+    }
 }
