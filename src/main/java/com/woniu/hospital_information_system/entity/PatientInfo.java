@@ -21,8 +21,8 @@ public class PatientInfo {
     private Integer unitId;
     private Integer doctorId;
     private Integer insuranceStatus;
-    private Date inTime;
-    private Date outTime;
+    private DateTime inTime;
+    private DateTime outTime;
     private Integer clinicDiagnosisId;
     private Integer admissionDiagnosisId;
     private Integer dischargeDiagnosisId;

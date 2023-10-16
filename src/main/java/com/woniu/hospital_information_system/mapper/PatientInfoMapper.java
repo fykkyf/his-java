@@ -12,4 +12,6 @@ public interface PatientInfoMapper {
     List<PatientInfo> selectAllPatientInfo();
     //添加住院患者信息
     void insertPatientInfo(PatientInfo patientInfo);
+    //根据身份证号查询住院患者信息
+    List<PatientInfo> selectPatientInfoByIdNumber(String idNumber);
 }
