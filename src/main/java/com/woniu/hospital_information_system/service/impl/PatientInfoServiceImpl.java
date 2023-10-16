@@ -3,7 +3,6 @@ package com.woniu.hospital_information_system.service.impl;
 import cn.hutool.core.date.DateTime;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
-import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.mapper.PatientInfoMapper;
 import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
 import com.woniu.hospital_information_system.service.InsuranceInfoService;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +22,9 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     VisitorInfoMapper visitorInfoMapper;
     @Autowired
     InsuranceInfoService insuranceInfoService;
-
+    /*
+    * 获取所有住院患者信息
+    * */
     @Override
     public List<PatientInfo> getAllPatientInfo() {
         return patientInfoMapper.selectAllPatientInfo();
@@ -50,6 +50,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 1).collect(Collectors.toList());
         if (collect.size() != 0) {
             //TODO:抛住院费用未结算异常
+            System.out.println("未结算");
         }
         //已结清费用则给住院患者对象赋值
         patientInfo.setPatientName(patientInfoDTO.getPatientName());//姓名
@@ -66,10 +67,9 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             //无医保
             patientInfo.setInsuranceStatus(0);
         }
-        patientInfo.setInTime(new DateTime());//入院时间
-        patientInfo.setStayStatus(0);//出院状态
         //调用insert方法，向数据库添加住院患者信息
-        patientInfoMapper.insertPatientInfo(patientInfo);
+//        patientInfoMapper.insertPatientInfo(patientInfo);
+        System.out.println("执行添加");
     }
 
 

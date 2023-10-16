@@ -7,7 +7,7 @@
     <!--id和对应的mapper接口中的方法名一样-->
 
     <insert id="insertPatientInfo">
-        insert into patient_info values (null,#{visitorId},#{patientName},#{gender},#{age},#{idNumber},#{unitId},#{doctorId},#{insuranceStatus},#{inTime},
+        insert into patient_info values (null,#{visitorId},#{patientName},#{gender},#{age},#{idNumber},#{unitId},#{doctorId},#{insuranceStatus},now(),
                                          null,#{clinicDiagnosisId},null,null,null,null,0,0)
     </insert>
     <select id="selectPatientInfoByIdNumber"

@@ -14,11 +14,12 @@ class PatientInfoServiceImplTest {
 
     @Test
     void getAllPatientInfo() {
-        PatientInfoDTO patientInfoDTO = new PatientInfoDTO();
-        patientInfoDTO.setAge(18);
-        patientInfoDTO.setPatientName("流得滑");
-        patientInfoDTO.setIdNumber("110120200001010201");
-        patientInfoDTO.setGender(1);
-        patientInfoService.addPatientInfo(patientInfoDTO);
+//        PatientInfoDTO patientInfoDTO = new PatientInfoDTO();
+//        patientInfoDTO.setAge(18);
+//        patientInfoDTO.setPatientName("流得滑");
+//        patientInfoDTO.setIdNumber("110120200001010201");
+//        patientInfoDTO.setGender(1);
+//        patientInfoService.addPatientInfo(patientInfoDTO);
+        System.out.println(patientInfoService.getAllPatientInfo());
     }
 }
