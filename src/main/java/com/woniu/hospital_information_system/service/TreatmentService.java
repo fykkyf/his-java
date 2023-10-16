@@ -1,8 +1,7 @@
 package com.woniu.hospital_information_system.service;
 
-import com.woniu.hospital_information_system.entity.Treatment;
-import com.woniu.hospital_information_system.entity.TreatmentDTO;
-import com.woniu.hospital_information_system.entity.TreatmentVO;
+import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 
 import java.util.List;
 

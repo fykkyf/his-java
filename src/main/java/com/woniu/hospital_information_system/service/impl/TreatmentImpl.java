@@ -1,9 +1,7 @@
 package com.woniu.hospital_information_system.service.impl;
 
-import com.woniu.hospital_information_system.entity.ResponseEntity;
-import com.woniu.hospital_information_system.entity.Treatment;
-import com.woniu.hospital_information_system.entity.TreatmentDTO;
-import com.woniu.hospital_information_system.entity.TreatmentVO;
+import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.mapper.TreatmentMapper;
 import com.woniu.hospital_information_system.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;

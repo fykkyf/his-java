@@ -13,4 +13,6 @@ public interface RoleMapper {
     List<Role> getAllRoles();
     @Update("update role set isdelete = 1 where role_id = #{roleId}")
     void removeByRoleId(int roleId);
+    @Insert("insert into role values (null,#{roleId},#{roleName},null")
+    void add(Role role);
 }

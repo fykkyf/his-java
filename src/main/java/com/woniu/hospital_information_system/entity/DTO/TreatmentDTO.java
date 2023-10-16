@@ -1,4 +1,4 @@
-package com.woniu.hospital_information_system.entity;
+package com.woniu.hospital_information_system.entity.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 //项目明细表
-public class TreatmentVO {
+public class TreatmentDTO {
     private Integer treatmentId;
     private String treatmentName;
     private String manufacturer;
@@ -22,4 +22,5 @@ public class TreatmentVO {
     private Double insurancePrice;
     private Integer treatmentStatus;
     private Integer treatmentCategory;
+    private  String keyword;
 }

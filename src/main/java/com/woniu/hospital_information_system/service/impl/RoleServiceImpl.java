@@ -37,4 +37,9 @@ public class RoleServiceImpl implements RoleService {
         roleMapper.removeByRoleId(roleId);
         menuMapper.removeMenuByRoleId(roleId);
     }
+
+    @Override
+    public void add(Role role) {
+        roleMapper.add(role);
+    }
 }
