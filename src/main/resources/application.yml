@@ -1,13 +1,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.6.104:3306/his
+    url: jdbc:mysql://192.168.6.104:3306/his?serverTimezone=UTC
     username: root
     password: 123
 
 
   redis:
-    host: 192.168.228.60
+    host: 192.168.133.51
     port: 6379
     password: 123
     database: 0
@@ -18,7 +18,7 @@ spring:
         max-idle: 10   # 最da连接数
         max-active: 5 # 最大活动数
   rabbitmq:
-    host: 192.168.228.60
+    host: 192.168.133.51
     port: 5672
     username: guest
     password: guest
@@ -36,6 +36,7 @@ mybatis:
     lazy-loading-enabled: true
     aggressive-lazy-loading: false
     map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 logging:
   level:
