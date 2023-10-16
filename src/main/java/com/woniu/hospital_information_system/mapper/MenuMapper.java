@@ -9,5 +9,8 @@ import java.util.List;
 @Mapper
 public interface MenuMapper {
     @Select("select * from menu where isdelete = 0")
-    public List<Menu> getAllMenus();
+    List<Menu> getAllMenus();
+
+    @Select("select menu_id from menu where isdelete = 0")
+    List<Integer> getAllMenuId();
 }
