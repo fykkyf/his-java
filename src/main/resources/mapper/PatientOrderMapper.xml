@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间：对应的接口的全类名-->
+<mapper namespace="com.woniu.hospital_information_system.mapper.PatientOrderMapper">
+    <!--添加住院医嘱信息-->
+    <insert id="addPatientOrderByPatientOrderId">
+        insert into patient_order values (null,#{patientId},#{doctorId},#{treatmentId},#{treatmentName},#{administrationId},#{dosageId},
+                                          #{treatmentCount},now(),null,1,#{orderType})
+    </insert>
+</mapper>
