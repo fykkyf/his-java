@@ -89,5 +89,10 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 
     }
 
+    @Override
+    public void checkDischarge(Integer status) {
+
+    }
+
 
 }

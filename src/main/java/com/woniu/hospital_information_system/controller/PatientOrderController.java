@@ -43,5 +43,10 @@ public class PatientOrderController {
         patientOrderService.dischargePatient(patientInfoDTO);
         return new ResponseEntity(200,"success","办理成功");
     }
-
+    //护士审核出院医嘱
+    @PostMapping("/checkDischarge")
+    public ResponseEntity checkDischarge(@RequestBody Integer status){
+        patientOrderService.checkDischarge(status);
+        return new ResponseEntity(200,"success","办理成功");
+    }
 }

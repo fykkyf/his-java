@@ -17,4 +17,6 @@ public interface PatientOrderService {
     void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
 
     void dischargePatient(PatientInfoDTO patientInfoDTO);
+
+    void checkDischarge(Integer status);
 }
