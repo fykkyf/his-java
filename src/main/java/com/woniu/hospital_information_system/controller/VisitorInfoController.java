@@ -6,6 +6,7 @@ import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +21,8 @@ public class VisitorInfoController {
     @Autowired
     VisitorInfoService visitorInfoService;
     @PostMapping("/add")
-    //挂号时，向门诊患者信息表添加患者信息
-    public ResponseEntity addVisitorInfo(VisitorInfo visitorInfo){
+    //挂号时，向门诊患者信息表添加患者信息,且在门诊患者费用表中生成数据
+    public ResponseEntity addVisitorInfo(@RequestBody VisitorInfo visitorInfo){
         visitorInfoService.addVisitorInfo(visitorInfo);
         return new ResponseEntity(200,"挂号成功",null);
     }

@@ -1,22 +1,18 @@
-package com.woniu.hospital_information_system.entity;
+package com.woniu.hospital_information_system.entity.DTO;
 
 import cn.hutool.core.date.DateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
-
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-//住院患者信息表
-public class PatientInfo {
+@AllArgsConstructor
+public class PatientInfoDTO {
     private Integer patientId;
     private Integer visitorId;
     private String patientName;

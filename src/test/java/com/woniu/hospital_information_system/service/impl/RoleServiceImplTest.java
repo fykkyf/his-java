@@ -34,4 +34,14 @@ class RoleServiceImplTest {
     public void testRoleService03(){
         roleController.removeByRoleId(11);
     }
+    @Test
+    public void testRoleService04(){
+        Role role = new Role(null,"清洁工",null);
+        roleController.addRole(role);
+    }
+    @Test
+    public void testRoleService05(){
+       List<Integer> al =  roleService.selectMenuIdsByRoleId(1);
+        System.out.println(al);
+    }
 }

@@ -5,9 +5,8 @@ import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.Unit;
 import com.woniu.hospital_information_system.service.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 
@@ -26,5 +25,20 @@ public class UnitController {
     public ResponseEntity getAllUnits(){
         List<Unit> allUnits = unitService.getAllUnits();
         return new ResponseEntity(200,"ok",allUnits);
+    }
+    @PostMapping("/add")
+    public ResponseEntity addUnit(@RequestBody Unit unit){
+        unitService.add(unit);
+        return new ResponseEntity(200,"success","添加成功");
+    }
+    @PostMapping("/update")
+    public ResponseEntity updateUnit(@RequestBody Unit unit){
+        unitService.update(unit);
+        return new ResponseEntity(200,"success","修改成功");
+    }
+    @RequestMapping("/remove/{unitId}")
+    public ResponseEntity removeUnit(@PathVariable int unitId){
+        unitService.removeUnit(unitId);
+        return new ResponseEntity(200,"success","删除成功");
     }
 }

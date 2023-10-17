@@ -12,4 +12,8 @@ public interface RoleService {
     List<Role> getAllRoles();
 
     void removeByRoleId(int roleId);
+
+    void add(Role role);
+
+    List<Integer> selectMenuIdsByRoleId(int roleId);
 }
