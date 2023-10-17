@@ -16,9 +16,9 @@ public class TreatmentVO {
     private Integer treatmentId;
     private String treatmentName;
     private String manufacturer;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime productionTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime expiredTime;
     private Integer storage;
     private String specification;

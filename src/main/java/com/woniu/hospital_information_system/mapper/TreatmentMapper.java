@@ -3,6 +3,7 @@ package com.woniu.hospital_information_system.mapper;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 
@@ -21,6 +22,10 @@ public interface TreatmentMapper {
     //药品如果存在，只增加库存
     @Update("update treatment set storage=storage+#{storage} where drug_code=#{drugCode}")
     void updateStorage(TreatmentDTO treatmentDTO);
+
+    //药品近期查询
+    @Select("select * from treatment where expired_time between  date_add(#{expiredTime1},interval -10 day) and #{expiredTime1}")
+    List<TreatmentVO> selectAllTreatmentByExptime(TreatmentDTO treatmentDTO);
 
     //医生下达医嘱，减少库存
     @Update("update treatment set storage=storage-#{storage} where drug_code=#{drugCode}")
