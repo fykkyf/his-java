@@ -12,15 +12,18 @@ import java.util.List;
 public interface PatientOrderMapper {
     //获取所有住院医嘱信息
     @Select("select * from patient_order")
-    List<PatientInfo> selectAllPatientOrders();
+    List<PatientOrder> selectAllPatientOrders();
     //给住院患者下医嘱
     void addPatientOrderByPatientOrderId(PatientOrder patientOrder);
     @Select("select * from patient_order where patient_id = #{patientId}")
-    PatientInfo selectPatientOrderByPatientId(int patientId);
+    PatientOrder selectPatientOrderByPatientId(int patientId);
     @Update("")
     void updatePatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
     @Insert("insert into patient_order values (null,#{patientId},#{doctorId},7,'办理出院',null,null,null,null,null,1,1)")
     void dischargePatient(PatientInfoDTO patientInfoDTO);
     @Update("update patient_order set execution_status = #{executionStatus} where patient_id = #{patientId}")
     void checkDischarge(@Param("executionStatus")int executionStatus, @Param("patientId")int patientId);
+    //通过医嘱类型和执行状态查询住院医嘱信息
+    @Update("select * from patient_order where execution_status = #{executionStatus} and patient_id = #{patientId}")
+    List<PatientOrder> selectPatientOrderByStatus(@Param("executionStatus")int executionStatus, @Param("patientId")int patientId);
 }
