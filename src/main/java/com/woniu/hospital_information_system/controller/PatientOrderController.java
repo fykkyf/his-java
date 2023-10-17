@@ -43,4 +43,5 @@ public class PatientOrderController {
         patientOrderService.dischargePatient(patientInfoDTO);
         return new ResponseEntity(200,"success","办理成功");
     }
+
 }

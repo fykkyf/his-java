@@ -14,4 +14,6 @@ public interface PatientInfoService {
     PatientInfo getPatientInfoByPatientInfoId(int patientInfoId);
     //修改住院患者信息
     void modifyPatientInfoByPatientInfoId(int patientInfoId,int locationId);
+
+    void dischargeDiagnosis(PatientInfoDTO patientInfoDTO);
 }

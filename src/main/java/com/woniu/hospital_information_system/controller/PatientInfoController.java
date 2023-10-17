@@ -43,5 +43,11 @@ public class PatientInfoController {
         patientInfoService.modifyPatientInfoByPatientInfoId(patientInfoDTO.getPatientId(),patientInfoDTO.getLocationId());
         return new ResponseEntity(200,"request success",null);
     }
+    //添加出院诊断
+    @PostMapping("/dischargeDiagnosis")
+    public ResponseEntity dischargeDiagnosis(@RequestBody PatientInfoDTO patientInfoDTO) {
+        patientInfoService.dischargeDiagnosis(patientInfoDTO);
+        return new ResponseEntity(200,"request success","添加成功");
+    }
 
 }

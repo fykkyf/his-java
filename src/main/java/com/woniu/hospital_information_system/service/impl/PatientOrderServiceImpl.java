@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -78,10 +79,14 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 //        }
     }
     //办理出院
+    @Transactional
     @Override
     public void dischargePatient(PatientInfoDTO patientInfoDTO) {
-        //将住院病人信息表的出院诊断诊断添加信息
-        patientInfoMapper.dischargePatient(patientInfoDTO.getPatientId());
+        //添加出院医嘱
+        patientOrderMapper.dischargePatient(patientInfoDTO);
+        //添加出院费用表
+        patientBillMapper.dischargePatient(patientInfoDTO);
+
     }
 
 

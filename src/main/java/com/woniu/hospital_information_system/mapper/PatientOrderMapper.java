@@ -1,8 +1,10 @@
 package com.woniu.hospital_information_system.mapper;
 
+import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -20,4 +22,6 @@ public interface PatientOrderMapper {
     PatientInfo selectPatientOrderByPatientId(int patientId);
     @Update("")
     void updatePatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
+    @Insert("insert into patient_order values (null,#{patientId},#{doctorId},7,'办理出院',null,null,null,null,null,0,0)")
+    void dischargePatient(PatientInfoDTO patientInfoDTO);
 }
