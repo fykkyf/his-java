@@ -57,9 +57,14 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     public VisitorInfo getVisitingByVisitorId(Integer visitorId) {
         return visitorInfoMapper.getVisitingByVisitorId(visitorId);
     }
+    @Override
+    public void updateClinicStatusAfterVisiting(VisitorInfo visitorInfo) {
+        visitorInfoMapper.updateClinicStatusAfterVisiting(visitorInfo);
+    }
 
     @Override
-    public void updateClinicStatusAndDisease(VisitorInfo visitorInfo) {
-        visitorInfoMapper.updateClinicStatusAndDisease(visitorInfo);
+    public void updateDisease(VisitorInfo visitorInfo) {
+        visitorInfoMapper.updateDisease(visitorInfo);
     }
+
 }

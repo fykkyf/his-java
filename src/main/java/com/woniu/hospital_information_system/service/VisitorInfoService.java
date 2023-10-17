@@ -15,5 +15,7 @@ public interface VisitorInfoService {
 
     VisitorInfo getVisitingByVisitorId(Integer visitorId);
 
-    void updateClinicStatusAndDisease(VisitorInfo visitorInfo);
+    void updateClinicStatusAfterVisiting(VisitorInfo visitorInfo);
+
+    void updateDisease(VisitorInfo visitorInfo);
 }
