@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.security.auth.login.LoginException;
 import java.security.AuthProvider;
 
 @RestController
@@ -25,7 +26,7 @@ public class UserController {
     @Autowired
     UserService userService;
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody User user, HttpServerResponse response){
+    public ResponseEntity login(@RequestBody User user, HttpServerResponse response) throws LoginException {
         if(!user.getVerifycode().equals(redisTemplate.opsForValue().get(user.getUuid()))){
             return new ResponseEntity(500,"验证码错误","");
         }else {
