@@ -12,7 +12,7 @@ public interface PatientInfoService {
     void addPatientInfo(PatientInfoDTO patientInfoDTO);
     //根据住院患者id查询患者信息
     PatientInfo getPatientInfoByPatientId(int patientId);
-    //修改住院患者信息
+    //修改住院患者信息-床位
     void modifyPatientInfoByPatientId(int patientInfoId,int locationId);
     //添加出院诊断
     void dischargeDiagnosis(PatientInfoDTO patientInfoDTO);
@@ -20,4 +20,6 @@ public interface PatientInfoService {
     void updateLocationId(Integer patientId);
     //办理出院
     void completeDischarge(PatientInfoDTO patientInfoDTO);
+    //修改住院患者信息
+    void modifyPatientInfo(PatientInfoDTO patientInfoDTO);
 }

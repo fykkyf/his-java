@@ -51,8 +51,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     public void addPatientOrder(PatientOrderDTO patientOrderDTO) {
         for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
             PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
-            patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);
-            patientBillMapper.insertPatientBill(getPatientBill(treatment,patientOrder));
+            patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
+            if (treatment.getTreatmentStatus()!=1){
+                //非药品-添加费用明细
+                patientBillMapper.insertPatientBill(getPatientBill(treatment,patientOrder));//添加项目费用
+            }
         }
     }
 
@@ -66,7 +69,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 
     /*
      * 更改住院医嘱信息
-     * 护士审核:未审核[1]/执行[2]/驳回[3]/停止[4]
+     * 护士审核-药品:未审核[1]/执行[2]/驳回[3]/停止[4]
      * */
     @Transactional
     @Override

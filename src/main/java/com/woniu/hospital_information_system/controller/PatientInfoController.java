@@ -56,4 +56,14 @@ public class PatientInfoController {
         return new ResponseEntity(200,"request success","办理成功");
     }
 
+    /*
+    * 修改住院患者信息表
+    * 转科
+    * */
+    @PostMapping("/modify")
+    public Object modifyPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
+        patientInfoService.modifyPatientInfo(patientInfoDTO);
+        return new ResponseEntity(200,"request success",null);
+    }
+
 }

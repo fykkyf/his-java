@@ -118,4 +118,13 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientBillMapper.completeDischarge(patientInfoDTO);
     }
 
+    /*
+    * 修改住院患者信息
+    * 转科
+    * */
+    @Override
+    public void modifyPatientInfo(PatientInfoDTO patientInfoDTO) {
+        patientInfoMapper.updatePatientInfo(patientInfoDTO);
+    }
+
 }

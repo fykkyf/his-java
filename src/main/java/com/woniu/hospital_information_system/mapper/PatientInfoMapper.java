@@ -29,4 +29,7 @@ public interface PatientInfoMapper {
     //完成出院
     @Update("update  patient_info set stay_status = 2,out_time = now()  where patient_id = #{patientId}")
     void completeDischarge(PatientInfoDTO patientInfoDTO);
+    //修改住院患者信息-转科
+    @Update("update patient_info set unit_id = #{unitId},doctor_id = #{doctorId} where patient_id = #{patientId} ")
+    void updatePatientInfo(PatientInfoDTO patientInfoDTO);
 }
