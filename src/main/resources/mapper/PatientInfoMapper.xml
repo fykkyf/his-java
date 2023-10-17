@@ -4,8 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace命名空间：对应的接口的全类名-->
 <mapper namespace="com.woniu.hospital_information_system.mapper.PatientInfoMapper">
-    <!--id和对应的mapper接口中的方法名一样-->
-
     <insert id="insertPatientInfo">
         insert into patient_info values (null,#{visitorId},#{patientName},#{gender},#{age},#{idNumber},#{unitId},#{doctorId},#{insuranceStatus},now(),
                                          null,#{clinicDiagnosisId},null,null,null,null,0,0)

@@ -93,8 +93,6 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfoMapper.updatePatientInfoByPatientInfoId(patientId,locationId);
         //更改床位状态
         locationService.modifyLocationStatusByLocationId(locationId);
-        //TODO:测试
     }
-
 
 }
