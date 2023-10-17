@@ -1,17 +1,26 @@
 package com.woniu.hospital_information_system.service.impl;
 
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
+import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
+import com.woniu.hospital_information_system.entity.PatientOrder;
+import com.woniu.hospital_information_system.entity.Treatment;
 import com.woniu.hospital_information_system.mapper.PatientOrderMapper;
 import com.woniu.hospital_information_system.service.PatientOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@Slf4j
 @Service
 public class PatientOrderServiceImpl implements PatientOrderService {
     @Autowired
     PatientOrderMapper patientOrderMapper;
+
+    private boolean flog = true;
 
     /*
     * 获取所有住院患者医嘱信息
@@ -22,11 +31,23 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     }
 
     /*
-    * 给住员患者下医嘱
+    * 医生给住院患者下医嘱
     * */
     @Override
     public void addPatientOrder(PatientOrderDTO patientOrderDTO) {
-        patientOrderMapper.addPatientOrderByPatientOrderId(patientOrderDTO);
+        for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
+            PatientOrder patientOrder = new PatientOrder();
+            patientOrder.setPatientOrderId(patientOrderDTO.getPatientOrderId());
+            patientOrder.setPatientId(patientOrderDTO.getPatientId());
+            patientOrder.setDoctorId(patientOrderDTO.getDoctorId());
+            patientOrder.setTreatmentId(treatment.getTreatmentId());
+            patientOrder.setTreatmentName(treatment.getTreatmentName());
+            patientOrder.setAdministrationId(patientOrderDTO.getAdministrationId());
+            patientOrder.setDosageId(patientOrderDTO.getDosageId());
+            patientOrder.setTreatmentCount(treatment.getTreatmentCount());
+            patientOrder.setOrderType(patientOrderDTO.getOrderType());
+            patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);
+        }
     }
 
     /*
@@ -36,4 +57,21 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     public PatientInfo getPatientOrderByPatientId(int patientId) {
         return patientOrderMapper.selectPatientOrderByPatientId(patientId);
     }
+
+    /*
+     * 更改住院医嘱信息
+     * */
+    //    @Scheduled(fixedRate = 60*1000)
+    @Override
+    public void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO) {
+        //TODO
+        patientOrderMapper.updatePatientOrderByPatientId(patientOrderDTO);
+        //        if (patientOrderDTO.getOrderType()==1 || flog){
+//            需要循环执行的代码
+//            flog = false;
+//        }
+    }
+
+
+
 }

@@ -12,4 +12,6 @@ public interface PatientOrderService {
     void addPatientOrder(PatientOrderDTO patientOrderDTO);
     //根据住院患者医嘱id查询患者医嘱信息
     PatientInfo getPatientOrderByPatientId(int patientId);
+    //根据病人id更改住院医嘱信息
+    void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
 }

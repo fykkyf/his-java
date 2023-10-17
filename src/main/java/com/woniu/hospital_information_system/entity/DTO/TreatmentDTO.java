@@ -13,6 +13,7 @@ import java.util.Date;
 public class TreatmentDTO {
     private Integer treatmentId;
     private String treatmentName;
+    private Integer treatmentCount;
     private String manufacturer;
     private Date productionTime;
     private Date expiredTime;

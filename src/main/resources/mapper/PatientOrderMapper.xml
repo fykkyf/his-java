@@ -7,6 +7,6 @@
     <!--添加住院医嘱信息-->
     <insert id="addPatientOrderByPatientOrderId">
         insert into patient_order values (null,#{patientId},#{doctorId},#{treatmentId},#{treatmentName},#{administrationId},#{dosageId},
-                                          #{treatmentCount},now(),null,1,#{orderType})
+                                          #{treatmentCount},null,null,1,#{orderType})
     </insert>
 </mapper>
