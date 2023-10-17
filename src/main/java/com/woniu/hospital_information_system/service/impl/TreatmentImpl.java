@@ -37,6 +37,11 @@ public class TreatmentImpl implements TreatmentService {
     }
 
     @Override
+    public List<TreatmentVO> selectAllTreatmentByExptime(TreatmentDTO treatmentDTO) {
+        return treatmentMapper.selectAllTreatmentByExptime(treatmentDTO);
+    }
+
+    @Override
     public void updateTreatment(TreatmentDTO treatmentDTO) {
         treatmentMapper.updateTreatment(treatmentDTO);
     }

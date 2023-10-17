@@ -1,10 +1,21 @@
 package com.woniu.hospital_information_system.controller;
 
+import cn.hutool.core.date.DateTime;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -32,6 +43,41 @@ public class TreatmentController {
         treatmentDTO.setTreatmentCategory(1);
         return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
     }
+
+    //初始化加载，库存警告  查询库存<=10的药品
+    @PostMapping("/selectAllTreatment2")
+    public Object selectAllTreatment2(@RequestBody  TreatmentDTO treatmentDTO){
+        treatmentDTO.setTreatmentCategory(1);
+        treatmentDTO.setTreatmentStatus(1);
+        List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatment(treatmentDTO);
+        List<String> treatmentVOS1 = new ArrayList<>();
+        for (TreatmentVO treatmentVO : treatmentVOS){
+            if (treatmentVO.getStorage()<=10){
+                treatmentVOS1.add("编号:"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"库存还有"+treatmentVO.getStorage()+"，请尽快补货！");
+            }
+        }
+        return treatmentVOS1;
+    }
+    //初始化加载，近期药品警告
+    @PostMapping("/selectAllTreatment3")
+    public Object selectAllTreatment3(@RequestBody  TreatmentDTO treatmentDTO){
+        treatmentDTO.setTreatmentCategory(1);
+        treatmentDTO.setTreatmentStatus(1);
+
+        Date currentDate = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        //String formattedDate = formatter.format(currentDate);
+        treatmentDTO.setExpiredTime1(formatter.format(currentDate));
+        List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatmentByExptime(treatmentDTO);
+        List<String> treatmentVOS1 = new ArrayList<>();
+        for (TreatmentVO treatmentVO : treatmentVOS){
+            if(treatmentVO.getExpiredTime()!=null){
+                treatmentVOS1.add("编号"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"10天内过期，请及时处理！");
+            }
+        }
+        return treatmentVOS1;
+    }
+
 
     //根据国家药品编号查询，如果药品不存在，insert一条新的数据，如果存在，更改药品库存库存
     @PostMapping("/addTreatment")

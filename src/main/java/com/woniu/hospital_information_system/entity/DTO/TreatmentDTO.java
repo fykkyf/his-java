@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.entity.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,9 @@ public class TreatmentDTO {
     private String treatmentName;
     private Integer treatmentCount;
     private String manufacturer;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date productionTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date expiredTime;
     private Integer storage;
     private String specification;
