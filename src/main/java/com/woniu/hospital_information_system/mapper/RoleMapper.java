@@ -13,7 +13,7 @@ public interface RoleMapper {
     List<Role> getAllRoles();
     @Update("update role set isdelete = 1 where role_id = #{roleId}")
     void removeByRoleId(int roleId);
-    @Insert("insert into role values (null,#{roleName},null)")
+    @Insert("insert into role values (null,#{roleName},null,0)")
     void add(Role role);
     @Select("select menu_id from employee_menu where role_id = #{roleId}")
     List<Integer> selectMenuIdsByRoleId(int roleId);
