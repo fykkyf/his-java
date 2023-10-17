@@ -49,5 +49,11 @@ public class PatientInfoController {
         patientInfoService.dischargeDiagnosis(patientInfoDTO);
         return new ResponseEntity(200,"request success","添加成功");
     }
+    //办理出院
+    @PostMapping("/completeDischarge")
+    public ResponseEntity completeDischarge(@RequestBody PatientInfoDTO patientInfoDTO) {
+        patientInfoService.completeDischarge(patientInfoDTO);
+        return new ResponseEntity(200,"request success","办理成功");
+    }
 
 }

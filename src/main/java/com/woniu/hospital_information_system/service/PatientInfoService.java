@@ -18,4 +18,6 @@ public interface PatientInfoService {
     void dischargeDiagnosis(PatientInfoDTO patientInfoDTO);
 
     void updateLocationId(Integer patientId);
+
+    void completeDischarge(PatientInfoDTO patientInfoDTO);
 }

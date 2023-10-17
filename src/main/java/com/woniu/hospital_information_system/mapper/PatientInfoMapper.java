@@ -24,4 +24,6 @@ public interface PatientInfoMapper {
     void dischargeDiagnosis(PatientInfoDTO patientInfoDTO);
     @Update("update  patient_info set location_id = null where patient_id = #{patientId}")
     void updateLocationId(Integer patientId);
+    @Update("update  patient_info set stay_status = 2,out_time = now()  where patient_id = #{patientId}")
+    void completeDischarge(PatientInfoDTO patientInfoDTO);
 }
