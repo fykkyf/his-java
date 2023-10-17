@@ -64,18 +64,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 
     @Override
     public void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO) {
-        //TODO
         for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
             PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
-        }
-        if (patientOrderDTO.getExecutionStatus() == 2) {
-//                patientOrderMapper.updatePatientOrderByPatientId(patientOrderDTO);
-            if (patientOrderDTO.getOrderType() == 1) {
-                this.timedExecutionAddPatientOrder();
-            }
-            log.info("审核通过~~~");
-        } else {
-//                patientOrderMapper.updatePatientOrderByPatientId(patientOrderDTO);
+            patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
             log.info("执行状态码={}", patientOrderDTO.getExecutionStatus());
         }
     }
@@ -91,7 +82,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         List<PatientOrder> patientOrders = patientOrderMapper.selectPatientOrderByStatus(2, 2);
         for (PatientOrder patientOrder : patientOrders) {
             //判断执行时间与当前时间的日期是否是昨天的日期并且审核状态为2
-            if (patientOrder.getExecutionTime().toLocalDate().equals(LocalDate.now().minusDays(1)) && patientOrder.getExecutionStatus()==2){
+            if (patientOrder.getExecutionTime().toLocalDate().equals(LocalDate.now().minusDays(1)) && patientOrder.getExecutionStatus() == 2) {
                 patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);
             }
         }
@@ -109,7 +100,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 
     @Override
     public void checkDischarge(Integer status, Integer patientId) {
-        patientOrderMapper.checkDischarge(status,patientId);
+        patientOrderMapper.checkDischarge(status, patientId);
 
     }
 

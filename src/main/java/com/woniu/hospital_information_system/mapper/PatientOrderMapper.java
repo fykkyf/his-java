@@ -17,8 +17,8 @@ public interface PatientOrderMapper {
     void addPatientOrderByPatientOrderId(PatientOrder patientOrder);
     @Select("select * from patient_order where patient_id = #{patientId}")
     PatientOrder selectPatientOrderByPatientId(int patientId);
-    @Update("")
-    void updatePatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
+    @Update("update patient_order set execution_status = #{executionStatus} where patient_id = #{patientId}")
+    void updatePatientOrderByPatientId(PatientOrder patientOrder);
     @Insert("insert into patient_order values (null,#{patientId},#{doctorId},7,'办理出院',null,null,null,null,null,1,1)")
     void dischargePatient(PatientInfoDTO patientInfoDTO);
     @Update("update patient_order set execution_status = #{executionStatus} where patient_id = #{patientId}")

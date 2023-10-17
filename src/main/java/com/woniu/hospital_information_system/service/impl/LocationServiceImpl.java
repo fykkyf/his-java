@@ -36,6 +36,9 @@ public class LocationServiceImpl implements LocationService {
         locationMapper.updateLocationStatus(locationId);
     }
 
+    /*
+    * 患者办理出院清空床位信息
+    * */
     @Override
     public void updateLocationStatusEmpty(Integer locationId) {
         locationMapper.updateLocationStatusEmpty(locationId);
