@@ -1,4 +1,4 @@
-package com.woniu.hospital_information_system.entity;
+package com.woniu.hospital_information_system.entity.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +22,5 @@ public class TreatmentVO {
     private Double insurancePrice;
     private Integer treatmentStatus;
     private Integer treatmentCategory;
+    private Integer drugCode;
 }

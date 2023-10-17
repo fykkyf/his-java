@@ -1,4 +1,4 @@
-package com.woniu.hospital_information_system.entity;
+package com.woniu.hospital_information_system.entity.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,4 +23,5 @@ public class TreatmentDTO {
     private Integer treatmentStatus;
     private Integer treatmentCategory;
     private  String keyword;
+    private Integer drugCode;
 }

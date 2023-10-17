@@ -13,4 +13,5 @@ public class RoleMenuDTO {
     private Role role;
     private Integer[] menuIds;
 
+
 }

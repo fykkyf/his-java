@@ -21,4 +21,5 @@ public class Treatment {
     private Double insurancePrice;
     private Integer treatmentStatus;
     private Integer treatmentCategory;
+    private Integer drugCode;
 }
