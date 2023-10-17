@@ -24,7 +24,7 @@ public class PatientInfoController {
     * */
     @GetMapping("/getById/{patientId}")
     public Object getPatientInfoByPatientInfoId(@PathVariable("patientId") Integer patientId) {
-        return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByPatientInfoId(patientId));
+        return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByPatientId(patientId));
     }
 
     /*
@@ -40,7 +40,7 @@ public class PatientInfoController {
     * */
     @PostMapping("/add/location")
     public Object modifyPatientInfoByPatientInfoId(@RequestBody PatientInfoDTO patientInfoDTO) {
-        patientInfoService.modifyPatientInfoByPatientInfoId(patientInfoDTO.getPatientId(),patientInfoDTO.getLocationId());
+        patientInfoService.modifyPatientInfoByPatientId(patientInfoDTO.getPatientId(),patientInfoDTO.getLocationId());
         return new ResponseEntity(200,"request success",null);
     }
     //添加出院诊断

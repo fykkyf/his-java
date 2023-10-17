@@ -83,8 +83,8 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     * 根据住院患者id查询住院患者信息
     * */
     @Override
-    public PatientInfo getPatientInfoByPatientInfoId(int patientId) {
-        return patientInfoMapper.selectPatientInfoByPatientInfoId(patientId);
+    public PatientInfo getPatientInfoByPatientId(int patientId) {
+        return patientInfoMapper.selectPatientInfoByPatientId(patientId);
     }
 
     /*
@@ -92,12 +92,15 @@ public class PatientInfoServiceImpl implements PatientInfoService {
      * */
     @Transactional
     @Override
-    public void modifyPatientInfoByPatientInfoId(int patientId,int locationId) {
+    public void modifyPatientInfoByPatientId(int patientId,int locationId) {
         patientInfoMapper.updatePatientInfoByPatientInfoId(patientId,locationId);
         //更改床位状态
         locationService.modifyLocationStatusByLocationId(locationId);
     }
 
+    /*
+    * 添加出院诊断
+    * */
     @Override
     public void dischargeDiagnosis(PatientInfoDTO patientInfoDTO) {
         patientInfoMapper.dischargeDiagnosis(patientInfoDTO);
@@ -111,6 +114,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     @Override
     public void completeDischarge(PatientInfoDTO patientInfoDTO) {
         patientInfoMapper.completeDischarge(patientInfoDTO);
+        //费用结算
         patientBillMapper.completeDischarge(patientInfoDTO);
     }
 

@@ -9,8 +9,8 @@ public interface LocationService {
     List<Location> getAllLocation();
     //通过床位状态获取床位信息
     List<Location> getLocationByStatus(int status);
-    //更改床位状态
+    //添加床位
     void modifyLocationStatusByLocationId(int locationId);
-
+    //清空床位
     void updateLocationStatusEmpty(Integer locationId);
 }

@@ -1,6 +1,7 @@
 package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.Treatment;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -38,6 +39,7 @@ public interface TreatmentMapper {
             "treatment_status=#{drugCode} where treatment_id=#{treatmentId}")
     void updateTreatment(TreatmentDTO treatmentDTO);
 
-
-
+    //根据项目id查询项目
+    @Select("select * from treatment where treatment_id = #{treatmentId}")
+    Treatment selectTreatmentByTreatmentId(Integer treatmentId);
 }

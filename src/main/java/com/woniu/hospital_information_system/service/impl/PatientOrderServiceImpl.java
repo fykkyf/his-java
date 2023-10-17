@@ -4,11 +4,12 @@ import cn.hutool.core.date.DateTime;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.PatientBill;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
 import com.woniu.hospital_information_system.entity.Treatment;
-import com.woniu.hospital_information_system.mapper.PatientBillMapper;
-import com.woniu.hospital_information_system.mapper.PatientOrderMapper;
+import com.woniu.hospital_information_system.mapper.*;
+import com.woniu.hospital_information_system.service.LocationService;
 import com.woniu.hospital_information_system.service.PatientInfoService;
 import com.woniu.hospital_information_system.service.PatientOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,10 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     PatientOrderMapper patientOrderMapper;
     @Autowired
     PatientBillMapper patientBillMapper;
+    @Autowired
+    PatientInfoMapper patientInfoMapper;
+    @Autowired
+    TreatmentMapper treatmentMapper;
 
     /*
      * 获取所有住院患者医嘱信息
@@ -53,21 +58,42 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * 根据患者id查询住院医嘱信息
      * */
     @Override
-    public PatientOrder getPatientOrderByPatientId(int patientId) {
+    public List<PatientOrder> getPatientOrderByPatientId(int patientId) {
         return patientOrderMapper.selectPatientOrderByPatientId(patientId);
     }
 
     /*
      * 更改住院医嘱信息
-     * 1:护士审核
+     * 护士审核:未审核[1]/执行[2]/驳回[3]/停止[4]
      * */
-
+    @Transactional
     @Override
     public void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO) {
         for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
             PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
+            //更改执行状态
             patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
-            log.info("执行状态码={}", patientOrderDTO.getExecutionStatus());
+            if (patientOrder.getExecutionStatus() == 2) {
+                //查询项目类别
+                Treatment newTreatment = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
+                if (newTreatment.getTreatmentCategory() == 1) {
+                    //药品项目：住院患者费用表中添加一条数据记账状态为2
+                    PatientBill patientBill = new PatientBill();
+                    patientBill.setPatientId(patientOrder.getPatientId());
+                    patientBill.setTreatmentId(patientOrder.getTreatmentId());
+                    patientBill.setDrugCount(patientOrder.getTreatmentCount());
+                    patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * newTreatment.getTreatmentPrice());
+                    patientBillMapper.insertPatientBill(patientBill);
+                } else if (newTreatment.getTreatmentCategory() == 2) {
+                    //非药品
+                } else if (newTreatment.getTreatmentCategory() == 2 && treatment.getTreatmentId() == 7) {
+                    //出院
+                } else if (newTreatment.getTreatmentCategory() == 3) {
+                    //检验
+                } else if (newTreatment.getTreatmentCategory() == 4) {
+                    //检查
+                }
+            }
         }
     }
 
@@ -117,6 +143,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         patientOrder.setAdministrationId(patientOrderDTO.getAdministrationId());
         patientOrder.setDosageId(patientOrderDTO.getDosageId());
         patientOrder.setTreatmentCount(treatment.getTreatmentCount());
+        patientOrder.setExecutionStatus(patientOrderDTO.getExecutionStatus());
         patientOrder.setOrderType(patientOrderDTO.getOrderType());
         return patientOrder;
     }

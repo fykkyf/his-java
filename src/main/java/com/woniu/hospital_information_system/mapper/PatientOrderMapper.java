@@ -15,10 +15,13 @@ public interface PatientOrderMapper {
     List<PatientOrder> selectAllPatientOrders();
     //给住院患者下医嘱
     void addPatientOrderByPatientOrderId(PatientOrder patientOrder);
+    //根据住院患者id查询住院患者医嘱信息
     @Select("select * from patient_order where patient_id = #{patientId}")
-    PatientOrder selectPatientOrderByPatientId(int patientId);
+    List<PatientOrder> selectPatientOrderByPatientId(int patientId);
+    //更改住院医嘱信息
     @Update("update patient_order set execution_status = #{executionStatus} where patient_id = #{patientId}")
     void updatePatientOrderByPatientId(PatientOrder patientOrder);
+    //办理出院
     @Insert("insert into patient_order values (null,#{patientId},#{doctorId},7,'办理出院',null,null,null,null,null,1,1)")
     void dischargePatient(PatientInfoDTO patientInfoDTO);
     @Update("update patient_order set execution_status = #{executionStatus} where patient_id = #{patientId}")
