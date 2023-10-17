@@ -77,26 +77,17 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                 //查询项目类别
                 Treatment newTreatment = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
                 if (newTreatment.getTreatmentCategory() == 1) {
-                    //药品项目：住院患者费用表中添加一条数据记账状态为2
+                    //药品项目：住院患者费用表中添加一条数据记账状态为2的数据
                     PatientBill patientBill = new PatientBill();
                     patientBill.setPatientId(patientOrder.getPatientId());
                     patientBill.setTreatmentId(patientOrder.getTreatmentId());
                     patientBill.setDrugCount(patientOrder.getTreatmentCount());
                     patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * newTreatment.getTreatmentPrice());
                     patientBillMapper.insertPatientBill(patientBill);
-                } else if (newTreatment.getTreatmentCategory() == 2) {
-                    //非药品
-                } else if (newTreatment.getTreatmentCategory() == 2 && treatment.getTreatmentId() == 7) {
-                    //出院
-                } else if (newTreatment.getTreatmentCategory() == 3) {
-                    //检验
-                } else if (newTreatment.getTreatmentCategory() == 4) {
-                    //检查
                 }
             }
         }
     }
-
 
     /*
      * 定时执行长期医嘱
