@@ -1,10 +1,13 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
 import com.woniu.hospital_information_system.entity.Treatment;
+import com.woniu.hospital_information_system.mapper.PatientBillMapper;
+import com.woniu.hospital_information_system.mapper.PatientInfoMapper;
 import com.woniu.hospital_information_system.mapper.PatientOrderMapper;
 import com.woniu.hospital_information_system.service.PatientOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +22,10 @@ import java.util.List;
 public class PatientOrderServiceImpl implements PatientOrderService {
     @Autowired
     PatientOrderMapper patientOrderMapper;
-
+    @Autowired
+    PatientInfoMapper patientInfoMapper;
+    @Autowired
+    PatientBillMapper patientBillMapper;
     private boolean flog = true;
 
     /*
@@ -71,7 +77,12 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 //            flog = false;
 //        }
     }
-
+    //办理出院
+    @Override
+    public void dischargePatient(PatientInfoDTO patientInfoDTO) {
+        //将住院病人信息表的出院诊断诊断添加信息
+        patientInfoMapper.dischargePatient(patientInfoDTO.getPatientId());
+    }
 
 
 }

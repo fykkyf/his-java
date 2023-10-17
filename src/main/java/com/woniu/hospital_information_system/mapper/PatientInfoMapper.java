@@ -19,4 +19,6 @@ public interface PatientInfoMapper {
     //添加床位id
     @Update("update patient_info set location_id = #{locationId} where patient_id = #{patientId}")
     void updatePatientInfoByPatientInfoId(@Param("patientId") int patientId, @Param("locationId") int locationId);
+    @Update("")
+    void dischargePatient(Integer patientId);
 }

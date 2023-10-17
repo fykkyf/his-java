@@ -37,5 +37,10 @@ public class PatientOrderController {
         patientOrderService.addPatientOrder(patientOrderDTO);
         return new ResponseEntity(200,"request success",null);
     }
-
+    //办理出院
+    @PostMapping("/discharge")
+    public ResponseEntity discharge(@RequestBody PatientInfoDTO patientInfoDTO){
+        patientOrderService.dischargePatient(patientInfoDTO);
+        return new ResponseEntity(200,"success","办理成功");
+    }
 }

@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.service;
 
+import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 
@@ -14,4 +15,6 @@ public interface PatientOrderService {
     PatientInfo getPatientOrderByPatientId(int patientId);
     //根据病人id更改住院医嘱信息
     void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
+
+    void dischargePatient(PatientInfoDTO patientInfoDTO);
 }
