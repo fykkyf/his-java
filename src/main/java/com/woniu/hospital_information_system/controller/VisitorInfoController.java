@@ -5,10 +5,9 @@ import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /*
@@ -32,5 +31,33 @@ public class VisitorInfoController {
     public ResponseEntity getVisitorInfoByVisitorId(Integer visitorId){
         VisitorInfo visitorInfoByVisitorId = visitorInfoService.getVisitorInfoByVisitorId(visitorId);
         return new ResponseEntity(200,"查询成功",visitorInfoByVisitorId);
+    }
+
+    @GetMapping("/getVisitorInfoByPaySuccess")
+    //通过已支付的状态查询，挂号的患者
+    public ResponseEntity getVisitorInfoByPaySuccess(){
+        List<VisitorInfo> visitorInfoByPaySuccess=visitorInfoService.getVisitorInfoByPaySuccess();
+        return new ResponseEntity(200,"查询成功",visitorInfoByPaySuccess);
+    }
+
+    @GetMapping("/updateClinicStatus")
+    //在医生那里去看病时，修改病人的状态码为就诊[2]
+    public ResponseEntity updateClinicStatus(Integer visitorId){
+        visitorInfoService.updateClinicStatus(visitorId);
+        return new ResponseEntity(200,"ok",null);
+    }
+
+    @PostMapping("/getVisitingByVisitorId")
+    //获得正在看病的信息
+    public ResponseEntity getVisitingByVisitorId(Integer visitorId){
+        VisitorInfo visitingByVisitorId = visitorInfoService.getVisitingByVisitorId(visitorId);
+        return new ResponseEntity(200,"ok",visitingByVisitorId);
+    }
+
+    @PostMapping("/updateClinicStatusAndDisease")
+    //下完医嘱，修改状态为过诊且给病人添加疾病
+    public ResponseEntity updateClinicStatusAndDisease(@RequestBody VisitorInfo visitorInfo){
+        visitorInfoService.updateClinicStatusAndDisease(visitorInfo);
+        return new ResponseEntity(200,"ok",null);
     }
 }

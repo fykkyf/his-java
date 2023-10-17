@@ -1,5 +1,7 @@
 package com.woniu.hospital_information_system.mapper;
 
+import com.woniu.hospital_information_system.entity.ClinicOrder;
+import com.woniu.hospital_information_system.entity.Treatment;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import org.apache.ibatis.annotations.*;
 
@@ -19,4 +21,9 @@ public interface VisitorBillMapper {
 
     @Update("update visitor_bill set payment_date = now(), payment_status=2,manipulate_status=1 where visitor_id = #{visitorId} ")
     void updatePayStatus(Integer visitorId);
+
+    @Select("select treatment_price from treatment where treatment_id=#{treatmentId}")
+    Integer getTreatmentCategoryByTreatmentId (ClinicOrder clinicOrder);//通过tid查出金额
+
+
 }

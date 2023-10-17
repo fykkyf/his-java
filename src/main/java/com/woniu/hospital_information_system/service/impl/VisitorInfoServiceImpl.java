@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class VisitorInfoServiceImpl implements VisitorInfoService {
@@ -40,5 +41,25 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Override
     public VisitorInfo getVisitorInfoByVisitorId(Integer visitorId) {
         return visitorInfoMapper.getVisitorInfoByVisitorId(visitorId);
+    }
+
+    @Override
+    public List<VisitorInfo> getVisitorInfoByPaySuccess() {
+        return visitorInfoMapper.getVisitorInfoByPaySuccess();
+    }
+
+    @Override
+    public void updateClinicStatus(Integer visitorId) {
+        visitorInfoMapper.updateClinicStatus(visitorId);
+    }
+
+    @Override
+    public VisitorInfo getVisitingByVisitorId(Integer visitorId) {
+        return visitorInfoMapper.getVisitingByVisitorId(visitorId);
+    }
+
+    @Override
+    public void updateClinicStatusAndDisease(VisitorInfo visitorInfo) {
+        visitorInfoMapper.updateClinicStatusAndDisease(visitorInfo);
     }
 }
