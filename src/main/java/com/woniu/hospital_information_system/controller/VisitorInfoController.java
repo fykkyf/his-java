@@ -55,14 +55,14 @@ public class VisitorInfoController {
     }
 
     @PostMapping("/updateClinicStatusAfterVisiting")
-    //下完医嘱，修改状态为过诊且给病人添加疾病
+//下完医嘱，修改状态为过诊且给病人添加疾病
     public ResponseEntity updateClinicStatusAfterVisiting(@RequestBody VisitorInfo visitorInfo){
         visitorInfoService.updateClinicStatusAfterVisiting(visitorInfo);
         return new ResponseEntity(200,"ok",null);
     }
 
     @PostMapping("/updateDisease")
-    //下完医嘱，修改状态为过诊且给病人添加疾病
+//下完医嘱，修改状态为过诊且给病人添加疾病
     public ResponseEntity updateDisease(@RequestBody VisitorInfo visitorInfo){
         visitorInfoService.updateDisease(visitorInfo);
         return new ResponseEntity(200,"ok",null);

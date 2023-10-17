@@ -3,6 +3,7 @@ package com.woniu.hospital_information_system.service.impl;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.Location;
 import com.woniu.hospital_information_system.entity.PatientInfo;
+import com.woniu.hospital_information_system.mapper.PatientBillMapper;
 import com.woniu.hospital_information_system.mapper.PatientInfoMapper;
 import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
 import com.woniu.hospital_information_system.service.InsuranceInfoService;
@@ -26,6 +27,8 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     InsuranceInfoService insuranceInfoService;
     @Autowired
     LocationService locationService;
+    @Autowired
+    PatientBillMapper patientBillMapper;
     /*
     * 获取所有住院患者信息
     * */
@@ -98,6 +101,17 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     @Override
     public void dischargeDiagnosis(PatientInfoDTO patientInfoDTO) {
         patientInfoMapper.dischargeDiagnosis(patientInfoDTO);
+    }
+
+    @Override
+    public void updateLocationId(Integer patientId) {
+        patientInfoMapper.updateLocationId(patientId);
+    }
+
+    @Override
+    public void completeDischarge(PatientInfoDTO patientInfoDTO) {
+        patientInfoMapper.completeDischarge(patientInfoDTO);
+        patientBillMapper.completeDischarge(patientInfoDTO);
     }
 
 }

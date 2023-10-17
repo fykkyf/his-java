@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -32,7 +34,8 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         visitorInfoMapper.addVisitorInfo(visitorInfo);//添加患者信息
         Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getDoctorId());//得到项目id
         Double treatmentPrice = visitorBillMapper.getPriceByTreatmentId(treatmentId);//得到挂号的那个医生的费用
-        visitorBillMapper.addVisitorBill(visitorInfo.getVisitorId(),treatmentId,treatmentPrice);//在门诊患者费用表中生成数据
+        Timestamp orderDate = nowTime.getNow();//获取当前datetime
+        visitorBillMapper.addVisitorBill(visitorInfo.getVisitorId(),treatmentId,treatmentPrice,orderDate);//在门诊患者费用表中生成数据
     }
 
     @Override

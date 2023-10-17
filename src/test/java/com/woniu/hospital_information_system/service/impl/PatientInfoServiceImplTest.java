@@ -11,7 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PatientInfoServiceImplTest {
     @Autowired
     PatientInfoService patientInfoService;
-
+    @Test
+    void test01(){
+        patientInfoService.updateLocationId(1);
+    }
     @Test
     void getAllPatientInfo() {
 //        PatientInfoDTO patientInfoDTO = new PatientInfoDTO();
