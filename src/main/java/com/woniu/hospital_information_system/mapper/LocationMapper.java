@@ -15,10 +15,9 @@ public interface LocationMapper {
     //根据床位状态查询床位信息
     @Select("select * from location where location_status = #{status}")
     List<Location> selectLocationsByStatus(int status);
-    //添加床位状态
+    //更改床位状态
     @Update("update location set location_status = 1 where location_id = #{locationId}")
     void updateLocationStatus(int locationId);
-    //清空床位
     @Update("update location set location_status = 0 where location_id = #{locationId}")
     void updateLocationStatusEmpty(Integer locationId);
 }
