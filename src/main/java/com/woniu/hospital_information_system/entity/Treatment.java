@@ -1,9 +1,11 @@
 package com.woniu.hospital_information_system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 @Data
 @NoArgsConstructor
@@ -13,8 +15,10 @@ public class Treatment {
     private Integer treatmentId;
     private String treatmentName;
     private String manufacturer;
-    private Date productionTime;
-    private Date expiredTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime productionTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime expiredTime;
     private Integer storage;
     private String specification;
     private Double treatmentPrice;
