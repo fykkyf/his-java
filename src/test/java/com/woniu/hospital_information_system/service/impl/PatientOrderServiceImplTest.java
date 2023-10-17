@@ -23,4 +23,8 @@ class PatientOrderServiceImplTest {
         //添加出院费用表
         patientBillMapper.dischargePatient(patientInfoDTO);
     }
+    @Test
+    void checkDischarge(){
+        patientOrderMapper.checkDischarge(2,2);
+    }
 }

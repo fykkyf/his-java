@@ -18,4 +18,6 @@ public interface LocationMapper {
     //更改床位状态
     @Update("update location set location_status = 1 where location_id = #{locationId}")
     void updateLocationStatus(int locationId);
+    @Update("update location set location_status = 0 where location_id = #{locationId}")
+    void updateLocationStatusEmpty(Integer locationId);
 }

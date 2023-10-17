@@ -11,4 +11,6 @@ public interface LocationService {
     List<Location> getLocationByStatus(int status);
     //更改床位状态
     void modifyLocationStatusByLocationId(int locationId);
+
+    void updateLocationStatusEmpty(Integer locationId);
 }

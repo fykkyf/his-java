@@ -35,4 +35,9 @@ public class LocationServiceImpl implements LocationService {
     public void modifyLocationStatusByLocationId(int locationId) {
         locationMapper.updateLocationStatus(locationId);
     }
+
+    @Override
+    public void updateLocationStatusEmpty(Integer locationId) {
+        locationMapper.updateLocationStatusEmpty(locationId);
+    }
 }

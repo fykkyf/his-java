@@ -16,4 +16,6 @@ public interface PatientInfoService {
     void modifyPatientInfoByPatientInfoId(int patientInfoId,int locationId);
 
     void dischargeDiagnosis(PatientInfoDTO patientInfoDTO);
+
+    void updateLocationId(Integer patientId);
 }

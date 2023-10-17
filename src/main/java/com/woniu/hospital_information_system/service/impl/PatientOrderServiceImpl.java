@@ -5,14 +5,12 @@ import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
-import com.woniu.hospital_information_system.entity.Treatment;
 import com.woniu.hospital_information_system.mapper.PatientBillMapper;
 import com.woniu.hospital_information_system.mapper.PatientInfoMapper;
 import com.woniu.hospital_information_system.mapper.PatientOrderMapper;
 import com.woniu.hospital_information_system.service.PatientOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,7 +88,8 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     }
 
     @Override
-    public void checkDischarge(Integer status) {
+    public void checkDischarge(Integer status, Integer patientId) {
+        patientOrderMapper.checkDischarge(status,patientId);
 
     }
 

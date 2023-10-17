@@ -100,4 +100,9 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfoMapper.dischargeDiagnosis(patientInfoDTO);
     }
 
+    @Override
+    public void updateLocationId(Integer patientId) {
+        patientInfoMapper.updateLocationId(patientId);
+    }
+
 }
