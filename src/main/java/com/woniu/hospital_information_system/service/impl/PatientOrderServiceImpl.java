@@ -46,11 +46,13 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     /*
      * 医生给住院患者下医嘱
      * */
+    @Transactional
     @Override
     public void addPatientOrder(PatientOrderDTO patientOrderDTO) {
         for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
             PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
             patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);
+            patientBillMapper.insertPatientBill(getPatientBill(treatment,patientOrder));
         }
     }
 
@@ -75,14 +77,10 @@ public class PatientOrderServiceImpl implements PatientOrderService {
             patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
             if (patientOrder.getExecutionStatus() == 2) {
                 //查询项目类别
-                Treatment newTreatment = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
-                if (newTreatment.getTreatmentCategory() == 1) {
+//                Treatment newTreatment = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
+                if (treatment.getTreatmentCategory() == 1) {
                     //药品项目：住院患者费用表中添加一条数据记账状态为2的数据
-                    PatientBill patientBill = new PatientBill();
-                    patientBill.setPatientId(patientOrder.getPatientId());
-                    patientBill.setTreatmentId(patientOrder.getTreatmentId());
-                    patientBill.setDrugCount(patientOrder.getTreatmentCount());
-                    patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * newTreatment.getTreatmentPrice());
+                    PatientBill patientBill = getPatientBill(treatment, patientOrder);
                     patientBillMapper.insertPatientBill(patientBill);
                 }
             }
@@ -137,6 +135,19 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         patientOrder.setExecutionStatus(patientOrderDTO.getExecutionStatus());
         patientOrder.setOrderType(patientOrderDTO.getOrderType());
         return patientOrder;
+    }
+
+    /*
+     * 通过TreatmentDTO+PatientOrder返回PatientBill
+     * */
+    private PatientBill getPatientBill(TreatmentDTO treatment, PatientOrder patientOrder) {
+        PatientBill patientBill = new PatientBill();
+        patientBill.setPatientId(patientOrder.getPatientId());
+        patientBill.setTreatmentId(patientOrder.getTreatmentId());
+        patientBill.setDrugCount(patientOrder.getTreatmentCount());
+        //计算费用
+        patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * treatment.getTreatmentPrice());
+        return patientBill;
     }
 
 

@@ -18,8 +18,8 @@ public interface PatientOrderService {
     void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
     //根据病人id更改住院医嘱信息
     void timedExecutionAddPatientOrder();
-
+    //办理出院
     void dischargePatient(PatientInfoDTO patientInfoDTO);
-
+    //审核出院医嘱
     void checkDischarge(Integer status, Integer patientId);
 }
