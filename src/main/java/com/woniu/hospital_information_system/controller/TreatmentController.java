@@ -67,7 +67,7 @@ public class TreatmentController {
         Date currentDate = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         //String formattedDate = formatter.format(currentDate);
-        treatmentDTO.setExpiredTime1(formatter.format(currentDate));
+       // treatmentDTO.setExpiredTime1(formatter.format(currentDate));
         List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatmentByExptime(treatmentDTO);
         List<String> treatmentVOS1 = new ArrayList<>();
         for (TreatmentVO treatmentVO : treatmentVOS){
