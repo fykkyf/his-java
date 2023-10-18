@@ -3,6 +3,7 @@ package com.woniu.hospital_information_system.service.impl;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
+import com.woniu.hospital_information_system.service.VisitorBillService;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
 import com.woniu.hospital_information_system.util.NowTime;
 import org.apache.ibatis.annotations.Options;
@@ -20,7 +21,8 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Autowired
     VisitorBillMapper visitorBillMapper;
     @Autowired
-    NowTime nowTime;
+    VisitorBillService visitorBillService;
+
 
 
 
@@ -34,8 +36,7 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         visitorInfoMapper.addVisitorInfo(visitorInfo);//添加患者信息
         Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getDoctorId());//得到项目id
         Double treatmentPrice = visitorBillMapper.getPriceByTreatmentId(treatmentId);//得到挂号的那个医生的费用
-        Timestamp orderDate = nowTime.getNow();//获取当前datetime
-        visitorBillMapper.addVisitorBill(visitorInfo.getVisitorId(),treatmentId,treatmentPrice,orderDate);//在门诊患者费用表中生成数据
+        visitorBillService.addVisitorBillByVisitorIdAndEmployeeId(visitorInfo.getVisitorId(),treatmentId,treatmentPrice);//在门诊患者费用表中生成数据
     }
 
     @Override
