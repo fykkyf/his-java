@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -153,7 +154,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         if (patientInfoDTO.getPatientId()!=null){
             patientInfo.setPatientId(patientInfoDTO.getPatientId());
         }
-        if (patientInfoDTO.getPatientName()!=null || !patientInfoDTO.getPatientName().equals("")){
+        if (patientInfoDTO.getPatientName()!=null){
             patientInfo.setPatientName(patientInfoDTO.getPatientName());
         }
         if (patientInfoDTO.getVisitorId()!=null){
@@ -165,7 +166,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         if (patientInfoDTO.getAge()!=null){
             patientInfo.setAge(patientInfoDTO.getAge());
         }
-        if (patientInfoDTO.getIdNumber()!=null || !patientInfoDTO.getIdNumber().equals("")){
+        if (patientInfoDTO.getIdNumber()!=null){
             patientInfo.setIdNumber(patientInfoDTO.getIdNumber());
         }
         if (patientInfoDTO.getUnitId()!=null){

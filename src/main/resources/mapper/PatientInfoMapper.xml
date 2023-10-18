@@ -45,12 +45,12 @@
     <!--根据关键字查询-->
     <select id="selectPatientInfoByKeyWord"
             resultType="com.woniu.hospital_information_system.entity.PatientInfo">
-        select * from patient_into
+        select * from patient_info
         <where>
             <if test="patientId!=null">
                 patient_id = #{patientId}
             </if>
-            <if test="patientName != null || patientName != ''">
+            <if test="patientName != null and patientName != ''">
                 and patient_name = #{patientName}
             </if>
             <if test="gender != null">
@@ -59,7 +59,7 @@
             <if test="age != null">
                 and age = #{age}
             </if>
-            <if test="idNumber != null">
+            <if test="idNumber != null and idNumber != ''">
                 and id_number = #{idNumber}
             </if>
             <if test="unitId != null">

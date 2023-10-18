@@ -33,10 +33,9 @@ public class PatientInfoController {
     /*
     *   模糊查询患者信息
     * */
-    @PostMapping("/post")
+    @PostMapping("/getByKeyWord")
     public Object getPatientInfoByKeyWord(@RequestBody PatientInfoDTO patientInfoDTO) {
-        List<PatientInfo> patientInfos = patientInfoService.getPatientInfoByKeyWord(patientInfoDTO);
-        return new ResponseEntity(200,"request success",null);
+        return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByKeyWord(patientInfoDTO));
     }
 
     /*
