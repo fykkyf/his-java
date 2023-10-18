@@ -35,6 +35,7 @@ public class VisitorBillController {
         visitorBillService.updatePayStatus(visitorInfo.getVisitorId());
         return new ResponseEntity(200,"修改成功",null);
     }
+
     //根据门诊信息表查询病人费用表
     @GetMapping("/getBillByVisitorId")
     public ResponseEntity getBillByVisitorId(@RequestBody VisitorInfo visitorInfo){
@@ -42,6 +43,7 @@ public class VisitorBillController {
 
         return new ResponseEntity(200,"success",visitorBills);
     }
+
     //根据病人费用表id修改支付状态
     @PostMapping("/changePaymentStatus")
     public ResponseEntity changePaymentStatus(@RequestBody Integer visitorBillId){

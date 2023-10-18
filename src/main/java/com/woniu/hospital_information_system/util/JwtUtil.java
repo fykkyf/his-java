@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.jwt.JWT;
 
 public class JwtUtil {
+
     public static final String JWT_KEY="woniuxy";
     public static final String JWT_ISSUER="woniuxyzs";
     public static final int JWT_EXPIRE_MILLISECOND=1000*60*30;
@@ -54,4 +55,3 @@ public class JwtUtil {
     }
 
 }
-

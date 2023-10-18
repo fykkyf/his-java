@@ -6,8 +6,6 @@ import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.service.VisitorBillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -16,8 +14,8 @@ public class VisitorBillServiceImpl implements VisitorBillService {
     VisitorBillMapper visitorBillMapper;
 
     @Override
-    public void addVisitorBillByVisitorIdAndEmployeeId(Integer visitorId, Integer treatmentId, Double treatmentPrice, Timestamp orderDate) {
-        visitorBillMapper.addVisitorBill(visitorId,treatmentId,treatmentPrice,orderDate);
+    public void addVisitorBillByVisitorIdAndEmployeeId(Integer visitorId, Integer treatmentId, Double treatmentPrice) {
+        visitorBillMapper.addVisitorBill(visitorId,treatmentId,treatmentPrice);
     }
 
     @Override
