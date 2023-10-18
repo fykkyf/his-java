@@ -21,7 +21,7 @@ class PatientOrderServiceImplTest {
         patientInfoDTO.setDoctorId(2);
         patientOrderMapper.dischargePatient(patientInfoDTO);
         //添加出院费用表
-        patientBillMapper.dischargePatient(patientInfoDTO);
+        patientBillMapper.dischargePatient(patientInfoDTO.getPatientId());
     }
     @Test
     void checkDischarge(){
