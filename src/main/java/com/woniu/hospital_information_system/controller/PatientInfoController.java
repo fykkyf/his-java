@@ -33,7 +33,7 @@ public class PatientInfoController {
     @PostMapping("/add")
     public Object addPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.addPatientInfo(patientInfoDTO);
-        return new ResponseEntity(200,"request success",null);
+        return new ResponseEntity(200,"request success","添加成功");
     }
     /*
     * 给住院患者安排床位
@@ -41,7 +41,15 @@ public class PatientInfoController {
     @PostMapping("/add/location")
     public Object modifyPatientInfoByPatientInfoId(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.modifyPatientInfoByPatientId(patientInfoDTO.getPatientId(),patientInfoDTO.getLocationId());
-        return new ResponseEntity(200,"request success",null);
+        return new ResponseEntity(200,"request success","添加成功");
+    }
+    /*
+     * 添加入院诊断
+     * */
+    @PostMapping("/admissionDiagnosis")
+    public Object admissionDiagnosis(@RequestBody PatientInfoDTO patientInfoDTO) {
+        patientInfoService.admissionDiagnosis(patientInfoDTO);
+        return new ResponseEntity(200,"request success","添加成功");
     }
     //添加出院诊断
     @PostMapping("/dischargeDiagnosis")

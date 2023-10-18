@@ -100,11 +100,21 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     }
 
     /*
+    * 添加入院诊断
+    * */
+    @Override
+    public void admissionDiagnosis(PatientInfoDTO patientInfoDTO) {
+        PatientInfo patientInfo = convertPatientInfo(patientInfoDTO);
+        patientInfoMapper.admissionDiagnosis(patientInfo);
+    }
+
+    /*
     * 添加出院诊断
     * */
     @Override
     public void dischargeDiagnosis(PatientInfoDTO patientInfoDTO) {
-        patientInfoMapper.dischargeDiagnosis(patientInfoDTO);
+        PatientInfo patientInfo = convertPatientInfo(patientInfoDTO);
+        patientInfoMapper.dischargeDiagnosis(patientInfo);
     }
 
     @Override
@@ -128,6 +138,8 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         PatientInfo patientInfo = convertPatientInfo(patientInfoDTO);
         patientInfoMapper.updatePatientInfo(patientInfo);
     }
+
+
     /*
     * patientInfoDTO-->patientInfo
     * */

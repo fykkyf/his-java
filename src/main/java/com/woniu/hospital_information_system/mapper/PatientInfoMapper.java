@@ -23,7 +23,7 @@ public interface PatientInfoMapper {
     void updatePatientInfoByPatientInfoId(@Param("patientId") int patientId, @Param("locationId") int locationId);
     //添加出院诊断
     @Update("update patient_info set discharge_diagnosis_id = #{dischargeDiagnosisId} where patient_id = #{patientId}")
-    void dischargeDiagnosis(PatientInfoDTO patientInfoDTO);
+    void dischargeDiagnosis(PatientInfo patientInfo);
     //清空床位信息
     @Update("update  patient_info set location_id = null where patient_id = #{patientId}")
     void updateLocationId(Integer patientId);
@@ -33,4 +33,7 @@ public interface PatientInfoMapper {
     //修改住院患者信息-转科
 //    @Update("update patient_info set unit_id = #{unitId},doctor_id = #{doctorId} where patient_id = #{patientId} ")
     void updatePatientInfo(PatientInfo patientInfo);
+    //添加入院诊断
+    @Update("update patient_info set admission_diagnosis_id = #{admissionDiagnosisId} where patient_id = #{patientId}")
+    void admissionDiagnosis(PatientInfo patientInfo);
 }

@@ -5,6 +5,7 @@ import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.PatientBill;
+import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.PatientOrderService;
@@ -27,6 +28,8 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     PatientInfoMapper patientInfoMapper;
     @Autowired
     TreatmentMapper treatmentMapper;
+    @Autowired
+    LocationMapper locationMapper;
 
     /*
      * 获取所有住院患者医嘱信息
@@ -45,13 +48,17 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
             PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
             patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
-            if (treatment.getTreatmentStatus()!=1){
+            if (treatment.getTreatmentStatus() != 1) {
                 //非药品并且项目id不为7(出院项目)-添加费用明细
-                if (treatment.getTreatmentId().equals(7)){
-                    //添加出院诊断
-//                    patientInfoMapper.dischargeDiagnosis();
+                if (treatment.getTreatmentId().equals(7)) {
+                    //是出院项目---添加出院诊断
+                    PatientInfo patientInfo = new PatientInfo();
+                    patientInfo.setPatientId(patientOrderDTO.getPatientId());
+                    patientInfo.setDischargeDiagnosisId(patientOrderDTO.getDischargeDiagnosisId());
+                    patientInfoMapper.dischargeDiagnosis(patientInfo);//添加出院诊断
+                    patientBillMapper.dischargePatient(patientInfo.getPatientId());//添加出院费用--记账状态码为-1(未记账)
                 }else {
-                    patientBillMapper.insertPatientBill(getPatientBill(treatment,patientOrder));//添加项目费用
+                    patientBillMapper.insertPatientBill(getPatientBill(treatment, patientOrder));//添加项目费用
                 }
             }
         }
@@ -78,16 +85,21 @@ public class PatientOrderServiceImpl implements PatientOrderService {
             //更改执行状态
             patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
             if (patientOrder.getExecutionStatus() == 2) {
+                PatientBill patientBill = getPatientBill(treatment, patientOrder);
                 //判断项目类别
                 if (treatment.getTreatmentCategory() == 1) {
                     //药品项目：住院患者费用表中添加一条数据记账状态为2的数据
-                    PatientBill patientBill = getPatientBill(treatment, patientOrder);
                     patientBillMapper.insertPatientBill(patientBill);
-                }else if (treatment.getTreatmentId().equals(7)){
-                    //出院项目：添加费用明细
-                    patientBillMapper.dischargePatient(patientOrder.getPatientId());
+                } else if (treatment.getTreatmentId().equals(7)) {
+                    //出院项目：修改费用明细中payment_status为2
+                    patientBillMapper.updatePatientBillByPaymentStatus(patientBill);
                     //修改病人信息表中床位信息
-//                    patientInfoMapper.updatePatientInfo();
+                    PatientInfo patientInfo = new PatientInfo();
+                    patientInfo.setPatientId(patientOrder.getPatientId());
+                    patientInfo.setLocationId(null);
+                    patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
+                    //更新床位表
+                    locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocationId());
                 }
             }
         }
@@ -110,12 +122,14 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                 patientBill.setPatientId(patientOrder.getPatientId());
                 patientBill.setTreatmentId(patientOrder.getTreatmentId());
                 patientBill.setDrugCount(patientOrder.getTreatmentCount());
-                patientBill.setTreatmentPrice(treatmentMapper.selectTreatmentByTreatmentId(patientOrder.getTreatmentId()).getTreatmentPrice()*patientOrder.getTreatmentCount());
+                patientBill.setTreatmentPrice(treatmentMapper.selectTreatmentByTreatmentId(patientOrder.getTreatmentId()).getTreatmentPrice() * patientOrder.getTreatmentCount());
                 patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
                 patientBillMapper.insertPatientBill(patientBill);//添加费用
             }
         }
     }
+
+
 
     @Transactional
     @Override
@@ -160,7 +174,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         patientBill.setTreatmentId(patientOrder.getTreatmentId());
         patientBill.setDrugCount(patientOrder.getTreatmentCount());
         //计算费用
-        patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * treatment.getTreatmentPrice());
+        if (patientOrder.getTreatmentCount()==null){
+            patientBill.setTreatmentPrice(0d);
+        }else {
+            patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * treatment.getTreatmentPrice());
+        }
         return patientBill;
     }
 
