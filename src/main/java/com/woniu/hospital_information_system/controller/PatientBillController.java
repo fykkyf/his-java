@@ -25,9 +25,9 @@ public class PatientBillController {
     public ResponseEntity getPatientBillByPatientId(Integer patientId){
         //根据patientId查询是否有医保
         int insuranceStatus = patientInfoService.getPatientInfoByPatientId(patientId).getInsuranceStatus();
-        if(insuranceStatus == 1){
-            List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(patientId);
-        }
+
+        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(patientId,insuranceStatus);
+
 
         return new ResponseEntity(200,"success","");
     }

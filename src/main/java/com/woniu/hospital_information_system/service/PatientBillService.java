@@ -8,5 +8,5 @@ import java.util.List;
 public interface PatientBillService {
 
 
-    List<PatientBillVO> getPatientBillVO(Integer patientId);
+    List<PatientBillVO> getPatientBillVO(Integer patientId,Integer insuranceStatus);
 }
