@@ -42,4 +42,62 @@
         </trim>
         WHERE patient_id = #{patientId}
     </update>
+    <!--根据关键字查询-->
+    <select id="selectPatientInfoByKeyWord"
+            resultType="com.woniu.hospital_information_system.entity.PatientInfo">
+        select * from patient_into
+        <where>
+            <if test="patientId!=null">
+                patient_id = #{patientId}
+            </if>
+            <if test="patientName != null || patientName != ''">
+                and patient_name = #{patientName}
+            </if>
+            <if test="gender != null">
+                and gender = #{gender}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+            <if test="idNumber != null">
+                and id_number = #{idNumber}
+            </if>
+            <if test="unitId != null">
+                and unit_id = #{unitId}
+            </if>
+            <if test="doctorId != null">
+                and doctor_id = #{doctorId}
+            </if>
+            <if test="insuranceStatus != null">
+                and insurance_status = #{insuranceStatus}
+            </if>
+            <if test="inTime != null">
+                and in_time = #{inTime}
+            </if>
+            <if test="outTime != null">
+                and out_time = #{outTime}
+            </if>
+            <if test="clinicDiagnosisId != null">
+                and clinic_diagnosis_id = #{clinicDiagnosisId}
+            </if>
+            <if test="admissionDiagnosisId != null">
+                and admission_diagnosis_id = #{admissionDiagnosisId}
+            </if>
+            <if test="dischargeDiagnosisId != null">
+                and discharge_diagnosis_id = #{dischargeDiagnosisId}
+            </if>
+            <if test="locationId != null">
+                and location_id = #{locationId}
+            </if>
+            <if test="paidTime != null">
+                and paid_time = #{paidTime}
+            </if>
+            <if test="stayStatus != null">
+                and stay_status = #{stayStatus}
+            </if>
+            <if test="paymentStatus != null">
+                and payment_status = #{paymentStatus}
+            </if>
+        </where>
+    </select>
 </mapper>
