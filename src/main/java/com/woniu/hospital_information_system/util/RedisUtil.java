@@ -8,8 +8,6 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisUtil {
-    //自己封装的redis增删改查的方法
-
     @Autowired
     RedisTemplate redisTemplate;
 

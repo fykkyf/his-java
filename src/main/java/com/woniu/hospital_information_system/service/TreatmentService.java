@@ -2,7 +2,6 @@ package com.woniu.hospital_information_system.service;
 
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -25,8 +24,4 @@ public interface TreatmentService {
     void updateTreatment(TreatmentDTO treatmentDTO);
     //医生下达医嘱，减少库存
     void reduceStorage(TreatmentDTO treatmentDTO);
-    //管理员添加项目明细，根据项目名称查询
-    TreatmentVO selectTreatmentByName(TreatmentDTO treatmentDTO);
-    //如果根据名称没有查到，管理员添加项目明细
-    void addTreatment1(TreatmentDTO treatmentDTO);
 }

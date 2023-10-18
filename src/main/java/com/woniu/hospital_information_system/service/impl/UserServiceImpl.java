@@ -36,16 +36,4 @@ public class UserServiceImpl implements UserService {
         System.out.println(tokens);
         return tokens;
     }
-
-    @Override
-    public int findEmail(String email) {
-        return userMapper.findEmail(email);
-    }
-
-    @Override
-    public void updatepwd(String s, String email) {
-        userMapper.updatepwd(s,email);
-    }
-
-
 }

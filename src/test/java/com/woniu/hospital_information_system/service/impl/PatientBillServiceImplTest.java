@@ -14,7 +14,7 @@ class PatientBillServiceImplTest {
     PatientBillServiceImpl patientBillService;
     @Test
     void test01(){
-        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(2,0);
+        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(1,1);
         System.out.println(patientBillVOList);
     }
     @Test

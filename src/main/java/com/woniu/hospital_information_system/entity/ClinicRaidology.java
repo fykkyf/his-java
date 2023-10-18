@@ -19,5 +19,4 @@ public class ClinicRaidology {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime testDate;
     private Integer testStatus;
-    private String fileName;
 }
