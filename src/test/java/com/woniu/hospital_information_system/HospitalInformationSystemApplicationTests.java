@@ -1,12 +1,18 @@
 package com.woniu.hospital_information_system;
 
 
-import cn.hutool.core.date.DateTime;
+import com.woniu.hospital_information_system.controller.ClinicOrderController;
+import com.woniu.hospital_information_system.controller.ClinicRaidologyController;
 import com.woniu.hospital_information_system.controller.VisitorInfoController;
+import com.woniu.hospital_information_system.entity.ClinicOrder;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
+import com.woniu.hospital_information_system.service.ClinicOrderService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.File;
 
 import static java.time.LocalTime.now;
 
@@ -15,6 +21,14 @@ class HospitalInformationSystemApplicationTests {
 
     @Autowired
     VisitorInfoController visitorInfoController;
+    @Autowired
+    ClinicOrderController clinicOrderController;
+    @Autowired
+    ClinicOrderService clinicOrderService;
+
+
+    @Autowired
+    ClinicRaidologyController clinicRaidologyController;
 
     @Test
     void contextLoads() {
@@ -22,4 +36,17 @@ class HospitalInformationSystemApplicationTests {
         visitorInfoController.addVisitorInfo(visitorInfo);
     }
 
+
+
+    @Test
+    void test1(){
+        ClinicOrder clinicOrder = new ClinicOrder(null,3,3,3,"33",3,3,3,null,null);
+        clinicOrderController.addClinicOrder(clinicOrder);
+    }
+
+
+    void test2(){
+
+
+    }
 }

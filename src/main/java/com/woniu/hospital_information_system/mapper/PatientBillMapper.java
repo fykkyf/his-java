@@ -24,7 +24,7 @@ public interface PatientBillMapper {
     List<PatientBill> getPatientBillByPatientId(Integer patientId);
 
     List<PatientBillVO> getPatientBillVO(Integer patientId);
-    @Update("update patient_bill set payment_status = 3 ,payment_date = now() where patient_bill_id = #{patientBillId}")
+    @Update("update patient_bill set payment_status = 3 where patient_bill_id = #{patientBillId}")
     void billPaymentStatus(Integer patientBillId);
     @Select("select patient_bill_id from  patient_bill where patient_id = #{patientId} ")
     List<Integer> getAllBillIds(Integer patientId);

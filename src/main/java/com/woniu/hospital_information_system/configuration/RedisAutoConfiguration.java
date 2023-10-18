@@ -1,4 +1,4 @@
-package com.woniu.hospital_information_system.config;
+package com.woniu.hospital_information_system.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +21,4 @@ public class RedisAutoConfiguration {
         template.setHashValueSerializer(RedisSerializer.json());
         return template;
     }
-
 }
-

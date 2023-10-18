@@ -50,4 +50,14 @@ public class TreatmentImpl implements TreatmentService {
     public void reduceStorage(TreatmentDTO treatmentDTO) {
         treatmentMapper.reduceStorage(treatmentDTO);
     }
+
+    @Override
+    public TreatmentVO selectTreatmentByName(TreatmentDTO treatmentDTO) {
+        return treatmentMapper.selectTreatmentByName(treatmentDTO);
+    }
+
+    @Override
+    public void addTreatment1(TreatmentDTO treatmentDTO) {
+          treatmentMapper.addTreatment1(treatmentDTO);
+    }
 }

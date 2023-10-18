@@ -21,9 +21,6 @@
         select * from visitor_info vi ,visitor_bill vb
         where vi.visitor_id=vb.visitor_id and
             vb.payment_status = 2
-<!--        <if test="vi.clinic_status!=null">-->
-<!--            and vi.clinic_status = #{clinicStatus}-->
-<!--        </if>-->
     </select>
 
 </mapper>
