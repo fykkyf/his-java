@@ -1,6 +1,8 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.mapper.TreatmentMapper;
 import com.woniu.hospital_information_system.service.TreatmentService;
@@ -59,5 +61,25 @@ public class TreatmentImpl implements TreatmentService {
     @Override
     public void addTreatment1(TreatmentDTO treatmentDTO) {
           treatmentMapper.addTreatment1(treatmentDTO);
+    }
+
+    @Override
+    public List<OmdVO> selectOmd(OmdDTO omdDTO) {
+        return treatmentMapper.selectOmd(omdDTO);
+    }
+
+    @Override
+    public void updateMsById(List<Integer> vbids) {
+        treatmentMapper.updateMsById(vbids);
+    }
+
+    @Override
+    public void updateDtById(List<Integer> coids) {
+        treatmentMapper.updateDtById(coids);
+    }
+
+    @Override
+    public void updatestorageById(OmdVO omdVO) {
+        treatmentMapper.updatestorageById(omdVO);
     }
 }

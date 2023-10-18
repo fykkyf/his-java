@@ -1,8 +1,11 @@
 package com.woniu.hospital_information_system.service;
 
+import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -29,4 +32,11 @@ public interface TreatmentService {
     TreatmentVO selectTreatmentByName(TreatmentDTO treatmentDTO);
     //如果根据名称没有查到，管理员添加项目明细
     void addTreatment1(TreatmentDTO treatmentDTO);
+    //门诊发药查询(根据已发药、未发药、发药日期、病人就诊号)
+    List<OmdVO> selectOmd(OmdDTO omdDTO);
+    //门诊发药操作 根据费用ID，修改门诊病人费用表中的操作状态码  根据医嘱ID插入发药时间
+    void updateMsById(@Param("vbids") List<Integer> vbids);
+    void updateDtById(@Param("coids")  List<Integer> coids);
+    //门诊发药，根据项目ID减少库存
+    void updatestorageById(OmdVO omdVO);
 }

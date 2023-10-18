@@ -32,6 +32,9 @@
           <if test="drugCode!=null and drugCode!=''">
               and   drug_code=#{drugCode}
           </if>
+          <if test="storage!=null and storage!=''">
+              and   storage>=#{storage}
+          </if>
       </where>
     </select>
 
@@ -43,4 +46,48 @@
         insert into treatment values (null, #{treatmentName}, #{drugCode}, #{manufacturer}, #{productionTime},
                                          #{expiredTime}, #{storage}, #{specification}, #{treatmentPrice}, #{insurancePrice},1,1))
     </insert>
+
+    <select id="selectOmd" resultType="OmdVO">
+        select vb.visitor_bill_id ,co.clinic_order_id ,vi.visitor_id ,vi.visitor_name ,vi.gender ,u.unit_name ,
+               e.employee_name ,t.drug_code ,t.treatment_name ,vb.drug_count ,t.specification ,vb.order_date ,
+               co.dispense_time  from visitor_info vi,treatment t,visitor_bill vb,unit u,employee e,clinic_order co
+
+        <where>
+            vi.visitor_id=vb.visitor_id and vb.treatment_id=t.treatment_id and vb.payment_status=1
+            and u.unit_id=vi.unit_id and vi.doctor_id=e.employee_id and vi.visitor_id=co.visitor_id and co.treatment_id=vb.treatment_id
+            and t.treatment_category=1
+            <if test="manipulateStatus!=null and manipulateStatus!=''">
+                and vb.manipulate_status=#{manipulateStatus}
+            </if>
+
+            <if test="visitorId!=null and visitorId!=''">
+                and vi.visitor_id=#{visitorId}
+            </if>
+            <if test="executionTime!=null and executionTime!=''">
+                and co.execution_time=#{executionTime}
+            </if>
+
+        </where>
+    </select>
+
+    <update id="updateMsById" parameterType="Integer">
+        update visitor_bill set manipulate_status = 2
+        <where>
+            visitor_bill_id in
+            <foreach collection="vbids" item="vbid" separator="," open="(" close=")">
+                #{vbid}
+            </foreach>
+        </where>
+    </update>
+
+    <update id="updateDtById" parameterType="Integer">
+        update clinic_order set dispense_time = now()
+        <where>
+            clinic_order_id in
+            <foreach collection="coids" item="coid" separator="," open="(" close=")">
+                #{coid}
+            </foreach>
+        </where>
+    </update>
+
 </mapper>

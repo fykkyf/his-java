@@ -1,12 +1,11 @@
 package com.woniu.hospital_information_system.mapper;
 
+import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.Treatment;
+import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 
 import java.util.List;
@@ -29,7 +28,7 @@ public interface TreatmentMapper {
     @Select("select * from treatment where expired_time between  date_add(#{expiredTime},interval -10 day) and #{expiredTime}")
     List<TreatmentVO> selectAllTreatmentByExptime(TreatmentDTO treatmentDTO);
 
-    //医生下达医嘱，减少库存
+    //近期药品处理，减少库存
     @Update("update treatment set storage=storage-#{storage} where drug_code=#{drugCode}")
     void reduceStorage(TreatmentDTO treatmentDTO);
 
@@ -51,5 +50,19 @@ public interface TreatmentMapper {
     @Insert("insert into treatment (treatment_id,treatment_name,treatment_price,insurance_price,treatment_status,treatment_category) " +
             "values (null,treatmentName,treatmentPrice,insurancePrice,1,treatmentCategory,)")
     void addTreatment1(TreatmentDTO treatmentDTO);
+
+    //门诊发药查询(根据已发药、未发药、发药日期、病人就诊号 支付状态：待定)
+    List<OmdVO> selectOmd(OmdDTO omdDTO);
+
+    //门诊发药操作 根据费用ID，修改门诊病人费用表中的操作状态码  根据医嘱ID插入发药时间
+    void updateMsById(@Param("vbids") List<Integer> vbids);
+
+    void updateDtById(@Param("coids")  List<Integer> coids);
+
+    //门诊发药，根据项目ID减少库存
+    @Update("update treatment set storage =storage-#{drugCount} where drug_code=drugCode")
+    void updatestorageById(OmdVO omdVO);
+
+
 
 }

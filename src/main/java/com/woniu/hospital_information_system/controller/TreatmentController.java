@@ -1,11 +1,14 @@
 package com.woniu.hospital_information_system.controller;
 
 import cn.hutool.core.date.DateTime;
+import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -24,11 +27,17 @@ public class TreatmentController {
     @Autowired
     TreatmentService treatmentService;
     //给医生下医嘱用(医生)
-    //查询所有项目信息，前端判断项目明细 后端写死启用类型为1 启用
+    //查询所有项目信息，前端判断项目类型 后端写死启用类型为1 启用 如果是药品，设置库存>=1的条件
     @PostMapping("/selectAllTreatmentByCategory")
     public Object selectAllTreatmentByCategory(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentDTO.setTreatmentStatus(1);
-        return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
+        if (treatmentDTO.getTreatmentCategory()==1){
+            treatmentDTO.setStorage(1);
+            return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
+        }else{
+            return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
+        }
+
     }
     //近期药品处理、药房盘点，减少库存
     @PostMapping("/reduceStorage")
@@ -108,6 +117,31 @@ public class TreatmentController {
             return new ResponseEntity(200,"","添加完成");
         }
     }
+
+    //门诊发药查询
+    //添加项目 (管理员)
+    @PostMapping("/selectOmd")
+    public Object selectOmd(@RequestBody OmdDTO omdDTO){
+            return new ResponseEntity(200,"",treatmentService.selectOmd(omdDTO));
+    }
+
+    //门诊发药操作
+    @Transactional
+    @PostMapping("/selectOmd")
+    public Object omd(@RequestBody  List<OmdVO> omdVOS){
+        List<Integer> vbids = null;
+        List<Integer> coids = null;
+        for (OmdVO omdVO:omdVOS){
+            treatmentService.updatestorageById(omdVO);
+            vbids.add(omdVO.getVisitorBillId());
+            coids.add(omdVO.getClinicOrderId());
+        }
+        treatmentService.updateMsById(vbids);
+        treatmentService.updateDtById(coids);
+        return new ResponseEntity(200,"","发药完成！");
+    }
+
+
 
 
 
