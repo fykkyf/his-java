@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.hospital_information_system.mapper.PatientBillMapper">
+    <select id="getPatientBillVO" resultType="patientBillVO">
+        select pb.patient_bill_id, pb.patient_id, pb.treatment_id, pb.drug_count,t.treatment_name, t.treatment_price,t.insurance_price
+        from patient_bill pb, treatment t
+        where pb.patient_id = #{patientId} and pb.treatment_id = t.treatment_id;
+    </select>
+</mapper>
