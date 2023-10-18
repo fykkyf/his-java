@@ -2,9 +2,13 @@ package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.PatientBill;
+import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 @Mapper
 public interface PatientBillMapper {
@@ -16,4 +20,8 @@ public interface PatientBillMapper {
     //添加住院费用明细
     @Insert("insert into patient_bill values (null,#{patientId},#{treatmentId},#{drugCount},#{treatmentPrice},now(),null,2,1)")
     void insertPatientBill(PatientBill patientBill);
+    @Select("select * from patient_bill where patient_id = #{patientId}")
+    List<PatientBill> getPatientBillByPatientId(Integer patientId);
+
+    List<PatientBillVO> getPatientBillVO(Integer patientId);
 }

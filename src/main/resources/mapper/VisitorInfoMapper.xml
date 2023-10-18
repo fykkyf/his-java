@@ -9,7 +9,7 @@
         <selectKey keyProperty="visitor_id" resultType="int" statementType="PREPARED" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        <if test="gender==1">
+        <if test="gender==1">,
             insert into visitor_info values (null,#{visitorName},1,#{idNumber},#{phone},#{unitId},#{doctorId},null,null,1)
         </if>
         <if test="gender==0">
