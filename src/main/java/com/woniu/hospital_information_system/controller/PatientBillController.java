@@ -28,16 +28,30 @@ public class PatientBillController {
 
         List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(patientId,insuranceStatus);
 
-
-        return new ResponseEntity(200,"success","");
+        return new ResponseEntity(200,"success",patientBillVOList);
     }
-    //根据医保修改账单费用
 
     //修改支付状态
     @PostMapping("/billPaymentStatus")
     public ResponseEntity billPaymentStatus(Integer patientBillId){
-
+        patientBillService.billPaymentStatus(patientBillId);
 
         return new ResponseEntity(200,"success","修改成功");
+    }
+    //显示当前病人所有费用总和
+    @GetMapping("/getPaymentSum")
+    public ResponseEntity getPaymentSum(PatientInfoDTO patientInfoDTO){
+        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(patientInfoDTO.getPatientId(),patientInfoDTO.getInsuranceStatus());
+        Double finalResult = patientBillService.getPaymentSum(patientBillVOList);
+        return new ResponseEntity(200,"success",finalResult);
+    }
+    @PostMapping("/chengeAllPaymentStatus")
+    public ResponseEntity chengeAllPaymentStatus(PatientInfoDTO patientInfoDTO) {
+        List<Integer> list = patientBillService.getAllBillIds(patientInfoDTO.getPatientId());
+        for (int i=0; i <list.size();i++){
+            patientBillService.billPaymentStatus(list.get(i));
+        }
+
+        return new ResponseEntity(200, "success", "修改成功");
     }
 }

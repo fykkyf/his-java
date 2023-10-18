@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -125,69 +124,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     * */
     @Override
     public void modifyPatientInfo(PatientInfoDTO patientInfoDTO) {
-        PatientInfo patientInfo = convertPatientInfo(patientInfoDTO);
-        patientInfoMapper.updatePatientInfo(patientInfo);
-    }
-    /*
-    * patientInfoDTO-->patientInfo
-    * */
-    private PatientInfo convertPatientInfo(PatientInfoDTO patientInfoDTO) {
-        PatientInfo patientInfo = new PatientInfo();
-        if (patientInfoDTO.getPatientId()!=null){
-            patientInfo.setPatientId(patientInfoDTO.getPatientId());
-        }
-        if (patientInfoDTO.getPatientName()!=null || !patientInfoDTO.getPatientName().equals("")){
-            patientInfo.setPatientName(patientInfoDTO.getPatientName());
-        }
-        if (patientInfoDTO.getVisitorId()!=null){
-            patientInfo.setVisitorId(patientInfoDTO.getVisitorId());
-        }
-        if (patientInfoDTO.getGender()!=null){
-            patientInfo.setGender(patientInfoDTO.getGender());
-        }
-        if (patientInfoDTO.getAge()!=null){
-            patientInfo.setAge(patientInfoDTO.getAge());
-        }
-        if (patientInfoDTO.getIdNumber()!=null || !patientInfoDTO.getIdNumber().equals("")){
-            patientInfo.setIdNumber(patientInfoDTO.getIdNumber());
-        }
-        if (patientInfoDTO.getUnitId()!=null){
-            patientInfo.setUnitId(patientInfoDTO.getUnitId());
-        }
-        if (patientInfoDTO.getDoctorId()!=null){
-            patientInfo.setDoctorId(patientInfoDTO.getDoctorId());
-        }
-        if (patientInfoDTO.getInsuranceStatus()!=null){
-            patientInfo.setInsuranceStatus(patientInfoDTO.getInsuranceStatus());
-        }
-        if (patientInfoDTO.getInTime()!=null){
-            patientInfo.setInTime(patientInfoDTO.getInTime());
-        }
-        if (patientInfoDTO.getOutTime()!=null){
-            patientInfo.setOutTime(patientInfoDTO.getOutTime());
-        }
-        if (patientInfoDTO.getClinicDiagnosisId()!=null){
-            patientInfo.setClinicDiagnosisId(patientInfoDTO.getClinicDiagnosisId());
-        }
-        if (patientInfoDTO.getAdmissionDiagnosisId()!=null){
-            patientInfo.setAdmissionDiagnosisId(patientInfoDTO.getAdmissionDiagnosisId());
-        }
-        if (patientInfoDTO.getDischargeDiagnosisId()!=null){
-            patientInfo.setDischargeDiagnosisId(patientInfoDTO.getDischargeDiagnosisId());
-        }
-        if (patientInfoDTO.getLocationId()!=null){
-            patientInfo.setLocationId(patientInfoDTO.getLocationId());
-        }
-        if (patientInfoDTO.getPaidTime()!=null){
-            patientInfo.setPaidTime(patientInfoDTO.getPaidTime());
-        }
-        if (patientInfoDTO.getStayStatus()!=null){
-            patientInfo.setStayStatus(patientInfoDTO.getStayStatus());
-        }
-        if (patientInfoDTO.getPaymentStatus()!=null){
-            patientInfo.setPaymentStatus(patientInfoDTO.getPaymentStatus());
-        }
-        return patientInfo;
+        patientInfoMapper.updatePatientInfo(patientInfoDTO);
     }
 
 }
