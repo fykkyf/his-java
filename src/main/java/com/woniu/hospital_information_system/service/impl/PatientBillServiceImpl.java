@@ -53,4 +53,25 @@ public class PatientBillServiceImpl implements PatientBillService {
         }
 
     }
+
+    @Override
+    public void billPaymentStatus(Integer patientBillId) {
+        patientBillMapper.billPaymentStatus(patientBillId);
+    }
+
+    @Override
+    public Double getPaymentSum(List<PatientBillVO> patientBillVOList) {
+        double result = 0;
+        for (PatientBillVO p : patientBillVOList){
+            result = result + p.getFinalPrice();
+        }
+        return result;
+    }
+
+    @Override
+    public List<Integer> getAllBillIds(Integer patientId) {
+        return patientBillMapper.getAllBillIds(patientId);
+    }
+
+
 }

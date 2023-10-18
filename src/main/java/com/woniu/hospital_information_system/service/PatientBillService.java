@@ -9,4 +9,12 @@ public interface PatientBillService {
 
 
     List<PatientBillVO> getPatientBillVO(Integer patientId,Integer insuranceStatus);
+
+    void billPaymentStatus(Integer patientBillId);
+
+    Double getPaymentSum(List<PatientBillVO> patientBillVOList);
+
+    List<Integer> getAllBillIds(Integer patientId);
+
+
 }
