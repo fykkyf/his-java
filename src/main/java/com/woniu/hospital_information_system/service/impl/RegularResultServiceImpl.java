@@ -17,8 +17,15 @@ public class RegularResultServiceImpl implements RegularResultService {
     * 根据patientId查询三测信息
     * */
     @Override
-    public RegularResult getRegularByPatientId(Integer patientId) {
-        List<RegularResult> regularResults = regularResultMapper.selectRegularByPatientId(patientId);
-        return null;
+    public List<RegularResult> getRegularByPatientId(Integer patientId) {
+        return regularResultMapper.selectRegularByPatientId(patientId);
+    }
+
+    /*
+    * 添加三测信息
+    * */
+    @Override
+    public void addRegularResult(RegularResult regularResult) {
+        regularResultMapper.insertRegularResult(regularResult);
     }
 }

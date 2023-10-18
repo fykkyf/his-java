@@ -108,12 +108,19 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     }
 
     /*
+    * 模糊查询住院患者信息
+    * */
+    @Override
+    public List<PatientInfo> getPatientInfoByKeyWord(PatientInfoDTO patientInfoDTO) {
+        return patientInfoMapper.selectPatientInfoByKeyWord(convertPatientInfo(patientInfoDTO));
+    }
+
+    /*
     * 添加出院诊断
     * */
     @Override
     public void dischargeDiagnosis(PatientInfoDTO patientInfoDTO) {
-        PatientInfo patientInfo = convertPatientInfo(patientInfoDTO);
-        patientInfoMapper.dischargeDiagnosis(patientInfo);
+        patientInfoMapper.dischargeDiagnosis(convertPatientInfo(patientInfoDTO));
     }
 
     @Override
@@ -134,8 +141,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     * */
     @Override
     public void modifyPatientInfo(PatientInfoDTO patientInfoDTO) {
-        PatientInfo patientInfo = convertPatientInfo(patientInfoDTO);
-        patientInfoMapper.updatePatientInfo(patientInfo);
+        patientInfoMapper.updatePatientInfo(convertPatientInfo(patientInfoDTO));
     }
 
 

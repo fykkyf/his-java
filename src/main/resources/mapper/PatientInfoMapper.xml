@@ -12,4 +12,34 @@
             resultType="com.woniu.hospital_information_system.entity.PatientInfo">
         select * from patient_info where id_number = #{idNumber}
     </select>
+    <update id="updatePatientInfo">
+        UPDATE patient_info SET
+        <trim prefixOverrides=",">
+            <if test="unitId != null">
+                ,unit_id = #{unitId}
+            </if>
+            <if test="doctorId != null">
+                ,doctor_id = #{doctorId}
+            </if>
+            <if test="admissionDiagnosisId != null">
+                ,admission_diagnosis_id = #{admissionDiagnosisId}
+            </if>
+            <if test="dischargeDiagnosisId != null">
+                ,discharge_diagnosis_id = #{dischargeDiagnosisId}
+            </if>
+            <if test="locationId != null">
+                ,location_id = #{locationId}
+            </if>
+            <if test="locationId == null">
+                ,location_id = null
+            </if>
+            <if test="stayStatus != null">
+                ,stay_status = #{stayStatus}
+            </if>
+            <if test="paymentStatus != null">
+                ,payment_status = #{paymentStatus}
+            </if>
+        </trim>
+        WHERE patient_id = #{patientId}
+    </update>
 </mapper>

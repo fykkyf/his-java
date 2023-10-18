@@ -24,4 +24,6 @@ public interface PatientInfoService {
     void modifyPatientInfo(PatientInfoDTO patientInfoDTO);
     //添加住院患者入院诊断
     void admissionDiagnosis(PatientInfoDTO patientInfoDTO);
+    //模糊查询住院患者信息
+    List<PatientInfo> getPatientInfoByKeyWord(PatientInfoDTO patientInfoDTO);
 }

@@ -36,4 +36,6 @@ public interface PatientInfoMapper {
     //添加入院诊断
     @Update("update patient_info set admission_diagnosis_id = #{admissionDiagnosisId} where patient_id = #{patientId}")
     void admissionDiagnosis(PatientInfo patientInfo);
+    //根据关键字查询
+    List<PatientInfo> selectPatientInfoByKeyWord(PatientInfo convertPatientInfo);
 }

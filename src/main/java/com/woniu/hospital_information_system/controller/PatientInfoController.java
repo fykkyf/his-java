@@ -1,10 +1,13 @@
 package com.woniu.hospital_information_system.controller;
 
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
+import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.service.PatientInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("patientInfo")
@@ -20,11 +23,20 @@ public class PatientInfoController {
     }
 
     /*
-    *根据id查询患者信息
+    *根据患者id查询患者信息
     * */
     @GetMapping("/getById/{patientId}")
     public Object getPatientInfoByPatientInfoId(@PathVariable("patientId") Integer patientId) {
         return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByPatientId(patientId));
+    }
+
+    /*
+    *   模糊查询患者信息
+    * */
+    @PostMapping("/post")
+    public Object getPatientInfoByKeyWord(@RequestBody PatientInfoDTO patientInfoDTO) {
+        List<PatientInfo> patientInfos = patientInfoService.getPatientInfoByKeyWord(patientInfoDTO);
+        return new ResponseEntity(200,"request success",null);
     }
 
     /*
