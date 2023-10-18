@@ -17,7 +17,7 @@ import java.io.IOException;
 public class PatientRaidologyController {
 
     @Autowired
-    PatientRaidologyService PatientRaidologyService;
+    PatientRaidologyService patientRaidologyService;
 
     @PostMapping("/upload")
     //住院检查处，上传图片
@@ -43,7 +43,7 @@ public class PatientRaidologyController {
         }
         try {
             // 后台上传
-            PatientRaidologyService.addPicture(path,fileName,PatientRaidologyId);
+            patientRaidologyService.addPicture(path,fileName,PatientRaidologyId);
             file.transferTo(dest);
             return new ResponseEntity(200, "文件上传成功", fileName);
         }catch (Exception e){
@@ -55,7 +55,7 @@ public class PatientRaidologyController {
     @PostMapping("/getPictureFileName")
     //住院医生界面，带着visitorInfo_id去住院检查表中查出图片的名字fileName
     public ResponseEntity getPictureFileName(@RequestBody VisitorInfo visitorInfo){
-        String fileName=PatientRaidologyService.getPictureFileName(visitorInfo);
+        String fileName=patientRaidologyService.getPictureFileName(visitorInfo);
         return new ResponseEntity(200,"ok",fileName);
     }
 }
