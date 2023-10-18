@@ -127,7 +127,7 @@ public class TreatmentController {
 
     //门诊发药操作
     @Transactional
-    @PostMapping("/selectOmd")
+    @PostMapping("/omd")
     public Object omd(@RequestBody  List<OmdVO> omdVOS){
         List<Integer> vbids = null;
         List<Integer> coids = null;

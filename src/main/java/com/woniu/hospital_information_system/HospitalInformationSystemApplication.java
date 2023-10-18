@@ -6,7 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan
+@MapperScan("com.woniu.hospital_information_system.mapper")
 @SpringBootApplication
 public class HospitalInformationSystemApplication {
 
