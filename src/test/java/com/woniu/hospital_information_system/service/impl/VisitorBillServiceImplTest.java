@@ -13,18 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class VisitorBillServiceImplTest {
     @Autowired
     VisitorBillMapper visitorBillMapper;
-    @Test
-    void changeAllpayment() {
-        List<VisitorBill> bills =  visitorBillMapper.getAllBillsByVisitorId(1);
-        double sum  = 0;
-
-        for (VisitorBill visitorBill : bills){
-            visitorBillMapper.changePaymentStatus(visitorBill.getVisitorBillId());
-
-            sum =sum +  visitorBill.getTreatmentPrice();
-        }
-
-    }
 
     @Test
     void changeAllStatus() {

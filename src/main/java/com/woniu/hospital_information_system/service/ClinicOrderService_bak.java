@@ -1,10 +1,9 @@
 package com.woniu.hospital_information_system.service;
 
 import com.woniu.hospital_information_system.entity.ClinicOrder;
-import org.springframework.stereotype.Service;
 
-
-public interface ClinicOrderService {
+public interface ClinicOrderService_bak {
     void addClinicOrder(ClinicOrder clinicOrder);
+
 
 }

@@ -14,4 +14,6 @@ public class User {
     private Integer employeeId;
     private String verifycode;
     private String uuid;
+    private String email;
+    private Integer isdelete;
 }

@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface VisitorBillService {
-    void addVisitorBillByVisitorIdAndEmployeeId(Integer visitorId, Integer treatmentId, Double treatmentPrice, Timestamp orderDate);
+    void addVisitorBillByVisitorIdAndEmployeeId(Integer visitorId, Integer treatmentId, Double treatmentPrice);
 
     Double getPriceByTreatmentId(Integer treatmentId);
 
