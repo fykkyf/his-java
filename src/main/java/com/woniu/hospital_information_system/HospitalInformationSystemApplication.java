@@ -12,7 +12,7 @@ public class HospitalInformationSystemApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HospitalInformationSystemApplication.class, args);
-        System.out.println("我是六哥");
+
     }
 
 }
