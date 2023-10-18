@@ -19,6 +19,5 @@ public class RegularResult {
     private Double sugar;
     private Double temp;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-
     private LocalDateTime testDate;
 }

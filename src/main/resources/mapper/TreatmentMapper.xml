@@ -39,8 +39,8 @@
         select * from treatment where drug_code=#{drugCode}
     </select>
 
-    <insert id="addTreatment">
+    <insert id="addTreatment" parameterType="TreatmentDTO">
         insert into treatment values (null, #{treatmentName}, #{drugCode}, #{manufacturer}, #{productionTime},
-                                         #{expiredTime}, #{storage}, #{specification}, #{treatmentPrice}, #{insurancePrice},1,0))
+                                         #{expiredTime}, #{storage}, #{specification}, #{treatmentPrice}, #{insurancePrice},1,1))
     </insert>
 </mapper>

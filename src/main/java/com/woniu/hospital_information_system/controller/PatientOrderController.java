@@ -49,18 +49,26 @@ public class PatientOrderController {
 
         return new ResponseEntity(200,"success","办理成功");
     }
-    //护士审核出院医嘱
+    /*
+    * 护士审核医嘱
+    * */
     @PostMapping("/checkDischarge")
-    public ResponseEntity checkDischarge(@RequestBody Integer status, PatientInfoDTO patientInfoDTO){
-        patientOrderService.checkDischarge(status,patientInfoDTO.getPatientId());
-        if(status==2){
-            locationService.updateLocationStatusEmpty(patientInfoDTO.getLocationId());
-            patientInfoService.updateLocationId(patientInfoDTO.getPatientId());
-            return new ResponseEntity(200,"success","办理成功");
-
-        }else {
-            return new ResponseEntity(200,"success","驳回成功");
-
-        }
+    public ResponseEntity checkDischarge(@RequestBody PatientOrderDTO patientOrderDTO){
+        patientOrderService.modifyPatientOrderByPatientId(patientOrderDTO);
+        return new ResponseEntity(200,"request success",null);
     }
+
+    //护士审核出院医嘱
+//    @PostMapping("/checkDischarge")
+//    public ResponseEntity checkDischarge(@RequestBody Integer status, PatientInfoDTO patientInfoDTO){
+//        patientOrderService.checkDischarge(status,patientInfoDTO.getPatientId());
+//        if(status==2){
+//            locationService.updateLocationStatusEmpty(patientInfoDTO.getLocationId());
+//            patientInfoService.updateLocationId(patientInfoDTO.getPatientId());
+//            return new ResponseEntity(200,"success","办理成功");
+//        }else {
+//            return new ResponseEntity(200,"success","驳回成功");
+//
+//        }
+//    }
 }

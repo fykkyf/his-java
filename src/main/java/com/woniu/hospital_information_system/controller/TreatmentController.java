@@ -30,7 +30,7 @@ public class TreatmentController {
         treatmentDTO.setTreatmentStatus(1);
         return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
     }
-    //医生下达医嘱/药房盘点，减少库存
+    //近期药品处理、药房盘点，减少库存
     @PostMapping("/reduceStorage")
     public Object reduceStorage(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentService.reduceStorage(treatmentDTO);
@@ -63,11 +63,6 @@ public class TreatmentController {
     public Object selectAllTreatment3(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentDTO.setTreatmentCategory(1);
         treatmentDTO.setTreatmentStatus(1);
-
-        Date currentDate = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        //String formattedDate = formatter.format(currentDate);
-       // treatmentDTO.setExpiredTime1(formatter.format(currentDate));
         List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatmentByExptime(treatmentDTO);
         List<String> treatmentVOS1 = new ArrayList<>();
         for (TreatmentVO treatmentVO : treatmentVOS){
@@ -79,10 +74,10 @@ public class TreatmentController {
     }
 
 
-    //根据国家药品编号查询，如果药品不存在，insert一条新的数据，如果存在，更改药品库存库存
-    @PostMapping("/addTreatment")
-    public Object addTreatment(@RequestBody  TreatmentDTO treatmentDTO){
-        if ((treatmentService.selectAllByCode(treatmentDTO)).size()==0){
+    //药品添加 根据国家药品编号查询，如果药品不存在，insert一条新的数据，如果存在，更改药品库存库存
+    @PostMapping("/addTreatment1")
+    public Object addTreatment1(@RequestBody  TreatmentDTO treatmentDTO){
+        if ((treatmentService.selectAllTreatment(treatmentDTO)).size()==0){
             treatmentService.addTreatment(treatmentDTO);
         }else{
             treatmentService.updateStorage(treatmentDTO);
@@ -101,6 +96,17 @@ public class TreatmentController {
     public Object updateTreatment(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentService.updateTreatment(treatmentDTO);
         return new ResponseEntity(200,"","修改成功！");
+    }
+
+    //添加项目 (管理员)
+    @PostMapping("/addTreatment")
+    public Object addTreatment(@RequestBody  TreatmentDTO treatmentDTO){
+        if (treatmentService.selectTreatmentByName(treatmentDTO)!=null){
+            return new ResponseEntity(200,"","项目已存在，请勿重复添加！");
+        }else{
+            treatmentService.addTreatment1(treatmentDTO);
+            return new ResponseEntity(200,"","添加完成");
+        }
     }
 
 
