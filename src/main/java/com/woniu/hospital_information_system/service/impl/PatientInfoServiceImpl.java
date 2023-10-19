@@ -1,8 +1,9 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
-import com.woniu.hospital_information_system.entity.Location;
-import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.InsuranceInfoService;
@@ -40,55 +41,17 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     * 获取所有住院患者信息
     * */
     @Override
-    public List<PatientInfoVO> getAllPatientInfos() {
+    public PatientInfoVO getAllPatientInfos(int pageNum,int pageSize) {
         List<PatientInfo> patientInfos = patientInfoMapper.selectAllPatientInfos();
-        List<PatientInfoVO> patientInfoVOS = new ArrayList<>();
-        for (PatientInfo patientInfo : patientInfos) {
-            PatientInfoVO patientInfoVO = new PatientInfoVO();
-            patientInfoVO.setPatientId(patientInfo.getPatientId());
-            if (patientInfo.getVisitorId()!=null){
-                patientInfoVO.setVisitorId(patientInfo.getVisitorId());
-            }
-            patientInfoVO.setPatientName(patientInfo.getPatientName());
-            patientInfoVO.setAge(patientInfo.getAge());
-            patientInfoVO.setGender(patientInfo.getGender());
-            patientInfoVO.setIdNumber(patientInfo.getIdNumber());
-            patientInfoVO.setInsuranceStatus(patientInfo.getInsuranceStatus());
-            patientInfoVO.setInTime(patientInfo.getInTime());
-            if (patientInfo.getOutTime()!=null){
-                patientInfoVO.setOutTime(patientInfo.getOutTime());
-            }
-            if (patientInfo.getLocationId()!=null){
-                patientInfoVO.setLocationId(patientInfo.getLocationId());
-            }
-            if (patientInfo.getPaidTime()!=null){
-                patientInfoVO.setPaidTime(patientInfo.getPaidTime());
-            }
-            patientInfoVO.setStayStatus(patientInfo.getStayStatus());
-            patientInfoVO.setPaymentStatus(patientInfo.getPaymentStatus());
-            //获取科室
-            if (patientInfo.getUnitId()!=null){
-                patientInfoVO.setUnit(unitMapper.selectUnitByUnitId(patientInfo.getUnitId()));
-            }
-            //获取医生
-            if (patientInfo.getDoctorId()!=null){
-                patientInfoVO.setEmployee(employeeMapper.selectEmployeeById(patientInfo.getDoctorId()));
-            }
-            //获取疾病--门诊诊断
-            if(patientInfo.getClinicDiagnosisId()!=null){
-                patientInfoVO.setClinicDiagnosis(diseaseMapper.selectDiseaseById(patientInfo.getClinicDiagnosisId()));
-            }
-            //获取疾病--入院诊断
-            if(patientInfo.getAdmissionDiagnosisId()!=null){
-                patientInfoVO.setAdmissionDiagnosis(diseaseMapper.selectDiseaseById(patientInfo.getAdmissionDiagnosisId()));
-            }
-            //获取疾病--出院诊断
-            if(patientInfo.getDischargeDiagnosisId()!=null){
-                patientInfoVO.setDischargeDiagnosis(diseaseMapper.selectDiseaseById(patientInfo.getDischargeDiagnosisId()));
-            }
-            patientInfoVOS.add(patientInfoVO);
-        }
-        return patientInfoVOS;
+        //分页
+        PageHelper.startPage(pageNum,pageSize);
+        PageInfo<PatientInfo> info = new PageInfo<>(patientInfos);
+        PatientInfoVO patientInfoVO = new PatientInfoVO();
+        patientInfoVO.setPageNum(pageNum);
+        patientInfoVO.setPageSize(pageSize);
+        patientInfoVO.setTotal((int) info.getTotal());
+        patientInfoVO.setPatientInfos(patientInfos);
+        return patientInfoVO;
     }
 
     /*
@@ -103,7 +66,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         //有门诊id就添加门诊ID、门诊诊断ID
         if (patientInfoDTO.getVisitorId() != null) {
             patientInfo.setVisitorId(patientInfoDTO.getVisitorId());
-            patientInfo.setClinicDiagnosisId(visitorInfoService.getVisitorInfoByVisitorId(patientInfoDTO.getVisitorId()).getDiseaseId());
+//            patientInfo.setClinicDiagnosisId(visitorInfoService.getVisitorInfoByVisitorId(patientInfoDTO.getVisitorId()).getDiseaseId());
         }
         //根据身份证号查询住院患者信息
         List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfoByIdNumber(patientInfoDTO.getIdNumber());
@@ -118,8 +81,8 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfo.setAge(patientInfoDTO.getAge());//年龄
         patientInfo.setGender(patientInfoDTO.getGender());//性别
         patientInfo.setIdNumber(patientInfoDTO.getIdNumber());//身份证号
-        patientInfo.setUnitId(patientInfoDTO.getUnitId());//科室id
-        patientInfo.setDoctorId(patientInfoDTO.getDoctorId());//医生id
+//        patientInfo.setUnitId(patientInfoDTO.getUnitId());//科室id
+//        patientInfo.setDoctorId(patientInfoDTO.getDoctorId());//医生id
         //根据身份证查询医保信息
         if (insuranceInfoService.getInsuranceInfoByIdNumber(patientInfoDTO.getIdNumber()) != null) {
             //有医保
@@ -223,10 +186,14 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             patientInfo.setIdNumber(patientInfoDTO.getIdNumber());
         }
         if (patientInfoDTO.getUnitId()!=null){
-            patientInfo.setUnitId(patientInfoDTO.getUnitId());
+            Unit unit = new Unit();
+            unit.setUnitId(patientInfoDTO.getUnitId());
+            patientInfo.setUnit(unit);
         }
         if (patientInfoDTO.getDoctorId()!=null){
-            patientInfo.setDoctorId(patientInfoDTO.getDoctorId());
+            Employee employee = new Employee();
+            employee.setEmployeeId(patientInfoDTO.getDoctorId());
+            patientInfo.setEmployee(employee);
         }
         if (patientInfoDTO.getInsuranceStatus()!=null){
             patientInfo.setInsuranceStatus(patientInfoDTO.getInsuranceStatus());
@@ -238,13 +205,19 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             patientInfo.setOutTime(patientInfoDTO.getOutTime());
         }
         if (patientInfoDTO.getClinicDiagnosisId()!=null){
-            patientInfo.setClinicDiagnosisId(patientInfoDTO.getClinicDiagnosisId());
+            Disease disease = new Disease();
+            disease.setDiseaseId(patientInfoDTO.getClinicDiagnosisId());
+            patientInfo.setClinicDiagnosis(disease);
         }
         if (patientInfoDTO.getAdmissionDiagnosisId()!=null){
-            patientInfo.setAdmissionDiagnosisId(patientInfoDTO.getAdmissionDiagnosisId());
+            Disease disease = new Disease();
+            disease.setDiseaseId(patientInfoDTO.getAdmissionDiagnosisId());
+            patientInfo.setAdmissionDiagnosis(disease);
         }
         if (patientInfoDTO.getDischargeDiagnosisId()!=null){
-            patientInfo.setDischargeDiagnosisId(patientInfoDTO.getDischargeDiagnosisId());
+            Disease disease = new Disease();
+            disease.setDiseaseId(patientInfoDTO.getDischargeDiagnosisId());
+            patientInfo.setDischargeDiagnosis(disease);
         }
         if (patientInfoDTO.getLocationId()!=null){
             patientInfo.setLocationId(patientInfoDTO.getLocationId());

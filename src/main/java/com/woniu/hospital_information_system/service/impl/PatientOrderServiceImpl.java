@@ -4,6 +4,7 @@ package com.woniu.hospital_information_system.service.impl;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.Disease;
 import com.woniu.hospital_information_system.entity.PatientBill;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
@@ -54,7 +55,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                     //是出院项目---添加出院诊断
                     PatientInfo patientInfo = new PatientInfo();
                     patientInfo.setPatientId(patientOrderDTO.getPatientId());
-                    patientInfo.setDischargeDiagnosisId(patientOrderDTO.getDischargeDiagnosisId());
+                    Disease disease = new Disease();
+                    disease.setDiseaseId(patientOrderDTO.getDischargeDiagnosisId());
+                    patientInfo.setDischargeDiagnosis(disease);
                     patientInfoMapper.dischargeDiagnosis(patientInfo);//添加出院诊断
                     patientBillMapper.dischargePatient(patientInfo.getPatientId());//添加出院费用--记账状态码为-1(未记账)
                 }else {

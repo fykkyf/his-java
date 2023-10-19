@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface PatientInfoMapper {
     //查询所有住院患者信息
-    @Select("select * from patient_info")
+//    @Select("select * from patient_info")
     List<PatientInfo> selectAllPatientInfos();
     //添加住院患者信息
     void insertPatientInfo(PatientInfo patientInfo);
@@ -22,7 +22,7 @@ public interface PatientInfoMapper {
     @Update("update patient_info set location_id = #{locationId} where patient_id = #{patientId}")
     void updatePatientInfoByPatientInfoId(@Param("patientId") int patientId, @Param("locationId") int locationId);
     //添加出院诊断
-    @Update("update patient_info set discharge_diagnosis_id = #{dischargeDiagnosisId} where patient_id = #{patientId}")
+    @Update("update patient_info set discharge_diagnosis_id = #{dischargeDiagnosis.diseaseId} where patient_id = #{patientId}")
     void dischargeDiagnosis(PatientInfo patientInfo);
     //清空床位信息
     @Update("update  patient_info set location_id = null where patient_id = #{patientId}")
@@ -34,7 +34,7 @@ public interface PatientInfoMapper {
 //    @Update("update patient_info set unit_id = #{unitId},doctor_id = #{doctorId} where patient_id = #{patientId} ")
     void updatePatientInfo(PatientInfo patientInfo);
     //添加入院诊断
-    @Update("update patient_info set admission_diagnosis_id = #{admissionDiagnosisId} where patient_id = #{patientId}")
+    @Update("update patient_info set admission_diagnosis_id = #{admissionDiagnosis.diseaseId} where patient_id = #{patientId}")
     void admissionDiagnosis(PatientInfo patientInfo);
     //根据关键字查询
     List<PatientInfo> selectPatientInfoByKeyWord(PatientInfo convertPatientInfo);

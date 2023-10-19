@@ -23,6 +23,6 @@ class PatientInfoServiceImplTest {
 //        patientInfoDTO.setIdNumber("110120200001010201");
 //        patientInfoDTO.setGender(1);
 //        patientInfoService.addPatientInfo(patientInfoDTO);
-        System.out.println(patientInfoService.getAllPatientInfos());
+//        System.out.println(patientInfoService.getAllPatientInfos());
     }
 }

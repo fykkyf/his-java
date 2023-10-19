@@ -36,4 +36,6 @@ public class PatientInfoDTO {
     private LocalDateTime paidTime;
     private Integer stayStatus;
     private Integer paymentStatus;
+    private Integer pageSize;
+    private Integer pageNum;
 }
