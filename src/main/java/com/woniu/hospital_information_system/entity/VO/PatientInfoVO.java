@@ -1,36 +1,37 @@
-package com.woniu.hospital_information_system.entity.DTO;
+package com.woniu.hospital_information_system.entity.VO;
 
-import cn.hutool.core.date.DateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.woniu.hospital_information_system.entity.PatientInfo;
+import com.woniu.hospital_information_system.entity.Disease;
+import com.woniu.hospital_information_system.entity.Employee;
+import com.woniu.hospital_information_system.entity.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class PatientInfoDTO {
+@NoArgsConstructor
+//住院患者信息表
+public class PatientInfoVO {
     private Integer patientId;
     private Integer visitorId;
     private String patientName;
     private Integer gender;
     private Integer age;
     private String idNumber;
-    private Integer unitId;
-    private Integer doctorId;
+    private Unit unit;
+    private Employee employee;
     private Integer insuranceStatus;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     private LocalDateTime inTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     private LocalDateTime outTime;
-    private Integer clinicDiagnosisId;
-    private Integer admissionDiagnosisId;
-    private Integer dischargeDiagnosisId;
+    private Disease clinicDiagnosis;//门诊疾病
+    private Disease admissionDiagnosis;//入院诊断
+    private Disease dischargeDiagnosis;//出院诊断
     private Integer locationId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime paidTime;

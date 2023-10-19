@@ -26,9 +26,9 @@ public class PatientInfo {
     private Integer unitId;
     private Integer doctorId;
     private Integer insuranceStatus;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     private LocalDateTime inTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
     private LocalDateTime outTime;
     private Integer clinicDiagnosisId;
     private Integer admissionDiagnosisId;

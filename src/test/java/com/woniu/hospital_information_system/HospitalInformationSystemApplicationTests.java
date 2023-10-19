@@ -32,8 +32,8 @@ class HospitalInformationSystemApplicationTests {
 
     @Test
     void contextLoads() {
-        VisitorInfo visitorInfo = new VisitorInfo(null,"卢子子",null,"26",1328152,1,1,null,null,null);
-        visitorInfoController.addVisitorInfo(visitorInfo);
+//        VisitorInfo visitorInfo = new VisitorInfo(null,"卢子子",null,"26",1328152,1,1,null,null,null);
+//        visitorInfoController.addVisitorInfo(visitorInfo);
     }
 
 

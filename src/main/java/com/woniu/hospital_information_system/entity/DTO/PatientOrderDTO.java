@@ -23,4 +23,6 @@ public class PatientOrderDTO {
     private DateTime dispenseTime;
     private Integer executionStatus;
     private Integer orderType;
+    private Integer admissionDiagnosisId;
+    private Integer dischargeDiagnosisId;
 }
