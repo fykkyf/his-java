@@ -220,7 +220,9 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             patientInfo.setDischargeDiagnosis(disease);
         }
         if (patientInfoDTO.getLocationId()!=null){
-            patientInfo.setLocationId(patientInfoDTO.getLocationId());
+            Location location = new Location();
+            location.setLocationId(patientInfoDTO.getLocationId());
+            patientInfo.setLocation(location);
         }
         if (patientInfoDTO.getPaidTime()!=null){
             patientInfo.setPaidTime(patientInfoDTO.getPaidTime());

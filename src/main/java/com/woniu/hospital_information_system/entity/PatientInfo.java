@@ -30,7 +30,7 @@ public class PatientInfo {
     private Disease clinicDiagnosis;//门诊疾病
     private Disease admissionDiagnosis;//入院诊断
     private Disease dischargeDiagnosis;//出院诊断
-    private Integer locationId;
+    private Location location;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime paidTime;
     private Integer stayStatus;

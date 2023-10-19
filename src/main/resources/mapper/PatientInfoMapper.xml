@@ -49,8 +49,8 @@
     <!--根据关键字查询-->
     <select id="selectPatientInfoByKeyWord"
             resultMap="PatientInfoMap">
-        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,pi.location_id,
-        pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,l.location_id,
+        l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
         clinic_d.disease_id AS clinic_disease_id,
         clinic_d.disease_name AS clinic_disease_name,
         admission_d.disease_id AS admission_disease_id,
@@ -60,6 +60,7 @@
         FROM patient_info pi
         LEFT JOIN unit u ON pi.unit_id = u.unit_id
         LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+        LEFT JOIN location l ON pi.location_id = l.location_id
         LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
         LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
         LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
@@ -103,8 +104,8 @@
             <if test="dischargeDiagnosis != null">
                 and pi.discharge_diagnosis_id = #{dischargeDiagnosis.diseaseId}
             </if>
-            <if test="locationId != null">
-                and pi.location_id = #{locationId}
+            <if test="location != null">
+                and pi.location_id = #{location.locationId}
             </if>
             <if test="paidTime != null">
                 and pi.paid_time = #{paidTime}
@@ -127,10 +128,13 @@
         <result property="insuranceStatus" column="insurance_status" />
         <result property="inTime" column="in_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
         <result property="outTime" column="out_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
-        <result property="locationId" column="location_id" />
         <result property="paidTime" column="paid_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
         <result property="stayStatus" column="stay_status" />
         <result property="paymentStatus" column="payment_status" />
+        <association property="location" javaType="location">
+            <id property="locationId" column="location_id"></id>
+            <result property="locationName" column="location_name"></result>
+        </association>
         <association property="unit" javaType="unit" >
             <id property="unitId" column="unit_id"></id>
             <result property="unitName" column="unit_name"></result>
@@ -163,7 +167,8 @@
             pi.insurance_status,
             pi.in_time,
             pi.out_time,
-            pi.location_id,
+            l.location_id,
+            l.location_name,
             pi.paid_time,
             pi.stay_status,
             pi.payment_status,
@@ -180,6 +185,7 @@
         FROM patient_info pi
                  LEFT JOIN unit u ON pi.unit_id = u.unit_id
                  LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+                 LEFT JOIN location l ON pi.location_id = l.location_id
                  LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
                  LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
                  LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
