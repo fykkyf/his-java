@@ -14,4 +14,6 @@ public interface EmployeeMapper {
 
     @Select("select * from employee ")
     List<Employee> getAllEmployees();
+    @Select("select * from employee where employee_id = #{employeeId}")
+    Employee selectEmployeeById(Integer employeeId);
 }

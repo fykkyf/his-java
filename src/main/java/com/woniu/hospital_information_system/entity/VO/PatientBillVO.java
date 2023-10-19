@@ -16,4 +16,5 @@ public class PatientBillVO {
     private Double treatmentPrice;
     private Double insurancePrice;
     private Double finalPrice;
+    private boolean paystatus;
 }

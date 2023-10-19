@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
@@ -17,9 +18,9 @@ public class PatientInfoController {
     /*
     * 查询所有住院患者信息
     * */
-    @GetMapping("/get/all")
-    public Object getAllPatientInfo() {
-        return new ResponseEntity(200,"request success",patientInfoService.getAllPatientInfos());
+    @PostMapping("/get/all")
+    public Object getAllPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
+        return new ResponseEntity(200,"request success",patientInfoService.getAllPatientInfos(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize()));
     }
 
     /*
@@ -35,7 +36,7 @@ public class PatientInfoController {
     * */
     @PostMapping("/getByKeyWord")
     public Object getPatientInfoByKeyWord(@RequestBody PatientInfoDTO patientInfoDTO) {
-        return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByKeyWord(patientInfoDTO));
+        return new ResponseEntity(200,"request success",new PageInfo<>(patientInfoService.getPatientInfoByKeyWord(patientInfoDTO)));
     }
 
     /*

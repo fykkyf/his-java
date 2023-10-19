@@ -16,4 +16,7 @@ public interface UnitMapper {
     void update(Unit unit);
     @Delete("delete from unit where unit_id = #{unitId}")
     void remove(int unitId);
+    //根据科室id查询科室信息
+    @Select("select * from unit where unit_id = #{unitId}")
+    Unit selectUnitByUnitId(int unitId);
 }

@@ -1,9 +1,11 @@
 package com.woniu.hospital_information_system.controller;
 
 import cn.hutool.core.date.DateTime;
+import com.woniu.hospital_information_system.entity.DTO.ImdDTO;
 import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.ImdVO;
 import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.service.TreatmentService;
@@ -119,9 +121,15 @@ public class TreatmentController {
     }
 
     //门诊发药查询
-    //添加项目 (管理员)
+    //门诊发药查询、根据下单日期(前端默认当天日期)/门诊就诊ID 查询需要发药的患者ID和姓名
+    @PostMapping("/selectVisitorByOmd")
+    public Object selectVisitorByOmd(@RequestBody OmdDTO omdDTO){
+        return new ResponseEntity(200,"",treatmentService.selectVisitorByOmd(omdDTO));
+    }
+    //根据门诊号或者日期查询明细
     @PostMapping("/selectOmd")
     public Object selectOmd(@RequestBody OmdDTO omdDTO){
+        System.out.println(omdDTO);
             return new ResponseEntity(200,"",treatmentService.selectOmd(omdDTO));
     }
 
@@ -130,19 +138,38 @@ public class TreatmentController {
     @PostMapping("/omd")
     public Object omd(@RequestBody  List<OmdVO> omdVOS){
         List<Integer> vbids = null;
-        List<Integer> coids = null;
         for (OmdVO omdVO:omdVOS){
             treatmentService.updatestorageById(omdVO);
             vbids.add(omdVO.getVisitorBillId());
-            coids.add(omdVO.getClinicOrderId());
         }
         treatmentService.updateMsById(vbids);
-        treatmentService.updateDtById(coids);
         return new ResponseEntity(200,"","发药完成！");
     }
 
 
+    //住院发药查询、根据记账日期(前端默认当天日期)/住院ID(可传) 查询需要发药的患者ID和姓名
+    @PostMapping("/selectPatientByImd")
+    public Object selectPatientByImd(@RequestBody ImdDTO imdDTO){
+        return new ResponseEntity(200,"",treatmentService.selectPatientByImd(imdDTO));
+    }
+    //根据住院号或者日期查询明细
+    @PostMapping("/selectImd")
+    public Object selectImd(@RequestBody ImdDTO imdDTO){
+        return new ResponseEntity(200,"",treatmentService.selectImd(imdDTO));
+    }
 
+    //住院发药操作
+    @Transactional
+    @PostMapping("/imd")
+    public Object imd(@RequestBody  List<ImdVO> imdVOS){
+        List<Integer> pbids = null;
+        for (ImdVO imdVO:imdVOS){
+            treatmentService.updatestorageByImId(imdVO);
+            pbids.add(imdVO.getPatientBillId());
+        }
+        treatmentService.updatePbById(pbids);
+        return new ResponseEntity(200,"","发药完成！");
+    }
 
 
 

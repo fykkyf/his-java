@@ -1,7 +1,9 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.DTO.ImdDTO;
 import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.ImdVO;
 import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.mapper.TreatmentMapper;
@@ -64,6 +66,11 @@ public class TreatmentImpl implements TreatmentService {
     }
 
     @Override
+    public List<OmdVO> selectVisitorByOmd(OmdDTO omdDTO) {
+        return treatmentMapper.selectVisitorByOmd(omdDTO);
+    }
+
+    @Override
     public List<OmdVO> selectOmd(OmdDTO omdDTO) {
         return treatmentMapper.selectOmd(omdDTO);
     }
@@ -73,13 +80,29 @@ public class TreatmentImpl implements TreatmentService {
         treatmentMapper.updateMsById(vbids);
     }
 
-    @Override
-    public void updateDtById(List<Integer> coids) {
-        treatmentMapper.updateDtById(coids);
-    }
 
     @Override
     public void updatestorageById(OmdVO omdVO) {
         treatmentMapper.updatestorageById(omdVO);
+    }
+
+    @Override
+    public List<ImdVO> selectPatientByImd(ImdDTO imdDTO) {
+        return treatmentMapper.selectPatientByImd(imdDTO);
+    }
+
+    @Override
+    public List<ImdVO> selectImd(ImdDTO imdDTO) {
+        return treatmentMapper.selectImd(imdDTO);
+    }
+
+    @Override
+    public void updatePbById(List<Integer> pbids) {
+        treatmentMapper.updatePbById(pbids);
+    }
+
+    @Override
+    public void updatestorageByImId(ImdVO imdVO) {
+        treatmentMapper.updatestorageByImId(imdVO);
     }
 }

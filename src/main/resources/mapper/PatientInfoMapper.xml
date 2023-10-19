@@ -5,27 +5,31 @@
 <!--namespace命名空间：对应的接口的全类名-->
 <mapper namespace="com.woniu.hospital_information_system.mapper.PatientInfoMapper">
     <insert id="insertPatientInfo">
-        insert into patient_info values (null,#{visitorId},#{patientName},#{gender},#{age},#{idNumber},#{unitId},#{doctorId},#{insuranceStatus},now(),
-                                         null,#{clinicDiagnosisId},null,null,null,null,0,0)
+        insert into patient_info
+        values (null, #{visitorId}, #{patientName}, #{gender}, #{age}, #{idNumber}, #{unit.unitId}, #{employee.employeeId},
+                #{insuranceStatus}, now(),
+                null, #{clinicDiagnosis.diseaseId}, null, null, null, null, 0, 0)
     </insert>
     <select id="selectPatientInfoByIdNumber"
             resultType="com.woniu.hospital_information_system.entity.PatientInfo">
-        select * from patient_info where id_number = #{idNumber}
+        select *
+        from patient_info
+        where id_number = #{idNumber}
     </select>
     <update id="updatePatientInfo">
         UPDATE patient_info SET
         <trim prefixOverrides=",">
-            <if test="unitId != null">
-                ,unit_id = #{unitId}
+            <if test="unit != null">
+                ,unit_id = #{unit.unitId}
             </if>
-            <if test="doctorId != null">
-                ,doctor_id = #{doctorId}
+            <if test="employee != null">
+                ,doctor_id = #{employee.employeeId}
             </if>
-            <if test="admissionDiagnosisId != null">
-                ,admission_diagnosis_id = #{admissionDiagnosisId}
+            <if test="admissionDiagnosis != null">
+                ,admission_diagnosis_id = #{admissionDiagnosis.diseaseId}
             </if>
-            <if test="dischargeDiagnosisId != null">
-                ,discharge_diagnosis_id = #{dischargeDiagnosisId}
+            <if test="dischargeDiagnosis != null">
+                ,discharge_diagnosis_id = #{dischargeDiagnosis.diseaseId}
             </if>
             <if test="locationId != null">
                 ,location_id = #{locationId}
@@ -44,60 +48,146 @@
     </update>
     <!--根据关键字查询-->
     <select id="selectPatientInfoByKeyWord"
-            resultType="com.woniu.hospital_information_system.entity.PatientInfo">
-        select * from patient_info
+            resultMap="PatientInfoMap">
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,l.location_id,
+        l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
+        clinic_d.disease_id AS clinic_disease_id,
+        clinic_d.disease_name AS clinic_disease_name,
+        admission_d.disease_id AS admission_disease_id,
+        admission_d.disease_name AS admission_disease_name,
+        discharge_d.disease_id AS discharge_disease_id,
+        discharge_d.disease_name AS discharge_disease_name
+        FROM patient_info pi
+        LEFT JOIN unit u ON pi.unit_id = u.unit_id
+        LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+        LEFT JOIN location l ON pi.location_id = l.location_id
+        LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
+        LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
+        LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
         <where>
             <if test="patientId!=null">
-                patient_id = #{patientId}
+                pi.patient_id = #{patientId}
             </if>
             <if test="patientName != null and patientName != ''">
-                and patient_name = #{patientName}
+                and pi.patient_name like "%${patientName}%"
             </if>
             <if test="gender != null">
-                and gender = #{gender}
+                and pi.gender = #{gender}
             </if>
             <if test="age != null">
-                and age = #{age}
+                and pi.age = #{age}
             </if>
             <if test="idNumber != null and idNumber != ''">
-                and id_number = #{idNumber}
+                and pi.id_number like "%${idNumber}%"
             </if>
-            <if test="unitId != null">
-                and unit_id = #{unitId}
+            <if test="unit != null">
+                and pi.unit_id = #{unit.unitId}
             </if>
-            <if test="doctorId != null">
-                and doctor_id = #{doctorId}
+            <if test="employee != null">
+                and pi.doctor_id = #{employee.employeeId}
             </if>
             <if test="insuranceStatus != null">
-                and insurance_status = #{insuranceStatus}
+                and pi.insurance_status = #{insuranceStatus}
             </if>
             <if test="inTime != null">
-                and in_time = #{inTime}
+                and pi.in_time = #{inTime}
             </if>
             <if test="outTime != null">
-                and out_time = #{outTime}
+                and pi.out_time = #{outTime}
             </if>
-            <if test="clinicDiagnosisId != null">
-                and clinic_diagnosis_id = #{clinicDiagnosisId}
+            <if test="clinicDiagnosis != null">
+                and pi.clinic_diagnosis_id = #{clinicDiagnosis.diseaseId}
             </if>
-            <if test="admissionDiagnosisId != null">
-                and admission_diagnosis_id = #{admissionDiagnosisId}
+            <if test="admissionDiagnosis != null">
+                and pi.admission_diagnosis_id = #{admissionDiagnosis.diseaseId}
             </if>
-            <if test="dischargeDiagnosisId != null">
-                and discharge_diagnosis_id = #{dischargeDiagnosisId}
+            <if test="dischargeDiagnosis != null">
+                and pi.discharge_diagnosis_id = #{dischargeDiagnosis.diseaseId}
             </if>
-            <if test="locationId != null">
-                and location_id = #{locationId}
+            <if test="location != null">
+                and pi.location_id = #{location.locationId}
             </if>
             <if test="paidTime != null">
-                and paid_time = #{paidTime}
+                and pi.paid_time = #{paidTime}
             </if>
             <if test="stayStatus != null">
-                and stay_status = #{stayStatus}
+                and pi.stay_status = #{stayStatus}
             </if>
             <if test="paymentStatus != null">
-                and payment_status = #{paymentStatus}
+                and pi.payment_status = #{paymentStatus}
             </if>
         </where>
+    </select>
+    <resultMap id="PatientInfoMap" type="patientInfo">
+        <id property="patientId" column="patient_id" />
+        <result property="visitorId" column="visitor_id" />
+        <result property="patientName" column="patient_name" />
+        <result property="gender" column="gender" />
+        <result property="age" column="age" />
+        <result property="idNumber" column="id_number" />
+        <result property="insuranceStatus" column="insurance_status" />
+        <result property="inTime" column="in_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+        <result property="outTime" column="out_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+        <result property="paidTime" column="paid_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
+        <result property="stayStatus" column="stay_status" />
+        <result property="paymentStatus" column="payment_status" />
+        <association property="location" javaType="location">
+            <id property="locationId" column="location_id"></id>
+            <result property="locationName" column="location_name"></result>
+        </association>
+        <association property="unit" javaType="unit" >
+            <id property="unitId" column="unit_id"></id>
+            <result property="unitName" column="unit_name"></result>
+        </association>
+        <association property="employee" javaType="employee" >
+            <id property="employeeId" column="employee_id"></id>
+            <result property="employeeName" column="employee_name"></result>
+        </association>
+        <association property="clinicDiagnosis" javaType="disease">
+            <id property="diseaseId" column="clinic_disease_id"></id>
+            <result property="diseaseName" column="clinic_disease_name" ></result>
+        </association>
+        <association property="admissionDiagnosis" javaType="disease">
+            <id property="diseaseId" column="admission_disease_id"></id>
+            <result property="diseaseName" column="admission_disease_name"></result>
+        </association>
+        <association property="dischargeDiagnosis" javaType="disease">
+            <id property="diseaseId" column="discharge_disease_id"></id>
+            <result property="diseaseName" column="discharge_disease_name"></result>
+        </association>
+    </resultMap>
+    <select id="selectAllPatientInfos" resultMap="PatientInfoMap">
+        SELECT
+            pi.patient_id,
+            pi.visitor_id,
+            pi.patient_name,
+            pi.gender,
+            pi.age,
+            pi.id_number,
+            pi.insurance_status,
+            pi.in_time,
+            pi.out_time,
+            l.location_id,
+            l.location_name,
+            pi.paid_time,
+            pi.stay_status,
+            pi.payment_status,
+            u.unit_id,
+            u.unit_name,
+            e.employee_id,
+            e.employee_name,
+            clinic_d.disease_id AS clinic_disease_id,
+            clinic_d.disease_name AS clinic_disease_name,
+            admission_d.disease_id AS admission_disease_id,
+            admission_d.disease_name AS admission_disease_name,
+            discharge_d.disease_id AS discharge_disease_id,
+            discharge_d.disease_name AS discharge_disease_name
+        FROM patient_info pi
+                 LEFT JOIN unit u ON pi.unit_id = u.unit_id
+                 LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+                 LEFT JOIN location l ON pi.location_id = l.location_id
+                 LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
+                 LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
+                 LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
     </select>
 </mapper>

@@ -1,7 +1,6 @@
 package com.woniu.hospital_information_system.controller;
 
 import com.woniu.hospital_information_system.entity.DTO.MenuDTO;
-import com.woniu.hospital_information_system.entity.Menu;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.mapper.MenuMapper;
 import com.woniu.hospital_information_system.service.MenuService;

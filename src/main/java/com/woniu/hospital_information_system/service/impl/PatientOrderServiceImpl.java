@@ -1,12 +1,10 @@
 package com.woniu.hospital_information_system.service.impl;
 
 
+import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
-import com.woniu.hospital_information_system.entity.PatientBill;
-import com.woniu.hospital_information_system.entity.PatientInfo;
-import com.woniu.hospital_information_system.entity.PatientOrder;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.PatientOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +52,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                     //是出院项目---添加出院诊断
                     PatientInfo patientInfo = new PatientInfo();
                     patientInfo.setPatientId(patientOrderDTO.getPatientId());
-                    patientInfo.setDischargeDiagnosisId(patientOrderDTO.getDischargeDiagnosisId());
+                    Disease disease = new Disease();
+                    disease.setDiseaseId(patientOrderDTO.getDischargeDiagnosisId());
+                    patientInfo.setDischargeDiagnosis(disease);
                     patientInfoMapper.dischargeDiagnosis(patientInfo);//添加出院诊断
                     patientBillMapper.dischargePatient(patientInfo.getPatientId());//添加出院费用--记账状态码为-1(未记账)
                 }else {
@@ -96,10 +96,10 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                     //修改病人信息表中床位信息
                     PatientInfo patientInfo = new PatientInfo();
                     patientInfo.setPatientId(patientOrder.getPatientId());
-                    patientInfo.setLocationId(null);
+                    patientInfo.setLocation(new Location());
                     patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
                     //更新床位表
-                    locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocationId());
+                    locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocation().getLocationId());
                 }
             }
         }

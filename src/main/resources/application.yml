@@ -3,13 +3,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://192.168.6.104:3306/his
     #url: jdbc:mysql://localhost:3306/his
-
     #  url: jdbc:mysql://hospital_information_system
     username: root
     password: 123
 
   redis:
-    host: 192.168.228.60
+    host: 192.168.70.131
     port: 6379
     password: 123
     database: 0
@@ -20,7 +19,7 @@ spring:
         max-idle: 10   # 最da连接数
         max-active: 5 # 最大活动数
   rabbitmq:
-    host: 192.168.228.60
+    host: 192.168.70.131
     port: 5672
     username: guest
     password: guest
@@ -43,4 +42,5 @@ mybatis:
 logging:
   level:
     com.woniu.springboot.mapper: debug
-
+server:
+  port: 80
