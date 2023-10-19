@@ -23,4 +23,15 @@ public class EmployeeController {
         List<Employee> employeeByUnitId = employeeService.getEmployeeByUnitId(unit);
         return new ResponseEntity(200,"查询成功",employeeByUnitId);
     }
+
+    @GetMapping("/getAllEmployee")
+    /*
+    通过科室id查出员工（医生）的姓名
+    **/
+    public ResponseEntity getAllEmployees(){
+        List<Employee> allEmployees = employeeService.getAllEmployees();
+        return new ResponseEntity(200,"查询成功",allEmployees);
+    }
+
+
 }

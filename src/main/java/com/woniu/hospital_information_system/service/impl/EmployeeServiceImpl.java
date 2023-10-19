@@ -18,4 +18,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getEmployeeByUnitId(Unit unit) {
         return employeeMapper.getEmployeeByUnitId(unit);
     }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return employeeMapper.getAllEmployees();
+    }
 }

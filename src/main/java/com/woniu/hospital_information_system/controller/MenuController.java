@@ -3,7 +3,9 @@ package com.woniu.hospital_information_system.controller;
 import com.woniu.hospital_information_system.entity.DTO.MenuDTO;
 import com.woniu.hospital_information_system.entity.Menu;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.mapper.MenuMapper;
 import com.woniu.hospital_information_system.service.MenuService;
+import com.woniu.hospital_information_system.service.impl.MenuServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
     @Autowired
     MenuService menuService;
+
     //查询所有菜单
     @RequestMapping("/getAll")
     public ResponseEntity getAllMenus(){
