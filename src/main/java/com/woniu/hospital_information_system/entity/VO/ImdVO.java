@@ -10,22 +10,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-//门诊发药
-public class OmdVO {
-    private Integer visitorBillId;
-    private Integer clinicOrderId;
-    private Integer visitorId;
-    private String visitorName;
+public class ImdVO {
+    private Integer patientId;
+    private String patientName;
+    private Integer patientBillId;
     private Integer gender;
     private String unitName;
     private String employeeName;
     private Integer drugCode;
     private String treatmentName;
-    private Integer drugCount;//总数
+    private Integer drugCount;
     private String specification;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date dispenseTime;
 
 }

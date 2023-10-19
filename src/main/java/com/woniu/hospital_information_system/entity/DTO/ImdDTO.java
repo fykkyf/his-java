@@ -10,14 +10,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-//门诊发药
-public class OmdDTO {
-    private Integer manipulateStatus;
-    private Integer visitorId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date executionTime;
+public class ImdDTO {
+    private Integer patientId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderDate1;
+
 }
