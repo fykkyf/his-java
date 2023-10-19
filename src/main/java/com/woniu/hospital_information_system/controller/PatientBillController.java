@@ -6,6 +6,7 @@ import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import com.woniu.hospital_information_system.service.PatientBillService;
 import com.woniu.hospital_information_system.service.PatientInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +19,17 @@ public class PatientBillController {
     @Autowired
     PatientInfoService patientInfoService;
     //查询结算结算账单
-    @GetMapping("/getPatientBill")
-    public ResponseEntity getPatientBillByPatientId( Integer patientId){
-        //根据patientId查询是否有医保
-        int insuranceStatus = patientInfoService.getPatientInfoByPatientId(patientId).getInsuranceStatus();
-        System.out.println(insuranceStatus);
-        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(patientId,insuranceStatus);
+        @GetMapping("/getPatientBill/{patientId}")
+        public ResponseEntity getPatientBillByPatientId(@PathVariable Integer patientId){
 
-        return new ResponseEntity(200,"success",patientBillVOList);
-    }
+
+            //根据patientId查询是否有医保
+            int insuranceStatus = patientInfoService.getPatientInfoByPatientId((Integer) patientId).getInsuranceStatus();
+            System.out.println(insuranceStatus);
+            List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO((Integer) patientId,insuranceStatus);
+
+            return new ResponseEntity(200,"success",patientBillVOList);
+        }
 
     //修改支付状态
     @PostMapping("/billPaymentStatus")

@@ -42,4 +42,5 @@ mybatis:
 logging:
   level:
     com.woniu.springboot.mapper: debug
-
+server:
+  port: 80
