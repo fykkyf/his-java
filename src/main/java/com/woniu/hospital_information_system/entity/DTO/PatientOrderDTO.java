@@ -25,4 +25,6 @@ public class PatientOrderDTO {
     private Integer orderType;
     private Integer admissionDiagnosisId;
     private Integer dischargeDiagnosisId;
+    private Integer pageNum;
+    private Integer pageSize;
 }

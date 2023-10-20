@@ -13,4 +13,6 @@ public interface EmployeeMapper {
     List<Employee> getEmployeeByUnitId(Unit unit);
     @Select("select * from employee where employee_id = #{employeeId}")
     Employee selectEmployeeById(Integer employeeId);
+    //获取所有医生信息
+    List<Employee> selectEmployee();
 }

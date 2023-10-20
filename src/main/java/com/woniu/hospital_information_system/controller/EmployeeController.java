@@ -23,4 +23,8 @@ public class EmployeeController {
         List<Employee> employeeByUnitId = employeeService.getEmployeeByUnitId(unit);
         return new ResponseEntity(200,"查询成功",employeeByUnitId);
     }
+    @GetMapping("/get/all")
+    public Object getEmployees() {
+        return new ResponseEntity(200,"request success",employeeService.getEmployee());
+    }
 }

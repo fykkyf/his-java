@@ -1,10 +1,13 @@
 package com.woniu.hospital_information_system.service.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.PatientOrderVO;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.PatientOrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +36,17 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * 获取所有住院患者医嘱信息
      * */
     @Override
-    public List<PatientOrder> getAllPatientOrders() {
-        return patientOrderMapper.selectAllPatientOrders();
+    public PatientOrderVO getAllPatientOrders(int pageNum,int pageSize) {
+        //TODO:修改PatientOrder---关联属性
+        List<PatientOrder> patientOrders = patientOrderMapper.selectAllPatientOrders();
+        PageHelper.startPage(pageNum,pageSize);
+        PageInfo<PatientOrder> info = new PageInfo<>(patientOrders);
+        PatientOrderVO patientOrderVO = new PatientOrderVO();
+        patientOrderVO.setPageNum(pageNum);
+        patientOrderVO.setPageSize(pageSize);
+        patientOrderVO.setTotal((int) info.getTotal());
+        patientOrderVO.setPatientOrders(patientOrders);
+        return patientOrderVO;
     }
 
     /*
@@ -95,7 +107,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                     patientBillMapper.updatePatientBillByPaymentStatus(patientBill);
                     //修改病人信息表中床位信息
                     PatientInfo patientInfo = new PatientInfo();
-                    patientInfo.setPatientId(patientOrder.getPatientId());
+                    patientInfo.setPatientId(patientOrder.getPatient().getPatientId());
                     patientInfo.setLocation(new Location());
                     patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
                     //更新床位表
@@ -119,7 +131,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
             //判断执行时间与当前时间的日期是否是昨天的日期并且审核状态为2
             if (patientOrder.getExecutionTime().toLocalDate().equals(LocalDate.now().minusDays(1)) && patientOrder.getExecutionStatus() == 2) {
                 PatientBill patientBill = new PatientBill();
-                patientBill.setPatientId(patientOrder.getPatientId());
+                patientBill.setPatientId(patientOrder.getPatient().getPatientId());
                 patientBill.setTreatmentId(patientOrder.getTreatmentId());
                 patientBill.setDrugCount(patientOrder.getTreatmentCount());
                 patientBill.setTreatmentPrice(treatmentMapper.selectTreatmentByTreatmentId(patientOrder.getTreatmentId()).getTreatmentPrice() * patientOrder.getTreatmentCount());
@@ -153,12 +165,20 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     private PatientOrder getPatientOrder(PatientOrderDTO patientOrderDTO, TreatmentDTO treatment) {
         PatientOrder patientOrder = new PatientOrder();
         patientOrder.setPatientOrderId(patientOrderDTO.getPatientOrderId());
-        patientOrder.setPatientId(patientOrderDTO.getPatientId());
-        patientOrder.setDoctorId(patientOrderDTO.getDoctorId());
+        PatientInfo patientInfo = new PatientInfo();
+        patientInfo.setPatientId(patientOrderDTO.getPatientId());
+        patientOrder.setPatient(patientInfo);
+        Employee employee = new Employee();
+        employee.setEmployeeId(patientOrderDTO.getDoctorId());
+        patientOrder.setDoctor(employee);
         patientOrder.setTreatmentId(treatment.getTreatmentId());
         patientOrder.setTreatmentName(treatment.getTreatmentName());
-        patientOrder.setAdministrationId(patientOrderDTO.getAdministrationId());
-        patientOrder.setDosageId(patientOrderDTO.getDosageId());
+        Administration administration = new Administration();
+        administration.setAdministrationId(patientOrderDTO.getAdministrationId());
+        patientOrder.setAdministration(administration);
+        Dosage dosage = new Dosage();
+        dosage.setDosageId(patientOrderDTO.getDosageId());
+        patientOrder.setDosage(dosage);
         patientOrder.setTreatmentCount(treatment.getTreatmentCount());
         patientOrder.setExecutionStatus(patientOrderDTO.getExecutionStatus());
         patientOrder.setOrderType(patientOrderDTO.getOrderType());
@@ -170,7 +190,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * */
     private PatientBill getPatientBill(TreatmentDTO treatment, PatientOrder patientOrder) {
         PatientBill patientBill = new PatientBill();
-        patientBill.setPatientId(patientOrder.getPatientId());
+        patientBill.setPatientId(patientOrder.getPatient().getPatientId());
         patientBill.setTreatmentId(patientOrder.getTreatmentId());
         patientBill.setDrugCount(patientOrder.getTreatmentCount());
         //计算费用

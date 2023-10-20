@@ -8,4 +8,7 @@
     <select id="getEmployeeByUnitId" resultType="Employee">
         select * from employee e,employee_unit eu,unit u where e.employee_id=eu.employee_id and eu.unit_id=u.unit_id and u.unit_id = #{unitId}
     </select>
+    <select id="selectEmployee" resultType="com.woniu.hospital_information_system.entity.Employee">
+        select * from employee e LEFT JOIN employee_role er on e.employee_id = er.employee_id LEFT JOIN role r on r.role_id = er.employee_role_id where r.role_id in (2,3,4)
+    </select>
 </mapper>

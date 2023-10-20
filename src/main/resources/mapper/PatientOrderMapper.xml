@@ -6,7 +6,23 @@
 <mapper namespace="com.woniu.hospital_information_system.mapper.PatientOrderMapper">
     <!--添加住院医嘱信息-->
     <insert id="addPatientOrderByPatientOrderId">
-        insert into patient_order values (null,#{patientId},#{doctorId},#{treatmentId},#{treatmentName},#{administrationId},#{dosageId},
-                                          #{treatmentCount},null,null,1,#{orderType})
+        insert into patient_order
+        values (null, #{patientId}, #{doctorId}, #{treatmentId}, #{treatmentName}, #{administrationId}, #{dosageId},
+                #{treatmentCount}, null, null, 1, #{orderType})
     </insert>
+    <resultMap id="PatientOrderMap" type="patientOrder">
+        <id property="patientOrderId" column="patient_order_id"></id>
+        <result property="treatmentId" column="treatment_id"></result>
+        <result property="treatmentName" column="treatment_name"></result>
+        <result property="treatmentCount" column="treatment_count"></result>
+    </resultMap>
+    <select id="selectAllPatientOrders" resultType="com.woniu.hospital_information_system.entity.PatientOrder">
+        SELECT po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
+               a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        FROM patient_order po
+                 left join patient_info pi on po.patient_id = pi.patient_id
+                 left join employee e on po.doctor_id = e.employee_id
+                 left join administration a on po.administration_id = a.administration_id
+                 left join dosage d on po.dosage_id = d.dosage_id
+    </select>
 </mapper>

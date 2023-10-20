@@ -16,7 +16,7 @@ public interface PatientInfoMapper {
     //根据身份证号查询住院患者信息
     List<PatientInfo> selectPatientInfoByIdNumber(String idNumber);
     //根据病人id查询住院患者信息
-    @Select("select * from patient_info where patient_id = #{patientId}")
+//    @Select("select * from patient_info where patient_id = #{patientId}")
     PatientInfo selectPatientInfoByPatientId(int patientId);
     //更新床位id
     @Update("update patient_info set location_id = #{locationId} where patient_id = #{patientId}")

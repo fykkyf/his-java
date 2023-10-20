@@ -4,12 +4,14 @@ import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
+import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
+import com.woniu.hospital_information_system.entity.VO.PatientOrderVO;
 
 import java.util.List;
 
 public interface PatientOrderService {
     //获取所有住院患者医嘱信息
-    List<PatientOrder> getAllPatientOrders();
+    PatientOrderVO getAllPatientOrders(int pageNum, int pageSize);
     //添加住院患者医嘱信息
     void addPatientOrder(PatientOrderDTO patientOrderDTO);
     //根据住院患者医嘱id查询患者医嘱信息
