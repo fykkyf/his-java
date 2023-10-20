@@ -24,4 +24,6 @@ public interface PatientOrderService {
     void dischargePatient(PatientInfoDTO patientInfoDTO);
     //审核出院医嘱
     void checkDischarge(Integer status, Integer patientId);
+
+    void finishPayment(Integer patientId);
 }

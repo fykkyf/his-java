@@ -29,4 +29,6 @@ public interface PatientOrderMapper {
     //通过医嘱类型和执行状态查询住院医嘱信息
     @Update("select * from patient_order where execution_status = #{executionStatus} and patient_id = #{patientId}")
     List<PatientOrder> selectPatientOrderByStatus(@Param("executionStatus")int executionStatus, @Param("patientId")int patientId);
+    @Update("update patient_order set  execution_status = 4 where patient_id = #{patientId} ")
+    void finishPayment(Integer patientId);
 }

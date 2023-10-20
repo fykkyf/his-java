@@ -132,6 +132,11 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         return patientInfoMapper.selectPatientInfoByKeyWord(convertPatientInfo(patientInfoDTO));
     }
 
+    @Override
+    public void finishPayment(Integer patientId) {
+        patientInfoMapper.finishPayment(patientId);
+    }
+
     /*
     * 添加出院诊断
     * */

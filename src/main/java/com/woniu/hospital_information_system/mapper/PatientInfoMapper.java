@@ -38,4 +38,7 @@ public interface PatientInfoMapper {
     void admissionDiagnosis(PatientInfo patientInfo);
     //根据关键字查询
     List<PatientInfo> selectPatientInfoByKeyWord(PatientInfo convertPatientInfo);
+    //出院结算更新支付时间+支付状态
+    @Update("update patient_info set payment_status = 2, paid_time = now() where patient_id = #{patientId}")
+    void finishPayment(Integer patientId );
 }
