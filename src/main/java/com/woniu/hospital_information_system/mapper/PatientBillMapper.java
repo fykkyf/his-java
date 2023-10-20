@@ -31,4 +31,6 @@ public interface PatientBillMapper {
     //住院医嘱护士审核----修改记账状态
     @Update("update patient_bill set payment_status = 2,execution_time = now(),dispense_time = now() where patient_id = #{patientId} and payment_status = 1 and treatment_id = #{treatmentId}")
     void updatePatientBillByPaymentStatus(PatientBill patientBill);
+    @Select("select * from patient_bill where payment_status =1")
+    List<PatientBillVO> getAll();
 }

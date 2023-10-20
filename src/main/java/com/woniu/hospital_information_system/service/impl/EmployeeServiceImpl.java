@@ -20,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getEmployee() {
-        return employeeMapper.selectEmployee();
+    public List<Employee> getAllEmployees() {
+        return employeeMapper.getAllEmployees();
     }
 }

@@ -18,4 +18,6 @@ public interface VisitorInfoService {
     void updateClinicStatusAfterVisiting(VisitorInfo visitorInfo);
 
     void updateDisease(VisitorInfo visitorInfo);
+
+    List<VisitorInfo> getAll();
 }

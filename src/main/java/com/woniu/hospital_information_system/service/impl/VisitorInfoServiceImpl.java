@@ -68,4 +68,9 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     public void updateDisease(VisitorInfo visitorInfo) {
         visitorInfoMapper.updateDisease(visitorInfo);
     }
+
+    @Override
+    public List<VisitorInfo> getAll() {
+        return visitorInfoMapper.getAll();
+    }
 }

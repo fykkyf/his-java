@@ -8,5 +8,5 @@ import java.util.List;
 public interface EmployeeService {
     List<Employee> getEmployeeByUnitId(Unit unit);
 
-    List<Employee> getEmployee();
+    List<Employee> getAllEmployees();
 }

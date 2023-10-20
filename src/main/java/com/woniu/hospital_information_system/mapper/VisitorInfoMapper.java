@@ -37,4 +37,6 @@ public interface VisitorInfoMapper {
 //病人在门诊看病的整个业务流程走完后，自己的信息后有一个确定按钮，点击确定，状态为过诊
     void updateDisease(VisitorInfo visitorInfo);
 
+    @Select("select * from visitor_info")
+    List<VisitorInfo> getAll();
 }
