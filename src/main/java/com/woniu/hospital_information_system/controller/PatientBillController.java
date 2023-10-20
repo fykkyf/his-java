@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.controller;
 
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.entity.VO.PatientBillResultVO;
 import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import com.woniu.hospital_information_system.service.PatientBillService;
 import com.woniu.hospital_information_system.service.PatientInfoService;
@@ -18,18 +19,15 @@ public class PatientBillController {
     PatientBillService patientBillService;
     @Autowired
     PatientInfoService patientInfoService;
+
     //查询结算结算账单
-        @GetMapping("/getPatientBill/{patientId}")
-        public ResponseEntity getPatientBillByPatientId(@PathVariable Integer patientId){
+    @GetMapping("/getPatientBill/{patientId}")
+    public ResponseEntity getPatientBillByPatientId(@PathVariable Integer patientId){
 
+        PatientBillResultVO patientBillResultVO = patientBillService.getPatientBillVO(patientId);
 
-            //根据patientId查询是否有医保
-            int insuranceStatus = patientInfoService.getPatientInfoByPatientId((Integer) patientId).getInsuranceStatus();
-            System.out.println(insuranceStatus);
-            List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO((Integer) patientId,insuranceStatus);
-
-            return new ResponseEntity(200,"success",patientBillVOList);
-        }
+        return new ResponseEntity(200,"success",patientBillResultVO);
+    }
 
     //修改支付状态
     @PostMapping("/billPaymentStatus")
@@ -38,13 +36,8 @@ public class PatientBillController {
 
         return new ResponseEntity(200,"success","修改成功");
     }
-    //显示当前病人所有费用总和
-    @GetMapping("/getPaymentSum")
-    public ResponseEntity getPaymentSum(PatientInfoDTO patientInfoDTO){
-        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(patientInfoDTO.getPatientId(),patientInfoDTO.getInsuranceStatus());
-        Double finalResult = patientBillService.getPaymentSum(patientBillVOList);
-        return new ResponseEntity(200,"success",finalResult);
-    }
+
+
     @PostMapping("/chengeAllPaymentStatus")
     public ResponseEntity chengeAllPaymentStatus(PatientInfoDTO patientInfoDTO) {
         List<Integer> list = patientBillService.getAllBillIds(patientInfoDTO.getPatientId());
