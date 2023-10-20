@@ -63,9 +63,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                     //是出院项目---添加出院诊断
                     PatientInfo patientInfo = new PatientInfo();
                     patientInfo.setPatientId(patientOrderDTO.getPatientId());
-                    Disease disease = new Disease();
-                    disease.setDiseaseId(patientOrderDTO.getDischargeDiagnosisId());
-                    patientInfo.setDischargeDiagnosis(disease);
+                    patientInfo.setDischargeDiagnosis(patientOrderDTO.getDischargeDiagnosis());
                     patientInfoMapper.dischargeDiagnosis(patientInfo);//添加出院诊断
                     patientBillMapper.dischargePatient(patientInfo.getPatientId());//添加出院费用--记账状态码为-1(未记账)
                 }else {
