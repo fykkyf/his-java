@@ -37,7 +37,6 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * */
     @Override
     public PatientOrderVO getAllPatientOrders(int pageNum,int pageSize) {
-        //TODO:修改PatientOrder---关联属性
         List<PatientOrder> patientOrders = patientOrderMapper.selectAllPatientOrders();
         PageHelper.startPage(pageNum,pageSize);
         PageInfo<PatientOrder> info = new PageInfo<>(patientOrders);
