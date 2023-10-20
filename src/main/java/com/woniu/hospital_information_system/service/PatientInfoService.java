@@ -27,4 +27,6 @@ public interface PatientInfoService {
     void admissionDiagnosis(PatientInfoDTO patientInfoDTO);
     //模糊查询住院患者信息
     List<PatientInfo> getPatientInfoByKeyWord(PatientInfoDTO patientInfoDTO);
+
+    void finishPayment(Integer patientId);
 }

@@ -156,6 +156,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
 
     }
 
+    @Override
+    public void finishPayment(Integer patientId) {
+        patientOrderMapper.finishPayment(patientId);
+    }
+
     /*
      * PatientOrderDTO转PatientOrder
      * */
