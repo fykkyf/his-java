@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface VisitorBillMapper {
 
-    @Insert("insert into visitor_bill values (null,#{visitorId},#{treatmentId},null,#{treatmentPrice},now(),null,1,1)")
+    @Insert("insert into visitor_bill values (null,#{visitorId},#{treatmentId},null,#{treatmentPrice},now(),null,1,1,null)")
     void addVisitorBill(@Param("visitorId") Integer visitorId, @Param("treatmentId") Integer treatmentId, @Param("treatmentPrice") Double treatmentPrice);
 
     @Select("select treatment_id from employee_role er,employee e,role r where er.employee_id=e.employee_id and er.role_id=r.role_id and e.employee_id = #{employeeId}")

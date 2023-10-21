@@ -20,4 +20,6 @@ public interface VisitorInfoService {
     void updateDisease(VisitorInfo visitorInfo);
 
     List<VisitorInfo> getAll();
+
+    List<VisitorInfo> getVisitorByEmployeeId(Integer eid);
 }

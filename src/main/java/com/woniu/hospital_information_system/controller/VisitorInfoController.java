@@ -4,9 +4,12 @@ package com.woniu.hospital_information_system.controller;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
+import com.woniu.hospital_information_system.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -22,6 +25,7 @@ public class VisitorInfoController {
     @PostMapping("/add")
     //挂号时，向门诊患者信息表添加患者信息,且在门诊患者费用表中生成数据
     public ResponseEntity addVisitorInfo(@RequestBody VisitorInfo visitorInfo){
+        System.out.println(visitorInfo);
         visitorInfoService.addVisitorInfo(visitorInfo);
         return new ResponseEntity(200,"挂号成功",null);
     }
@@ -71,6 +75,15 @@ public class VisitorInfoController {
     @GetMapping("/getAll")
     public ResponseEntity getAll(){
         List<VisitorInfo> visitorInfos=visitorInfoService.getAll();
+        System.out.println(visitorInfos);
+        return new ResponseEntity(200,"ok",visitorInfos);
+    }
+
+    @GetMapping("/getVisitorByEmployeeId")
+    public ResponseEntity getVisitorByEmployeeId(HttpServletRequest request){
+        String token = request.getHeader("token");
+        Integer eid = Integer.valueOf(JwtUtil.getEid(token));
+        List<VisitorInfo> visitorInfos=visitorInfoService.getVisitorByEmployeeId(eid);
         System.out.println(visitorInfos);
         return new ResponseEntity(200,"ok",visitorInfos);
     }

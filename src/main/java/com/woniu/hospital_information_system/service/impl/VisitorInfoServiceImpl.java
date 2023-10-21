@@ -34,8 +34,11 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         挂号成功的同时,生成门诊患者费用表
          */
         visitorInfoMapper.addVisitorInfo(visitorInfo);//添加患者信息
+        System.out.println(visitorInfo.getDoctorId());
         Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getDoctorId());//得到项目id
+        System.out.println("这里是项目id"+treatmentId);
         Double treatmentPrice = visitorBillMapper.getPriceByTreatmentId(treatmentId);//得到挂号的那个医生的费用
+        System.out.println("这里是挂号价格："+treatmentPrice);
         visitorBillService.addVisitorBillByVisitorIdAndEmployeeId(visitorInfo.getVisitorId(),treatmentId,treatmentPrice);//在门诊患者费用表中生成数据
     }
 
@@ -72,5 +75,10 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Override
     public List<VisitorInfo> getAll() {
         return visitorInfoMapper.getAll();
+    }
+
+    @Override
+    public List<VisitorInfo> getVisitorByEmployeeId(Integer eid) {
+        return visitorInfoMapper.getVisitorByEmployeeId(eid);
     }
 }

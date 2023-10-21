@@ -39,4 +39,7 @@ public interface VisitorInfoMapper {
 
     @Select("select * from visitor_info")
     List<VisitorInfo> getAll();
+
+    @Select("select * from visitor_info where doctor_id=#{eid} and clinic_status=1")
+    List<VisitorInfo> getVisitorByEmployeeId(Integer eid);
 }
