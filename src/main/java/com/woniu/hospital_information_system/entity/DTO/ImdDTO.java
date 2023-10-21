@@ -12,9 +12,9 @@ import java.util.Date;
 @Data
 public class ImdDTO {
     private Integer patientId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    //@JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+   // @JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderDate1;
 
 }

@@ -38,7 +38,7 @@ public interface TreatmentMapper {
     @Update("update treatment set  treatment_name=#{treatmentName}, drug_code=#{drugCode}, manufacturer=#{manufacturer}," +
             " production_time=#{productionTime},expired_time=#{expiredTime}, storage=#{storage}, " +
             "specification=#{specification}, treatment_price=#{treatmentPrice}, insurance_price=#{insurancePrice}," +
-            "treatment_status=#{drugCode} where treatment_id=#{treatmentId}")
+            "treatment_status=#{treatmentStatus} where treatment_id=#{treatmentId}")
     void updateTreatment(TreatmentDTO treatmentDTO);
 
     //根据项目id查询项目
@@ -65,7 +65,7 @@ public interface TreatmentMapper {
 
 
     //门诊发药，根据项目ID减少库存
-    @Update("update treatment set storage =storage-#{drugCount} where drug_code=drugCode")
+    @Update("update treatment set storage =storage-#{drugCount} where drug_code=#{drugCode}")
     void updatestorageById(OmdVO omdVO);
 
 
@@ -79,7 +79,7 @@ public interface TreatmentMapper {
     //住院发药操作 根据费用ID，修改住院病人费用表中的操作状态码  插入发药时间
     void updatePbById(@Param("pbids") List<Integer> pbids);
     //住院发药，根据项目ID减少库存
-    @Update("update treatment set storage =storage-#{drugCount} where drug_code=drugCode")
+    @Update("update treatment set storage =storage-#{drugCount} where drug_code=#{drugCode}")
     void updatestorageByImId(ImdVO imdVO);
 
 

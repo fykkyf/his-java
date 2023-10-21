@@ -14,12 +14,15 @@ import java.util.Date;
 public class TreatmentDTO {
     private Integer treatmentId;
     private String treatmentName;
+
     private Integer treatmentCount;
     private String manufacturer;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+   // @JsonFormat(pattern = "yyyy-MM-dd")
     private Date productionTime;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date expiredTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date expiredTime1;
     private Integer storage;
     private String specification;
     private Double treatmentPrice;
@@ -28,4 +31,7 @@ public class TreatmentDTO {
     private Integer treatmentCategory;
     private  String keyword;
     private Integer drugCode;
+
+    private Integer pageNum;
+    private Integer pageSize;
 }

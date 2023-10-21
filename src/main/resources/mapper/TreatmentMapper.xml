@@ -33,7 +33,13 @@
               and   drug_code=#{drugCode}
           </if>
           <if test="storage!=null and storage!=''">
-              and   storage>=#{storage}
+              and   storage&lt;=#{storage}
+          </if>
+          <if test="expiredTime!=null ">
+              and expired_time >= #{expiredTime}
+          </if>
+          <if test="expiredTime1!=null ">
+              and expired_time &lt;= date_add(#{expiredTime1},interval 1 day)
           </if>
       </where>
     </select>
@@ -58,10 +64,10 @@
             <if test="visitorId!=null and visitorId!=''">
                 and vi.visitor_id=#{visitorId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null">
                 and vb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null">
                 and vb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -76,10 +82,10 @@
             <if test="visitorId!=null and visitorId!=''">
                 and vi.visitor_id=#{visitorId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null ">
                 and vb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null ">
                 and vb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -106,10 +112,10 @@
             <if test="patientId!=null and patientId!=''">
                 and pi.patient_id=#{patientId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null ">
                 and pb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null ">
                 and pb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -126,10 +132,10 @@
             <if test="patientId!=null and patientId!=''">
                 and pi.patient_id=#{patientId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null ">
                 and pb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null">
                 and pb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
