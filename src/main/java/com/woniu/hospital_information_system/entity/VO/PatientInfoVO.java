@@ -18,6 +18,12 @@ import java.util.List;
 @NoArgsConstructor
 //住院患者信息表
 public class PatientInfoVO {
+    private String patientName;
+    private Integer gender;
+    private Integer age;
+    private String idNumber;
+    private Disease clinicDiagnosis;
+    private List<Integer> visitors;
     private List<PatientInfo> patientInfos;
     private Integer pageSize;
     private Integer pageNum;

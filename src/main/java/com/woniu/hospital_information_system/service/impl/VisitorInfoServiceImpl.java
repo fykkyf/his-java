@@ -1,6 +1,8 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.Disease;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
+import com.woniu.hospital_information_system.mapper.DiseaseMapper;
 import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
 import com.woniu.hospital_information_system.service.VisitorBillService;
@@ -22,6 +24,8 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     VisitorBillMapper visitorBillMapper;
     @Autowired
     VisitorBillService visitorBillService;
+    @Autowired
+    DiseaseMapper diseaseMapper;
 
 
 
@@ -34,6 +38,7 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         挂号成功的同时,生成门诊患者费用表
          */
         visitorInfoMapper.addVisitorInfo(visitorInfo);//添加患者信息
+        Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getEmployee().getEmployeeId());//得到项目id
         System.out.println(visitorInfo.getDoctorId());
         Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getDoctorId());//得到项目id
         System.out.println("这里是项目id"+treatmentId);
@@ -85,5 +90,13 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Override
     public void updateMessage(VisitorInfo visitorInfo) {
         visitorInfoMapper.updateMessage(visitorInfo);
+    }
+
+    /*
+    *   查询病人疾病信息
+    * */
+    @Override
+    public Disease getDiagnosisByVisitorId(Integer visitorId) {
+        return diseaseMapper.selectDiseaseById(visitorInfoMapper.getVisitorInfoByVisitorId(visitorId).getDiseaseId());
     }
 }

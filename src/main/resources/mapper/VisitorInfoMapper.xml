@@ -22,5 +22,77 @@
         where vi.visitor_id=vb.visitor_id and
             vb.payment_status = 2
     </select>
+    <resultMap id="VisitorInfoMap" type="visitorInfo">
+        <id property="visitorId" column="visitor_id" />
+        <result property="visitorName" column="visitor_name" />
+        <result property="gender" column="gender" />
+        <result property="age" column="age" />
+        <result property="idNumber" column="id_number" />
+        <result property="phone" column="phone" />
+        <result property="clinicStartTime" column="clinic_start_time" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime" typeHandler="org.apache.ibatis.type.LocalDateTimeTypeHandler" />
 
+        <result property="clinicStatus" column="clinic_status" />
+        <association property="unit" javaType="unit" >
+            <id property="unitId" column="unit_id"></id>
+            <result property="unitName" column="unit_name"></result>
+        </association>
+        <association property="employee" javaType="employee" >
+            <id property="employeeId" column="employee_id"></id>
+            <result property="employeeName" column="employee_name"></result>
+        </association>
+        <association property="clinicDiagnosis" javaType="disease">
+            <id property="diseaseId" column="disease_id"></id>
+            <result property="diseaseName" column="disease_name" ></result>
+        </association>
+    </resultMap>
+    <select id="getAll" resultMap="VisitorInfoMap">
+        SELECT
+            vi.visitor_id,
+            vi.visitor_name,
+            vi.gender,
+            vi.age,
+            vi.id_number,
+            vi.phone,
+
+            vi.clinic_start_time,
+            vi.clinic_status,
+
+            u.unit_id,
+            u.unit_name,
+            e.employee_id,
+            e.employee_name,
+            d.disease_id ,
+            d.disease_name
+
+        FROM visitor_info vi
+                 LEFT JOIN unit u ON vi.unit_id = u.unit_id
+                 LEFT JOIN employee e ON vi.doctor_id = e.employee_id
+                 LEFT JOIN disease d ON vi.disease_id = d.disease_id;
+
+    </select>
+    <select id="getVisitorInfoByVisitorId" resultMap="VisitorInfoMap">
+        SELECT
+            vi.visitor_id,
+            vi.visitor_name,
+            vi.gender,
+            vi.age,
+            vi.id_number,
+            vi.phone,
+
+            vi.clinic_start_time,
+            vi.clinic_status,
+
+            u.unit_id,
+            u.unit_name,
+            e.employee_id,
+            e.employee_name,
+            d.disease_id ,
+            d.disease_name
+
+        FROM visitor_info vi
+                 LEFT JOIN unit u ON vi.unit_id = u.unit_id
+                 LEFT JOIN employee e ON vi.doctor_id = e.employee_id
+                 LEFT JOIN disease d ON vi.disease_id = d.disease_id
+        where visitor_id =#{visitorId}
+    </select>
 </mapper>

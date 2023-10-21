@@ -16,7 +16,7 @@ public interface PatientInfoMapper {
     //根据身份证号查询住院患者信息
     List<PatientInfo> selectPatientInfoByIdNumber(String idNumber);
     //根据病人id查询住院患者信息
-    @Select("select * from patient_info where patient_id = #{patientId}")
+//    @Select("select * from patient_info where patient_id = #{patientId}")
     PatientInfo selectPatientInfoByPatientId(int patientId);
     //更新床位id
     @Update("update patient_info set location_id = #{locationId} where patient_id = #{patientId}")
@@ -38,4 +38,7 @@ public interface PatientInfoMapper {
     void admissionDiagnosis(PatientInfo patientInfo);
     //根据关键字查询
     List<PatientInfo> selectPatientInfoByKeyWord(PatientInfo convertPatientInfo);
+    //出院结算更新支付时间+支付状态
+    @Update("update patient_info set payment_status = 2, paid_time = now() where patient_id = #{patientId}")
+    void finishPayment(Integer patientId );
 }

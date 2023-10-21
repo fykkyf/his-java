@@ -1,8 +1,11 @@
 package com.woniu.hospital_information_system.service.impl;
 
 import com.woniu.hospital_information_system.entity.PatientBill;
+import com.woniu.hospital_information_system.entity.PatientInfo;
+import com.woniu.hospital_information_system.entity.VO.PatientBillResultVO;
 import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import com.woniu.hospital_information_system.mapper.PatientBillMapper;
+import com.woniu.hospital_information_system.mapper.PatientInfoMapper;
 import com.woniu.hospital_information_system.service.PatientBillService;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,15 @@ import java.util.List;
 public class PatientBillServiceImpl implements PatientBillService {
     @Autowired
     PatientBillMapper patientBillMapper;
-
+    @Autowired
+    PatientInfoMapper patientInfoMapper;
 
     @Override
-    public List<PatientBillVO> getPatientBillVO(Integer patientId,Integer insuranceStatus) {
+    public PatientBillResultVO getPatientBillVO(Integer patientId) {
+        PatientBillResultVO patientBillResultVO = new PatientBillResultVO();
+        PatientInfo patientInfo = patientInfoMapper.selectPatientInfoByPatientId(patientId);
+        int insuranceStatus= patientInfo.getInsuranceStatus();
+        patientBillResultVO.setPatientInfo(patientInfo);
         List<PatientBillVO> patientBillVOList = patientBillMapper.getPatientBillVO(patientId);
         if(insuranceStatus==1){
             for (PatientBillVO p : patientBillVOList){
@@ -34,7 +42,7 @@ public class PatientBillServiceImpl implements PatientBillService {
                     p.setFinalPrice(p.getInsurancePrice());
                 }
             }
-            return patientBillVOList;
+
         }else {
             for (PatientBillVO p : patientBillVOList){
                 if(p.getTreatmentPrice()!= null && p.getDrugCount()!=null){
@@ -49,9 +57,12 @@ public class PatientBillServiceImpl implements PatientBillService {
                     p.setFinalPrice(p.getTreatmentPrice());
                 }
             }
-            return patientBillVOList;
-        }
 
+        }
+        patientBillResultVO.setPatientBillVOList(patientBillVOList);
+        double finalPrice = getPaymentSum(patientBillVOList);
+        patientBillResultVO.setFinalPrice(finalPrice);
+        return patientBillResultVO;
     }
 
     @Override
@@ -72,6 +83,8 @@ public class PatientBillServiceImpl implements PatientBillService {
     public List<Integer> getAllBillIds(Integer patientId) {
         return patientBillMapper.getAllBillIds(patientId);
     }
+
+
 
 
 }

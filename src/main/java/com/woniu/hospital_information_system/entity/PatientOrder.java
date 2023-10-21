@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 //住院医嘱表
 public class PatientOrder {
     private Integer patientOrderId;
-    private Integer patientId;
-    private Integer doctorId;
+    private PatientInfo patient;
+    private Employee doctor;
     private Integer treatmentId;
     private String treatmentName;
-    private Integer administrationId;
-    private Integer dosageId;
+    private Administration administration;
+    private Dosage dosage;
     private Integer treatmentCount;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime executionTime;

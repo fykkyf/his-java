@@ -16,7 +16,7 @@ public interface VisitorInfoMapper {
 //    @Insert("insert into visitor_info values (null,#{visitorName},#{gender},#{idNumber},#{phone},#{unitId},#{doctorId},null,#{clinicStartTime},1)")
     void addVisitorInfo(VisitorInfo visitorInfo);
 
-    @Select("select * from visitor_info where visitor_id=#{visitorId}")
+
     VisitorInfo getVisitorInfoByVisitorId(Integer visitorId);
 
 
@@ -37,8 +37,12 @@ public interface VisitorInfoMapper {
 //病人在门诊看病的整个业务流程走完后，自己的信息后有一个确定按钮，点击确定，状态为过诊
     void updateDisease(VisitorInfo visitorInfo);
 
-    @Select("select * from visitor_info")
-    List<VisitorInfo> getAll();
+
+
+
+    //根据身份证号码查询门诊信息
+    @Select("select * from visitor_info where id_number = #{idNumber}")
+    List<VisitorInfo> selectVisitorInfoByIdNumber(String idNumber);
 
     @Select("select * from visitor_info where doctor_id=#{eid} and clinic_status=1")
     List<VisitorInfo> getVisitorByEmployeeId(Integer eid);

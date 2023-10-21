@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
 import com.woniu.hospital_information_system.service.PatientInfoService;
+import com.woniu.hospital_information_system.service.VisitorInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import java.util.List;
 public class PatientInfoController {
     @Autowired
     PatientInfoService patientInfoService;
+    @Autowired
+    VisitorInfoService visitorInfoService;
     /*
     * 查询所有住院患者信息
     * */
@@ -84,6 +88,22 @@ public class PatientInfoController {
     public Object modifyPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.modifyPatientInfo(patientInfoDTO);
         return new ResponseEntity(200,"request success",null);
+    }
+
+    /*
+    * 获取病人门诊信息
+    * */
+    @PostMapping("/get/visitorInfo")
+    public Object getVisitorInfoByIdNumber(@RequestBody PatientInfoDTO patientInfoDTO) {
+        return new ResponseEntity(200,"request success",patientInfoService.getVisitorInfoByIdNumber(patientInfoDTO.getIdNumber()));
+    }
+
+    /*
+    * 根据门诊id查询门诊诊断
+    * */
+    @GetMapping("/get/clinicDiagnosis/{visitorId}")
+    public Object getClinicDiagnosisByVisitorId(@PathVariable("visitorId") Integer visitorId) {
+        return new ResponseEntity(200,"request success",visitorInfoService.getDiagnosisByVisitorId(visitorId));
     }
 
 }

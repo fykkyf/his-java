@@ -33,5 +33,13 @@ public class EmployeeController {
         return new ResponseEntity(200,"查询成功",allEmployees);
     }
 
+    /*
+    *   根据医生id查询科室信息
+    * */
+    @GetMapping("/getUnitByDid/{doctorId}")
+    public Object getUnitByDoctorId(@PathVariable("doctorId") Integer doctorId) {
+        return new ResponseEntity(200,"request success",employeeService.getUnitByDoctorId(doctorId));
+    }
+
 
 }

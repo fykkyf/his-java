@@ -12,21 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PatientBillServiceImplTest {
     @Autowired
     PatientBillServiceImpl patientBillService;
-    @Test
-    void test01(){
-        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(2,0);
-        System.out.println(patientBillVOList);
-    }
+
     @Test
     void test02(){
         patientBillService.billPaymentStatus(1);
     }
-    @Test
-    void test03(){
-        List<PatientBillVO> patientBillVOList = patientBillService.getPatientBillVO(1,1);
-        double result = patientBillService.getPaymentSum(patientBillVOList);
-        System.out.println(result);
-    }
+
     @Test
     void test04(){
         List<Integer> list =patientBillService.getAllBillIds(1);

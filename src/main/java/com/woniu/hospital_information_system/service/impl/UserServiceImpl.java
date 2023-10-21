@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
     public Tokens login(User user) throws LoginException {
         Tokens tokens = new Tokens();
         User user1 = userMapper.login(user);
+        String s = "aaa123";
+        System.out.println(DigestUtils.md5DigestAsHex(s.getBytes()));
         if (user1 == null){
             throw new LoginException("用户名不存在");
         }

@@ -21,9 +21,9 @@ public class PatientOrderController {
     /*
     * 查询所有住院患者医嘱信息
     * */
-    @GetMapping("/get/all")
-    public Object getAllPatientOrder() {
-        return new ResponseEntity(200,"request success",patientOrderService.getAllPatientOrders());
+    @PostMapping("/get/all")
+    public Object getAllPatientOrder(@RequestBody PatientOrderDTO patientOrderDTO) {
+        return new ResponseEntity(200,"request success",patientOrderService.getAllPatientOrders(patientOrderDTO.getPageNum(),patientOrderDTO.getPageSize()));
     }
 
     /*
