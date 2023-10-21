@@ -1,9 +1,8 @@
 package com.woniu.hospital_information_system.service;
 
-import com.woniu.hospital_information_system.entity.VisitorBill;
-import com.woniu.hospital_information_system.entity.VisitorInfo;
+import com.woniu.hospital_information_system.entity.VO.VisitorBillResultVO;
+import com.woniu.hospital_information_system.entity.VO.VisitorBillVO;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 public interface VisitorBillService {
@@ -13,11 +12,14 @@ public interface VisitorBillService {
 
     void updatePayStatus(Integer visitorId);
 
-    List<VisitorBill> getAllBillsByVisitorId(Integer visitorId);
 
-    void changePaymentStatus(Integer visitorBillId);
+    void refundPayment(Integer visitorBillId);
 
-    Double changeAllpayment(VisitorInfo visitorInfo);
+    Double getFinalPrice(List<VisitorBillVO> visitorBillVOList );
 
     void changeAllStatus(Integer visitorId);
+
+    VisitorBillResultVO getVisitorBillVO(Integer patientId);
+
+    VisitorBillResultVO getRefundBillVO(Integer visitorId);
 }

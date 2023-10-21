@@ -38,7 +38,7 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         挂号成功的同时,生成门诊患者费用表
          */
         visitorInfoMapper.addVisitorInfo(visitorInfo);//添加患者信息
-        Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getDoctorId());//得到项目id
+        Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getEmployee().getEmployeeId());//得到项目id
         Double treatmentPrice = visitorBillMapper.getPriceByTreatmentId(treatmentId);//得到挂号的那个医生的费用
         visitorBillService.addVisitorBillByVisitorIdAndEmployeeId(visitorInfo.getVisitorId(),treatmentId,treatmentPrice);//在门诊患者费用表中生成数据
     }
