@@ -39,4 +39,8 @@ public interface VisitorInfoMapper {
 
     @Select("select * from visitor_info")
     List<VisitorInfo> getAll();
+
+    //根据身份证号码查询门诊信息
+    @Select("select * from visitor_info where id_number = #{idNumber}")
+    List<VisitorInfo> selectVisitorInfoByIdNumber(String idNumber);
 }

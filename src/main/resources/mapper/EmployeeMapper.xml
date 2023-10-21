@@ -11,4 +11,10 @@
     <select id="selectEmployee" resultType="com.woniu.hospital_information_system.entity.Employee">
         select * from employee e LEFT JOIN employee_role er on e.employee_id = er.employee_id LEFT JOIN role r on r.role_id = er.employee_role_id where r.role_id in (2,3,4)
     </select>
+    <select id="selectUnitByDoctorId" resultType="com.woniu.hospital_information_system.entity.Unit">
+        select u.* from unit u
+            left join employee_unit eu on eu.unit_id = u.unit_id
+            left join employee e on eu.employee_id = e.employee_id
+        where e.employee_id = #{doctorId}
+    </select>
 </mapper>

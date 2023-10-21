@@ -1,6 +1,8 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.Disease;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
+import com.woniu.hospital_information_system.mapper.DiseaseMapper;
 import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
 import com.woniu.hospital_information_system.service.VisitorBillService;
@@ -22,6 +24,8 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     VisitorBillMapper visitorBillMapper;
     @Autowired
     VisitorBillService visitorBillService;
+    @Autowired
+    DiseaseMapper diseaseMapper;
 
 
 
@@ -72,5 +76,13 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Override
     public List<VisitorInfo> getAll() {
         return visitorInfoMapper.getAll();
+    }
+
+    /*
+    *   查询病人疾病信息
+    * */
+    @Override
+    public Disease getDiagnosisByVisitorId(Integer visitorId) {
+        return diseaseMapper.selectDiseaseById(visitorInfoMapper.getVisitorInfoByVisitorId(visitorId).getDiseaseId());
     }
 }

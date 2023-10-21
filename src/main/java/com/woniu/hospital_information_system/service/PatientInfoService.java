@@ -29,4 +29,6 @@ public interface PatientInfoService {
     List<PatientInfo> getPatientInfoByKeyWord(PatientInfoDTO patientInfoDTO);
 
     void finishPayment(Integer patientId);
+    //根据身份证查询门诊信息
+    PatientInfoVO getVisitorInfoByIdNumber(String idNumber);
 }

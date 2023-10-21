@@ -9,4 +9,6 @@ public interface EmployeeService {
     List<Employee> getEmployeeByUnitId(Unit unit);
 
     List<Employee> getAllEmployees();
+    //根据医生id查询科室
+    Unit getUnitByDoctorId(Integer doctorId);
 }
