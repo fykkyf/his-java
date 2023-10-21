@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PatientInfoService {
     //获取所有住院患者信息
-    List<PatientInfoVO> getAllPatientInfos();
+    PatientInfoVO getAllPatientInfos(int pageNum,int pageSize);
     //添加住院患者信息
     void addPatientInfo(PatientInfoDTO patientInfoDTO);
     //根据住院患者id查询患者信息
@@ -27,4 +27,8 @@ public interface PatientInfoService {
     void admissionDiagnosis(PatientInfoDTO patientInfoDTO);
     //模糊查询住院患者信息
     List<PatientInfo> getPatientInfoByKeyWord(PatientInfoDTO patientInfoDTO);
+
+    void finishPayment(Integer patientId);
+    //根据身份证查询门诊信息
+    PatientInfoVO getVisitorInfoByIdNumber(String idNumber);
 }

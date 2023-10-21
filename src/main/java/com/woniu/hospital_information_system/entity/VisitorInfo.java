@@ -21,11 +21,12 @@ public class VisitorInfo {
     private Integer gender;
     private Integer age;
     private String idNumber;
-    private Integer phone;
-    private Integer unitId;
-    private Integer doctorId;
-    private Integer diseaseId;
+    private BigInteger phone;
+    private Unit unit;
+    private Employee employee;
+    private Disease clinicDiagnosis;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime clinicStartTime;
     private Integer clinicStatus;
+
 }

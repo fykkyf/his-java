@@ -1,6 +1,7 @@
 package com.woniu.hospital_information_system.entity.DTO;
 
 import cn.hutool.core.date.DateTime;
+import com.woniu.hospital_information_system.entity.Disease;
 import com.woniu.hospital_information_system.entity.Treatment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class PatientOrderDTO {
     private DateTime dispenseTime;
     private Integer executionStatus;
     private Integer orderType;
-    private Integer admissionDiagnosisId;
-    private Integer dischargeDiagnosisId;
+    private Disease admissionDiagnosis;
+    private Disease dischargeDiagnosis;
+    private Integer pageNum;
+    private Integer pageSize;
 }

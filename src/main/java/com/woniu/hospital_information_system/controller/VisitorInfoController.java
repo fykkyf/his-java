@@ -67,4 +67,11 @@ public class VisitorInfoController {
         visitorInfoService.updateDisease(visitorInfo);
         return new ResponseEntity(200,"ok",null);
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity getAll(){
+        List<VisitorInfo> visitorInfos=visitorInfoService.getAll();
+        System.out.println(visitorInfos);
+        return new ResponseEntity(200,"ok",visitorInfos);
+    }
 }

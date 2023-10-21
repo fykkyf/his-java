@@ -22,7 +22,7 @@ public class PatientInfoDTO {
     private Integer age;
     private String idNumber;
     private Integer unitId;
-    private Integer doctorId;
+    private Integer employeeId;
     private Integer insuranceStatus;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime inTime;
@@ -36,4 +36,6 @@ public class PatientInfoDTO {
     private LocalDateTime paidTime;
     private Integer stayStatus;
     private Integer paymentStatus;
+    private Integer pageSize;
+    private Integer pageNum;
 }

@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.ClinicOrder;
 import com.woniu.hospital_information_system.entity.Treatment;
+import com.woniu.hospital_information_system.entity.VO.VisitorBillVO;
 import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import org.apache.ibatis.annotations.*;
@@ -27,11 +28,13 @@ public interface VisitorBillMapper {
 //    @Select("select treatment_price from treatment where treatment_id=#{treatmentId}")
 //    Integer getTreatmentCategoryByTreatmentId (ClinicOrder clinicOrder);//通过tid查出金额
 
-    @Select("select * from visitor_bill where visitor_id = #{visitorId} and payment_status=#{paymentStatus} and manipulate_status = #{manipulateStatus}")
-    List<VisitorBill> getAllBillsByVisitorId(Integer visitorId);
+    List<VisitorBillVO> getAllBillsByVisitorId(Integer visitorId);
     @Update("update visitor_bill set payment_status = 2, payment_date = now() where visitor_bill_id = #{visitorBillId}")
     void changePaymentStatus(Integer visitorBillId);
-
+    @Update("update visitor_bill set payment_status = 3 where visitor_bill_id = #{visitorBillId}")
+    void refundPayment(Integer visitorBillId);
     @Insert("insert into visitor_bill values (null,#{visitorId},#{treatmentId},#{drugCount},#{treatmentPrice},now(),null,1,1)")
     void addClinicOrderBill(@Param("visitorId") Integer visitorId, @Param("treatmentId") Integer treatmentId,@Param("drugCount") Integer drugCount, @Param("treatmentPrice") Double treatmentPrice);
+
+    List<VisitorBillVO> getRefundBillsByVisitorId(Integer visitorId);
 }

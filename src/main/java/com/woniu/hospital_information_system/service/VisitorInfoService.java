@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.service;
 
+import com.woniu.hospital_information_system.entity.Disease;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 
 import java.util.List;
@@ -18,4 +19,8 @@ public interface VisitorInfoService {
     void updateClinicStatusAfterVisiting(VisitorInfo visitorInfo);
 
     void updateDisease(VisitorInfo visitorInfo);
+
+    List<VisitorInfo> getAll();
+
+    Disease getDiagnosisByVisitorId(Integer visitorId);
 }
