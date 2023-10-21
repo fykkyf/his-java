@@ -14,5 +14,6 @@ public class VisitorBillVO {
     private String treatmentName;
     private Integer drugCount;
     private Double treatmentPrice;
+    private Double finalPrice;
     private Integer paymentStatus;
 }

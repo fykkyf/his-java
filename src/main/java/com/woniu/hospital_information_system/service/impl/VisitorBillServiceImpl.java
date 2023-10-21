@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.service.impl;
 
+import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import com.woniu.hospital_information_system.entity.VO.VisitorBillResultVO;
 import com.woniu.hospital_information_system.entity.VO.VisitorBillVO;
 import com.woniu.hospital_information_system.entity.VisitorBill;
@@ -19,16 +20,63 @@ public class VisitorBillServiceImpl implements VisitorBillService {
     VisitorInfoMapper visitorInfoMapper;
 
     @Override
-    public VisitorBillResultVO getVisitorBillVO(Integer patientId) {
+    public VisitorBillResultVO getVisitorBillVO(Integer visitorId) {
         VisitorBillResultVO visitorBillResultVO = new VisitorBillResultVO();
-        VisitorInfo visitorInfo = visitorInfoMapper.getVisitorInfoByVisitorId(patientId);
+        VisitorInfo visitorInfo = visitorInfoMapper.getVisitorInfoByVisitorId(visitorId);
         visitorBillResultVO.setVisitorInfo(visitorInfo);
-        List<VisitorBillVO> visitorBillVOList = visitorBillMapper.getAllBillsByVisitorId(patientId);
-        Double finalPrice = getFinalPrice(patientId);
+        List<VisitorBillVO> visitorBillVOList = visitorBillMapper.getAllBillsByVisitorId(visitorId);
+        for (VisitorBillVO p : visitorBillVOList) {
+            if (p.getTreatmentPrice() != null && p.getDrugCount() != null) {
+                int count = p.getDrugCount();
+
+                double price = p.getTreatmentPrice();
+
+                double sum = count * price;
+
+                p.setFinalPrice(sum);
+            } else if (p.getTreatmentPrice() != null && p.getDrugCount() == null) {
+                p.setFinalPrice(p.getTreatmentPrice());
+            }else {
+                p.setDrugCount(0);
+                p.setTreatmentPrice(0.0);
+                p.setFinalPrice(0.0);
+            }
+        }
+        Double finalPrice = getFinalPrice(visitorBillVOList);
         visitorBillResultVO.setVisitorBillVOList(visitorBillVOList);
         visitorBillResultVO.setFinalPrice(finalPrice);
         return visitorBillResultVO;
     }
+
+    @Override
+    public VisitorBillResultVO getRefundBillVO(Integer visitorId) {
+        VisitorBillResultVO visitorBillResultVO = new VisitorBillResultVO();
+        VisitorInfo visitorInfo = visitorInfoMapper.getVisitorInfoByVisitorId(visitorId);
+        visitorBillResultVO.setVisitorInfo(visitorInfo);
+        List<VisitorBillVO> visitorBillVOList = visitorBillMapper.getRefundBillsByVisitorId(visitorId);
+        for (VisitorBillVO p : visitorBillVOList) {
+            if (p.getTreatmentPrice() != null && p.getDrugCount() != null) {
+                int count = p.getDrugCount();
+
+                double price = p.getTreatmentPrice();
+
+                double sum = count * price;
+
+                p.setFinalPrice(sum);
+            } else if (p.getTreatmentPrice() != null && p.getDrugCount() == null) {
+                p.setFinalPrice(p.getTreatmentPrice());
+            }else {
+                p.setDrugCount(0);
+                p.setTreatmentPrice(0.0);
+                p.setFinalPrice(0.0);
+            }
+        }
+        Double finalPrice = getFinalPrice(visitorBillVOList);
+        visitorBillResultVO.setVisitorBillVOList(visitorBillVOList);
+        visitorBillResultVO.setFinalPrice(finalPrice);
+        return visitorBillResultVO;
+    }
+
     @Override
     public void addVisitorBillByVisitorIdAndEmployeeId(Integer visitorId, Integer treatmentId, Double treatmentPrice) {
         visitorBillMapper.addVisitorBill(visitorId,treatmentId,treatmentPrice);
@@ -46,18 +94,21 @@ public class VisitorBillServiceImpl implements VisitorBillService {
 
 
     @Override
-    public void changePaymentStatus(Integer visitorBillId) {
-        visitorBillMapper.changePaymentStatus(visitorBillId);
+    public void refundPayment(Integer visitorBillId) {
+        visitorBillMapper.refundPayment(visitorBillId);
     }
 
     @Override
-    public Double getFinalPrice(Integer visitorId) {
+    public Double getFinalPrice(List<VisitorBillVO> visitorBillVOList ) {
         //查询所有相关账单
-        List<VisitorBillVO> bills =  visitorBillMapper.getAllBillsByVisitorId(visitorId);
+
         double sum  = 0;
         //遍历获取每个金额并相加 并用billid更改支付状态
-        for (VisitorBillVO visitorBill : bills){
-           sum =sum +  visitorBill.getTreatmentPrice();
+        for (VisitorBillVO visitorBill : visitorBillVOList){
+            if(visitorBill.getFinalPrice()!=0){
+                sum =sum +  visitorBill.getFinalPrice();
+            }
+
         }
         return sum;
     }

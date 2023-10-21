@@ -5,7 +5,13 @@
     <select id="getAllBillsByVisitorId" resultType="visitorBillVO">
         select visitor_bill_id,visitor_id,treatment.treatment_name,drug_count,visitor_bill.treatment_price,visitor_bill.payment_status from visitor_bill,treatment
         where treatment.treatment_id=visitor_bill.treatment_id
-        and payment_status != 2
+        and payment_status = 1
         and visitor_id = #{visitorId};
+    </select>
+    <select id="getRefundBillsByVisitorId" resultType="visitorBillVO">
+        select visitor_bill_id,visitor_id,treatment.treatment_name,drug_count,visitor_bill.treatment_price,visitor_bill.payment_status from visitor_bill,treatment
+        where treatment.treatment_id=visitor_bill.treatment_id
+          and payment_status = 2
+          and visitor_id = #{visitorId};
     </select>
 </mapper>

@@ -41,13 +41,20 @@ public class VisitorBillController {
 
         return new ResponseEntity(200,"success",visitorBillResultVO);
     }
+    @GetMapping("/getRefundByVisitorId/{visitorId}")
+    public ResponseEntity getRefundByVisitorId(@PathVariable Integer visitorId){
+        VisitorBillResultVO visitorBillResultVO = visitorBillService.getRefundBillVO(visitorId);
 
-    //根据病人费用表id修改支付状态
+        return new ResponseEntity(200,"success",visitorBillResultVO);
+    }
+
+    //根据病人费用表id退款
     @PostMapping("/changePaymentStatus/{visitorBillId}")
     public ResponseEntity changePaymentStatus(@PathVariable Integer visitorBillId){
-        visitorBillService.changePaymentStatus(visitorBillId);
-        return new ResponseEntity(200,"success","支付成功");
+        visitorBillService.refundPayment(visitorBillId);
+        return new ResponseEntity(200,"success","退款成功");
     }
+
     @PostMapping("/changeAllStatus/{visitorId}")
     public ResponseEntity changeAllStatus(@PathVariable Integer visitorId){
         visitorBillService.changeAllStatus(visitorId);

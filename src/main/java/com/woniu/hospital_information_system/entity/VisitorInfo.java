@@ -28,4 +28,5 @@ public class VisitorInfo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime clinicStartTime;
     private Integer clinicStatus;
+
 }

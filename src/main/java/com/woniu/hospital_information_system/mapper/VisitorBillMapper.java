@@ -31,7 +31,10 @@ public interface VisitorBillMapper {
     List<VisitorBillVO> getAllBillsByVisitorId(Integer visitorId);
     @Update("update visitor_bill set payment_status = 2, payment_date = now() where visitor_bill_id = #{visitorBillId}")
     void changePaymentStatus(Integer visitorBillId);
-
+    @Update("update visitor_bill set payment_status = 3 where visitor_bill_id = #{visitorBillId}")
+    void refundPayment(Integer visitorBillId);
     @Insert("insert into visitor_bill values (null,#{visitorId},#{treatmentId},#{drugCount},#{treatmentPrice},now(),null,1,1)")
     void addClinicOrderBill(@Param("visitorId") Integer visitorId, @Param("treatmentId") Integer treatmentId,@Param("drugCount") Integer drugCount, @Param("treatmentPrice") Double treatmentPrice);
+
+    List<VisitorBillVO> getRefundBillsByVisitorId(Integer visitorId);
 }
