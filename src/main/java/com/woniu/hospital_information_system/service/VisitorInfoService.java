@@ -22,4 +22,7 @@ public interface VisitorInfoService {
     List<VisitorInfo> getAll();
 
     List<VisitorInfo> getVisitorByEmployeeId(Integer eid);
+
+    void updateMessage(VisitorInfo visitorInfo);
+
 }

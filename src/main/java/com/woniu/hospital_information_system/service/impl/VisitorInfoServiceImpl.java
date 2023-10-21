@@ -81,4 +81,9 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     public List<VisitorInfo> getVisitorByEmployeeId(Integer eid) {
         return visitorInfoMapper.getVisitorByEmployeeId(eid);
     }
+
+    @Override
+    public void updateMessage(VisitorInfo visitorInfo) {
+        visitorInfoMapper.updateMessage(visitorInfo);
+    }
 }

@@ -42,4 +42,7 @@ public interface VisitorInfoMapper {
 
     @Select("select * from visitor_info where doctor_id=#{eid} and clinic_status=1")
     List<VisitorInfo> getVisitorByEmployeeId(Integer eid);
+
+    @Update("update visitor_info set visitor_name=#{visitorName},gender=#{gender},age=#{age},id_number=#{idNumber},phone=#{phone},unit_id=#{unitId},doctor_id=#{doctorId}")
+    void updateMessage(VisitorInfo visitorInfo);
 }

@@ -26,8 +26,13 @@ public class VisitorInfoController {
     //挂号时，向门诊患者信息表添加患者信息,且在门诊患者费用表中生成数据
     public ResponseEntity addVisitorInfo(@RequestBody VisitorInfo visitorInfo){
         System.out.println(visitorInfo);
+        if(visitorInfo.getVisitorId()!=null){
+            visitorInfoService.updateMessage(visitorInfo);
+        }else{
+            visitorInfoService.addVisitorInfo(visitorInfo);
+        }
         visitorInfoService.addVisitorInfo(visitorInfo);
-        return new ResponseEntity(200,"挂号成功",null);
+        return new ResponseEntity(200,"ok",null);
     }
 
     @PostMapping("/getByVid")
