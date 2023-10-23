@@ -40,6 +40,9 @@ public class EmployeeController {
     public Object getUnitByDoctorId(@PathVariable("doctorId") Integer doctorId) {
         return new ResponseEntity(200,"request success",employeeService.getUnitByDoctorId(doctorId));
     }
-
+    @GetMapping("/getAllVO")
+    public Object getAllVO(){
+        return new ResponseEntity(200,"success",employeeService.getAllVO());
+    }
 
 }

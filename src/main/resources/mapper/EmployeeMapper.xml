@@ -17,4 +17,27 @@
             left join employee e on eu.employee_id = e.employee_id
         where e.employee_id = #{doctorId}
     </select>
+    <select id="getAllVO" resultMap="EmployeeVOMap">
+        select
+            e.employee_id, e.employee_name, u.unit_id, u.unit_name, r.role_id, r.role_name
+        from employee e
+        left join employee_unit eu on e.employee_id = eu.employee_id
+        left join unit u on eu.unit_id = u.unit_id
+        left join employee_role er on e.employee_id = er.employee_id
+        left join role r on er.role_id = r.role_id
+    </select>
+    <resultMap id="EmployeeVOMap" type="employeeVO">
+        <id property="employeeId" column="employee_id" />
+        <result property="employeeName" column="employee_name" />
+
+        <association property="unit" javaType="unit" >
+            <id property="unitId" column="unit_id"></id>
+            <result property="unitName" column="unit_name"></result>
+        </association>
+
+        <association property="role" javaType="role">
+            <id property="roleId" column="role_id"></id>
+            <result property="roleName" column="role_name" ></result>
+        </association>
+    </resultMap>
 </mapper>

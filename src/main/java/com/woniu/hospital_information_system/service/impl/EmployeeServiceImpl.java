@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.service.impl;
 
 import com.woniu.hospital_information_system.entity.Employee;
 import com.woniu.hospital_information_system.entity.Unit;
+import com.woniu.hospital_information_system.entity.VO.EmployeeVO;
 import com.woniu.hospital_information_system.mapper.EmployeeMapper;
 import com.woniu.hospital_information_system.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Unit getUnitByDoctorId(Integer doctorId) {
         return employeeMapper.selectUnitByDoctorId(doctorId);
+    }
+
+    @Override
+    public List<EmployeeVO> getAllVO() {
+        return employeeMapper.getAllVO();
     }
 }
