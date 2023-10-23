@@ -1,24 +1,32 @@
 package com.woniu.hospital_information_system.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.woniu.hospital_information_system.entity.DTO.LocationDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.entity.VO.PatientBillResultVO;
 import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
+import com.woniu.hospital_information_system.service.LocationService;
 import com.woniu.hospital_information_system.service.PatientInfoService;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("patientInfo")
 public class PatientInfoController {
     @Autowired
     PatientInfoService patientInfoService;
     @Autowired
     VisitorInfoService visitorInfoService;
+    @Autowired
+    LocationService locationService;
     /*
     * 查询所有住院患者信息
     * */
@@ -26,7 +34,13 @@ public class PatientInfoController {
     public Object getAllPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
         return new ResponseEntity(200,"request success",patientInfoService.getAllPatientInfos(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize()));
     }
-
+    @Transactional
+    @PostMapping("/addLocation")
+    public Object addLoaction(@RequestBody LocationDTO location){
+        patientInfoService.addLocationId(location.getLocationId(),location.getPatientId());
+        locationService.modifyLocationStatusByLocationId(location.getLocationId());
+        return new ResponseEntity(200,"success","添加成功");
+    }
     /*
     *根据患者id查询患者信息
     * */
@@ -47,6 +61,10 @@ public class PatientInfoController {
     @PostMapping("/get/allDischarge")
     public Object getAllDischarge(@RequestBody PatientInfoDTO patientInfoDTO) {
         return new ResponseEntity(200,"request success",patientInfoService.getAllDischarge(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize()));
+    }
+    @GetMapping("/getPatientInfoByLocation")
+    public Object getPatientInfoByLocation() {
+        return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByLocation());
     }
     /*
     *   模糊查询患者信息
@@ -124,6 +142,13 @@ public class PatientInfoController {
     @GetMapping("/get/clinicDiagnosis/{visitorId}")
     public Object getClinicDiagnosisByVisitorId(@PathVariable("visitorId") Integer visitorId) {
         return new ResponseEntity(200,"request success",visitorInfoService.getDiagnosisByVisitorId(visitorId));
+    }
+    @GetMapping("/getPatientInfoByPatientIdAndLocation/{patientId}")
+    public ResponseEntity getPatientInfoByPatientIdAndLocation(@PathVariable Integer patientId){
+
+        List<PatientInfo> patientInfoList = patientInfoService.getPatientInfoByPatientIdAndLocation(patientId);
+
+        return new ResponseEntity(200,"success",patientInfoList);
     }
 
 }

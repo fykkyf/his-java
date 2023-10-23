@@ -21,4 +21,6 @@ public interface LocationMapper {
     //清空床位
     @Update("update location set location_status = 1 where location_id = #{locationId}")
     void updateLocationStatusEmpty(Integer locationId);
+
+
 }

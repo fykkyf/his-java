@@ -40,4 +40,6 @@ public class LocationServiceImpl implements LocationService {
     public void updateLocationStatusEmpty(Integer locationId) {
         locationMapper.updateLocationStatusEmpty(locationId);
     }
+
+
 }

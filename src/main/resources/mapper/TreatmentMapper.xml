@@ -33,10 +33,18 @@
               and   drug_code=#{drugCode}
           </if>
           <if test="storage!=null and storage!=''">
-              and   storage>=#{storage}
+              and   storage&lt;=#{storage}
+          </if>
+          <if test="expiredTime!=null ">
+              and expired_time >= #{expiredTime}
+          </if>
+          <if test="expiredTime1!=null ">
+              and expired_time &lt;= date_add(#{expiredTime1},interval 1 day)
           </if>
       </where>
     </select>
+
+
 
     <select id="selectAllByCode" resultType="TreatmentVO">
         select * from treatment where drug_code=#{drugCode}
@@ -44,7 +52,7 @@
 
     <insert id="addTreatment" parameterType="TreatmentDTO">
         insert into treatment values (null, #{treatmentName}, #{drugCode}, #{manufacturer}, #{productionTime},
-                                         #{expiredTime}, #{storage}, #{specification}, #{treatmentPrice}, #{insurancePrice},1,1))
+                                         #{expiredTime}, #{storage}, #{specification}, #{treatmentPrice}, #{insurancePrice},1,1)
     </insert>
 
     <select id="selectOmd" resultType="OmdVO">
@@ -58,10 +66,10 @@
             <if test="visitorId!=null and visitorId!=''">
                 and vi.visitor_id=#{visitorId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null">
                 and vb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null">
                 and vb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -76,10 +84,10 @@
             <if test="visitorId!=null and visitorId!=''">
                 and vi.visitor_id=#{visitorId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null ">
                 and vb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null ">
                 and vb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -106,10 +114,10 @@
             <if test="patientId!=null and patientId!=''">
                 and pi.patient_id=#{patientId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null ">
                 and pb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null ">
                 and pb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -126,10 +134,10 @@
             <if test="patientId!=null and patientId!=''">
                 and pi.patient_id=#{patientId}
             </if>
-            <if test="orderDate!=null and orderDate!=''">
+            <if test="orderDate!=null ">
                 and pb.order_date >= #{orderDate}
             </if>
-            <if test="orderDate1!=null and orderDate1!=''">
+            <if test="orderDate1!=null">
                 and pb.order_date &lt;= date_add(#{orderDate1},interval 1 day)
             </if>
         </where>
@@ -144,5 +152,101 @@
             </foreach>
         </where>
     </update>
+
+    <select id="selectClinicMed" resultType="OmdVO">
+        select DISTINCT vi.visitor_id,vi.visitor_name from visitor_info vi,visitor_bill vb,treatment t
+        <where>
+            vi.visitor_id=vb.visitor_id and vb.treatment_id=t.treatment_id and t.treatment_category=1 and
+            vb.payment_status=2 and vb.manipulate_status=2
+            <if test="visitorId!=null and visitorId!=''">
+                and vi.visitor_id=#{visitorId}
+            </if>
+            <if test="dispenseTime!=null ">
+                and vb.dispense_time >= #{dispenseTime}
+            </if>
+            <if test="dispenseTime!=null ">
+                and vb.dispense_time &lt;= date_add(#{dispenseTime1},interval 1 day)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectClinicMedmx" resultType="OmdVO">
+        select vb.visitor_bill_id ,vi.visitor_id ,vi.visitor_name ,vi.gender ,u.unit_name ,
+        e.employee_name ,t.drug_code ,t.treatment_name ,vb.drug_count,t.specification ,vb.dispense_time
+        from visitor_info vi,treatment t,visitor_bill vb,unit u,employee e
+        <where>
+            vi.visitor_id=vb.visitor_id and vb.treatment_id=t.treatment_id
+            and u.unit_id=vi.unit_id and vi.doctor_id=e.employee_id
+            and t.treatment_category=1 and vb.manipulate_status=2 and vb.payment_status=2
+            <if test="visitorId!=null and visitorId!=''">
+                and vi.visitor_id=#{visitorId}
+            </if>
+            <if test="dispenseTime!=null">
+                and vb.dispense_time >= #{dispenseTime}
+            </if>
+            <if test="dispenseTime1!=null">
+                and vb.dispense_time &lt;= date_add(#{dispenseTime1},interval 1 day)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPatientMed" resultType="ImdVO">
+        select DISTINCT pi.patient_id,pi.patient_name from patient_info pi,patient_bill pb,treatment t
+        <where>
+            pi.patient_id=pb.patient_id and pb.treatment_id=t.treatment_id and t.treatment_category=1
+            and  pb.payment_status&lt;>1 and pb.manipulate_status=2
+            <if test="patientId!=null and patientId!=''">
+                and pi.patient_id=#{patientId}
+            </if>
+            <if test="dispenseTime!=null ">
+                and pb.dispense_time >= #{dispenseTime}
+            </if>
+            <if test="dispenseTime!=null ">
+                and pb.dispense_time &lt;= date_add(#{dispenseTime1},interval 1 day)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPatientMedmx" resultType="ImdVO">
+        select pb.patient_bill_id ,pi.patient_id ,pi.patient_name ,pi.gender ,u.unit_name ,e.employee_name ,t.drug_code ,
+        t.treatment_name ,pb.drug_count ,t.specification ,pb.dispense_time
+        from patient_info pi,patient_bill pb,unit u,employee e,treatment t
+        <where>
+            pi.patient_id=pb.patient_id  and pb.treatment_id=t.treatment_id
+            and pi.unit_id=u.unit_id and pi.doctor_id=e.employee_id
+            and pb.payment_status&lt;>1  and t.treatment_category=1 and pb.manipulate_status=2
+            <if test="patientId!=null and patientId!=''">
+                and pi.patient_id=#{patientId}
+            </if>
+            <if test="dispenseTime!=null ">
+                and pb.dispense_time >= #{dispenseTime}
+            </if>
+            <if test="dispenseTime1!=null">
+                and pb.dispense_time &lt;= date_add(#{dispenseTime1},interval 1 day)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllTreatments" resultType="TreatmentVO">
+        select * from treatment
+        <where>
+            treatment_category&lt;>1
+            <if test="keyword!=null and keyword!=''">
+              and treatment_name like "%${keyword}%"
+            </if>
+
+            <if test="treatmentId!=null and treatmentId!=''">
+                and  treatment_id=#{treatmentId}
+            </if>
+
+            <if test="treatmentStatus!=null and treatmentStatus!=''">
+                and   treatment_status=#{treatmentStatus}
+            </if>
+            <if test="treatmentCategory!=null and treatmentCategory!=''">
+                and   treatment_category=#{treatmentCategory}
+            </if>
+
+        </where>
+    </select>
 
 </mapper>

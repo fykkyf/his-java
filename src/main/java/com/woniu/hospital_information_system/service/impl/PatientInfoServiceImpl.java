@@ -192,6 +192,35 @@ public class PatientInfoServiceImpl implements PatientInfoService {
 
     }
 
+    @Override
+    public List<PatientInfo> getPatientInfoByLocation() {
+        List<PatientInfo> patientInfoList = patientInfoMapper.selectAllPatientInfos();
+        List<PatientInfo> result = new ArrayList<>();
+        for (PatientInfo p : patientInfoList){
+            if (p.getLocation()==null){
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void addLocationId(Integer locationId,Integer patientId) {
+        patientInfoMapper.addLocationId(locationId,patientId);
+    }
+
+    @Override
+    public List<PatientInfo> getPatientInfoByPatientIdAndLocation(Integer patientId) {
+        List<PatientInfo> patientInfoList = patientInfoMapper.selectAllPatientInfos();
+        List<PatientInfo> result = new ArrayList<>();
+        for (PatientInfo p : patientInfoList){
+            if (p.getLocation()==null&&p.getPatientId().equals(patientId)){
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
     /*
      * 添加出院诊断
      * */

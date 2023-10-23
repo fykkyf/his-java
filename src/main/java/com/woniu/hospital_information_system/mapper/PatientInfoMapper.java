@@ -27,6 +27,9 @@ public interface PatientInfoMapper {
     //清空床位信息
     @Update("update  patient_info set location_id = null where patient_id = #{patientId}")
     void updateLocationId(Integer patientId);
+    //给病人添加床位
+    @Update("update  patient_info set location_id = #{locationId} where patient_id = #{patientId}")
+    void addLocationId(@Param("locationId")Integer locationId,@Param("patientId") Integer patientId);
     //办理出院
     @Update("update  patient_info set stay_status = 2,out_time = now()  where patient_id = #{patientId}")
     void completeDischarge(PatientInfoDTO patientInfoDTO);
@@ -47,4 +50,6 @@ public interface PatientInfoMapper {
     List<PatientInfo> selectNoLocationPatientInfosByKeyWord(PatientInfo convertPatientInfo);
     //查询有出院诊断--未办理出院的病人信息
     List<PatientInfo> selectPatientInfosByDischarge();
+
+
 }

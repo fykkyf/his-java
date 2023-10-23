@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationController {
     @Autowired
     LocationService locationService;
+    @GetMapping("emptyLocation")
+    public ResponseEntity emptyLocation(){
+        return new ResponseEntity(200,"success",locationService.getLocationByStatus(0));
+    }
 
     @GetMapping("/get/all")
     /*

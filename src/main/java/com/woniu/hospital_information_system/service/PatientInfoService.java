@@ -36,4 +36,10 @@ public interface PatientInfoService {
     PatientInfoVO getAllPatientInfosByNoLocation(int pageNum, int pageSize);
     //获取所有住院患者信息--出院办理
     PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize);
+
+    List<PatientInfo> getPatientInfoByLocation();
+
+    void addLocationId(Integer locationId,Integer patientId);
+
+    List<PatientInfo> getPatientInfoByPatientIdAndLocation(Integer patientId);
 }

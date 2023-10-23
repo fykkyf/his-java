@@ -27,4 +27,6 @@ public class TreatmentVO {
     private Integer treatmentStatus;
     private Integer treatmentCategory;
     private Integer drugCode;
+    private Integer pageNum;
+    private Integer pageSize;
 }
