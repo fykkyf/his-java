@@ -18,9 +18,12 @@ public interface PatientOrderMapper {
     //根据住院患者id查询住院患者医嘱信息
 //    @Select("select * from patient_order where patient_id = #{patientId}")
     List<PatientOrder> selectPatientOrderByPatientId(int patientId);
-    //更改住院医嘱信息
+    //更改住院医嘱信息--执行状态
     @Update("update patient_order set execution_status = #{executionStatus} where patient_order_id = #{patientOrderId}")
-    void updatePatientOrderByPatientId(PatientOrder patientOrder);
+    void updatePatientOrderStatusByPatientId(PatientOrder patientOrder);
+    //更改住院医嘱信息--执行时间
+    @Update("update patient_order set execution_time = now() where patient_order_id = #{patientOrderId}")
+    void updatePatientOrderTimesByPatientId(PatientOrder patientOrder);
     //办理出院
     @Insert("insert into patient_order values (null,#{patientId},#{doctorId},7,'办理出院',null,null,null,null,null,1,1)")
     void dischargePatient(PatientInfoDTO patientInfoDTO);
@@ -33,4 +36,5 @@ public interface PatientOrderMapper {
     void finishPayment(Integer patientId);
     //模糊查询住院患者医嘱信息
     List<PatientOrder> selectPatientOrderByKeyWord(PatientOrder patientOrder);
+
 }
