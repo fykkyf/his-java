@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
@@ -25,6 +26,13 @@ public class PatientOrderController {
     public Object getAllPatientOrder(@RequestBody PatientOrderDTO patientOrderDTO) {
         return new ResponseEntity(200,"request success",patientOrderService.getAllPatientOrders(patientOrderDTO.getPageNum(),patientOrderDTO.getPageSize()));
     }
+    /*
+     *   模糊查询患者医嘱信息
+     * */
+    @PostMapping("/getByKeyWord")
+    public Object getPatientInfoByKeyWord(@RequestBody PatientOrderDTO patientOrderDTO) {
+        return new ResponseEntity(200,"request success",new PageInfo<>(patientOrderService.getPatientOrderByKeyWord(patientOrderDTO)));
+    }
 
     /*
     *根据id查询患者医嘱信息
@@ -42,11 +50,10 @@ public class PatientOrderController {
         patientOrderService.addPatientOrder(patientOrderDTO);
         return new ResponseEntity(200,"request success",null);
     }
-    //办理出院
+    //办理出院--修改费用表信息
     @PostMapping("/discharge")
     public ResponseEntity discharge(@RequestBody PatientInfoDTO patientInfoDTO){
         patientOrderService.dischargePatient(patientInfoDTO);
-
         return new ResponseEntity(200,"success","办理成功");
     }
     /*

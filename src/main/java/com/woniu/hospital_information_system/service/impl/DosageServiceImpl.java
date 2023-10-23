@@ -16,4 +16,19 @@ public class DosageServiceImpl implements DosageService {
     public List<Dosage> getAllDosages() {
         return dosageMapper.selectDosages();
     }
+
+    @Override
+    public void addDosage(Dosage dosage) {
+        dosageMapper.addDosage(dosage);
+    }
+
+    @Override
+    public void updateDosage(Dosage dosage) {
+        dosageMapper.updateDosage(dosage);
+    }
+
+    @Override
+    public void removeDosage(Integer dosageId) {
+        dosageMapper.deleteDosage(dosageId);
+    }
 }

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
+import com.woniu.hospital_information_system.exception.UnLiquidatedHospitalChargesException;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.InsuranceInfoService;
 import com.woniu.hospital_information_system.service.LocationService;
@@ -49,14 +50,23 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     public PatientInfoVO getAllPatientInfos(int pageNum, int pageSize) {
         List<PatientInfo> patientInfos = patientInfoMapper.selectAllPatientInfos();
         //分页
-        PageHelper.startPage(pageNum, pageSize);
-        PageInfo<PatientInfo> info = new PageInfo<>(patientInfos);
-        PatientInfoVO patientInfoVO = new PatientInfoVO();
-        patientInfoVO.setPageNum(pageNum);
-        patientInfoVO.setPageSize(pageSize);
-        patientInfoVO.setTotal((int) info.getTotal());
-        patientInfoVO.setPatientInfos(patientInfos);
-        return patientInfoVO;
+        return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
+    }
+    /*
+     * 获取所有住院患者信息---添加床位
+     * */
+    @Override
+    public PatientInfoVO getAllPatientInfosByNoLocation(int pageNum, int pageSize) {
+        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByNoLocation();
+        //分页
+        return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
+    }
+
+    @Override
+    public PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize) {
+        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByDischarge();
+        //分页
+        return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
     }
 
     /*
@@ -66,28 +76,33 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     @Override
     public void addPatientInfo(PatientInfoDTO patientInfoDTO) {
         PatientInfo patientInfo = new PatientInfo();
-        //TODO:转换类型PatientInfoDTO->PatientInfo
         //查询门诊诊断（diagnosisId）+基础信息
         //有门诊id就添加门诊ID、门诊诊断ID
         if (patientInfoDTO.getVisitorId() != null) {
             patientInfo.setVisitorId(patientInfoDTO.getVisitorId());
-//            patientInfo.setClinicDiagnosisId(visitorInfoService.getVisitorInfoByVisitorId(patientInfoDTO.getVisitorId()).getDiseaseId());
+            Disease disease = new Disease();
+            disease.setDiseaseId(patientInfoDTO.getClinicDiagnosisId());
+            patientInfo.setClinicDiagnosis(disease);
         }
         //根据身份证号查询住院患者信息
         List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfoByIdNumber(patientInfoDTO.getIdNumber());
         //获取结算状态为1的集合
-        List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 0).collect(Collectors.toList());
+        List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 1).collect(Collectors.toList());
         if (collect.size() != 0) {
-            //TODO:抛住院费用未结算异常
-            System.out.println("未结算");
+            System.out.println("未结清");
+            throw new UnLiquidatedHospitalChargesException("住院费用未结清");
         }
         //已结清费用则给住院患者对象赋值
         patientInfo.setPatientName(patientInfoDTO.getPatientName());//姓名
         patientInfo.setAge(patientInfoDTO.getAge());//年龄
         patientInfo.setGender(patientInfoDTO.getGender());//性别
         patientInfo.setIdNumber(patientInfoDTO.getIdNumber());//身份证号
-//        patientInfo.setUnitId(patientInfoDTO.getUnitId());//科室id
-//        patientInfo.setDoctorId(patientInfoDTO.getDoctorId());//医生id
+        Unit unit = new Unit();
+        unit.setUnitId(patientInfoDTO.getUnitId());
+        patientInfo.setUnit(unit);//科室id
+        Employee employee = new Employee();
+        employee.setEmployeeId(patientInfoDTO.getEmployeeId());
+        patientInfo.setEmployee(employee);//医生id
         //根据身份证查询医保信息
         if (insuranceInfoService.getInsuranceInfoByIdNumber(patientInfoDTO.getIdNumber()) != null) {
             //有医保
@@ -97,8 +112,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             patientInfo.setInsuranceStatus(0);
         }
         //调用insert方法，向数据库添加住院患者信息
-//        patientInfoMapper.insertPatientInfo(patientInfo);
-        System.out.println("执行添加");
+        patientInfoMapper.insertPatientInfo(patientInfo);
     }
 
     /*
@@ -137,6 +151,14 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         return patientInfoMapper.selectPatientInfoByKeyWord(convertPatientInfo(patientInfoDTO));
     }
 
+    /*
+     * 模糊查询住院患者信息--未添加床位
+     * */
+    @Override
+    public List<PatientInfo> getPatientInfosByNoLocation(PatientInfoDTO patientInfoDTO) {
+        return  patientInfoMapper.selectNoLocationPatientInfosByKeyWord(convertPatientInfo(patientInfoDTO));
+    }
+
     @Override
     public void finishPayment(Integer patientId) {
         patientInfoMapper.finishPayment(patientId);
@@ -170,6 +192,35 @@ public class PatientInfoServiceImpl implements PatientInfoService {
 
     }
 
+    @Override
+    public List<PatientInfo> getPatientInfoByLocation() {
+        List<PatientInfo> patientInfoList = patientInfoMapper.selectAllPatientInfos();
+        List<PatientInfo> result = new ArrayList<>();
+        for (PatientInfo p : patientInfoList){
+            if (p.getLocation()==null){
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void addLocationId(Integer locationId,Integer patientId) {
+        patientInfoMapper.addLocationId(locationId,patientId);
+    }
+
+    @Override
+    public List<PatientInfo> getPatientInfoByPatientIdAndLocation(Integer patientId) {
+        List<PatientInfo> patientInfoList = patientInfoMapper.selectAllPatientInfos();
+        List<PatientInfo> result = new ArrayList<>();
+        for (PatientInfo p : patientInfoList){
+            if (p.getLocation()==null&&p.getPatientId().equals(patientId)){
+                result.add(p);
+            }
+        }
+        return result;
+    }
+
     /*
      * 添加出院诊断
      * */
@@ -183,10 +234,14 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfoMapper.updateLocationId(patientId);
     }
 
+    /*
+    * 出院办理
+    * */
     @Override
     public void completeDischarge(PatientInfoDTO patientInfoDTO) {
+        //修改病人信息表
         patientInfoMapper.completeDischarge(patientInfoDTO);
-        //费用结算
+        //修改费用信息表的操作状态
         patientBillMapper.completeDischarge(patientInfoDTO);
     }
 
@@ -199,6 +254,20 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfoMapper.updatePatientInfo(convertPatientInfo(patientInfoDTO));
     }
 
+
+    /*
+    *   查询所有----分页包装
+    * */
+    private PatientInfoVO getPatientInfoVOByPageInfo(int pageNum, int pageSize, List<PatientInfo> patientInfos) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<PatientInfo> info = new PageInfo<>(patientInfos);
+        PatientInfoVO patientInfoVO = new PatientInfoVO();
+        patientInfoVO.setPageNum(pageNum);
+        patientInfoVO.setPageSize(pageSize);
+        patientInfoVO.setTotal((int) info.getTotal());
+        patientInfoVO.setPatientInfos(patientInfos);
+        return patientInfoVO;
+    }
 
     /*
      * patientInfoDTO-->patientInfo

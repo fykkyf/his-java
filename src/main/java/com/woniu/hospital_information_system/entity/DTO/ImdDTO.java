@@ -16,5 +16,10 @@ public class ImdDTO {
     private Date orderDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderDate1;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dispenseTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dispenseTime1;
+
 
 }

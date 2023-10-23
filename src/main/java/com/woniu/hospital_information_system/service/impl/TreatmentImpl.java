@@ -105,4 +105,36 @@ public class TreatmentImpl implements TreatmentService {
     public void updatestorageByImId(ImdVO imdVO) {
         treatmentMapper.updatestorageByImId(imdVO);
     }
+
+    @Override
+    public void warehousing(TreatmentDTO treatmentDTO) {
+        treatmentMapper.warehousing(treatmentDTO);
+    }
+
+    @Override
+    public List<OmdVO> selectClinicMed(OmdDTO omdDTO) {
+        return treatmentMapper.selectClinicMed(omdDTO);
+    }
+
+    @Override
+    public List<OmdVO> selectClinicMedmx(OmdDTO omdDTO) {
+        return treatmentMapper.selectClinicMedmx(omdDTO);
+    }
+
+    @Override
+    public List<ImdVO> selectPatientMed(ImdDTO imdDTO) {
+        return treatmentMapper.selectPatientMed(imdDTO);
+    }
+
+    @Override
+    public List<ImdVO> selectPatientMedmx(ImdDTO imdDTO) {
+        return treatmentMapper.selectPatientMedmx(imdDTO);
+    }
+
+    @Override
+    public List<TreatmentVO> selectAllTreatments(TreatmentDTO treatmentDTO) {
+        return treatmentMapper.selectAllTreatments(treatmentDTO);
+    }
+
+
 }

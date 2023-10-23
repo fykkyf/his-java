@@ -1,6 +1,8 @@
 package com.woniu.hospital_information_system.controller;
 
 import cn.hutool.core.date.DateTime;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.DTO.ImdDTO;
 import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
@@ -33,13 +35,12 @@ public class TreatmentController {
     //查询所有项目信息，前端判断项目类型 后端写死启用类型为1 启用 如果是药品，设置库存>=1的条件
     @PostMapping("/selectAllTreatmentByCategory")
     public Object selectAllTreatmentByCategory(@RequestBody  TreatmentDTO treatmentDTO){
+        System.out.println(treatmentDTO);
         treatmentDTO.setTreatmentStatus(1);
-        if (treatmentDTO.getTreatmentCategory()==1){
+        if (treatmentDTO.getTreatmentCategory()!=null && treatmentDTO.getTreatmentCategory()==1){
             treatmentDTO.setStorage(1);
-            return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
-        }else{
-            return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
         }
+        return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
 
     }
     //近期药品处理、药房盘点，减少库存
@@ -48,12 +49,25 @@ public class TreatmentController {
         treatmentService.reduceStorage(treatmentDTO);
         return new ResponseEntity(200,"","ok");
     }
+    //药品入库
+    @PostMapping("/warehousing")
+    public Object warehousing(@RequestBody  TreatmentDTO treatmentDTO){
+        treatmentService.warehousing(treatmentDTO);
+        return new ResponseEntity(200,"","ok");
+    }
     //药房管理
     //查询药品 多条件查询(项目名称、生产厂家、过期日期、是否启用、)
     @PostMapping("/selectAllTreatment1")
     public Object selectAllTreatment1(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentDTO.setTreatmentCategory(1);
-        return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
+        //分页
+        PageHelper.startPage(treatmentDTO.getPageNum(),treatmentDTO.getPageSize());
+        //查询
+        List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatment(treatmentDTO);
+        //获取分页信息
+        PageInfo<TreatmentVO> pageInfo = new PageInfo<>(treatmentVOS);
+
+        return new ResponseEntity(200,"",pageInfo);
     }
 
     //初始化加载，库存警告  查询库存<=10的药品
@@ -68,7 +82,7 @@ public class TreatmentController {
                 treatmentVOS1.add("编号:"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"库存还有"+treatmentVO.getStorage()+"，请尽快补货！");
             }
         }
-        return treatmentVOS1;
+        return new ResponseEntity(200,"",treatmentVOS1);
     }
     //初始化加载，近期药品警告
     @PostMapping("/selectAllTreatment3")
@@ -89,7 +103,8 @@ public class TreatmentController {
     //药品添加 根据国家药品编号查询，如果药品不存在，insert一条新的数据，如果存在，更改药品库存库存
     @PostMapping("/addTreatment1")
     public Object addTreatment1(@RequestBody  TreatmentDTO treatmentDTO){
-        if ((treatmentService.selectAllTreatment(treatmentDTO)).size()==0){
+        System.out.println(treatmentDTO);
+        if ((treatmentService.selectAllByCode(treatmentDTO)).size()==0){
             treatmentService.addTreatment(treatmentDTO);
         }else{
             treatmentService.updateStorage(treatmentDTO);
@@ -101,9 +116,15 @@ public class TreatmentController {
      //查询所有项目信息，前端判断项目明细和启用类型
      @PostMapping("/selectAllTreatment")
      public Object selectAllTreatment(@RequestBody  TreatmentDTO treatmentDTO){
-         return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
+         //分页
+         PageHelper.startPage(treatmentDTO.getPageNum(),treatmentDTO.getPageSize());
+         //查询
+         List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatments(treatmentDTO);
+         //获取分页信息
+         PageInfo<TreatmentVO> pageInfo = new PageInfo<>(treatmentVOS);
+         return new ResponseEntity(200,"",pageInfo);
      }
-    //修改项目信息（管理员）
+    //修改药品信息/药房
     @PostMapping("/updateTreatment")
     public Object updateTreatment(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentService.updateTreatment(treatmentDTO);
@@ -114,8 +135,9 @@ public class TreatmentController {
     @PostMapping("/addTreatment")
     public Object addTreatment(@RequestBody  TreatmentDTO treatmentDTO){
         if (treatmentService.selectTreatmentByName(treatmentDTO)!=null){
-            return new ResponseEntity(200,"","项目已存在，请勿重复添加！");
+            return new ResponseEntity(201,"","项目已存在，请勿重复添加！");
         }else{
+            System.out.println(treatmentDTO);
             treatmentService.addTreatment1(treatmentDTO);
             return new ResponseEntity(200,"","添加完成");
         }
@@ -130,7 +152,7 @@ public class TreatmentController {
     //根据门诊号或者日期查询明细
     @PostMapping("/selectOmd")
     public Object selectOmd(@RequestBody OmdDTO omdDTO){
-        System.out.println(omdDTO);
+            System.out.println(omdDTO);
             return new ResponseEntity(200,"",treatmentService.selectOmd(omdDTO));
     }
 
@@ -138,10 +160,13 @@ public class TreatmentController {
     @Transactional
     @PostMapping("/omd")
     public Object omd(@RequestBody  List<OmdVO> omdVOS){
-        List<Integer> vbids = null;
+        System.out.println(omdVOS);
+        List<Integer> vbids = new ArrayList<>();
         for (OmdVO omdVO:omdVOS){
             treatmentService.updatestorageById(omdVO);
+            System.out.println(omdVO.getVisitorBillId());
             vbids.add(omdVO.getVisitorBillId());
+            System.out.println(vbids);
         }
         treatmentService.updateMsById(vbids);
         return new ResponseEntity(200,"","发药完成！");
@@ -163,7 +188,7 @@ public class TreatmentController {
     @Transactional
     @PostMapping("/imd")
     public Object imd(@RequestBody  List<ImdVO> imdVOS){
-        List<Integer> pbids = null;
+        List<Integer> pbids = new ArrayList<>();
         for (ImdVO imdVO:imdVOS){
             treatmentService.updatestorageByImId(imdVO);
             pbids.add(imdVO.getPatientBillId());
@@ -171,4 +196,29 @@ public class TreatmentController {
         treatmentService.updatePbById(pbids);
         return new ResponseEntity(200,"","发药完成！");
     }
+
+    //门诊已发药查询汇总
+    @PostMapping("/selectClinicMed")
+    public Object selectClinicMed(@RequestBody  OmdDTO omdDTO){
+        return new ResponseEntity(200,"",treatmentService.selectClinicMed(omdDTO));
+    }
+    //门诊已发药查询明细
+    @PostMapping("/selectClinicMedmx")
+    public Object selectClinicMedmx(@RequestBody  OmdDTO omdDTO){
+        return new ResponseEntity(200,"",treatmentService.selectClinicMedmx(omdDTO));
+    }
+
+    //住院已发药查询汇总
+    @PostMapping("/selectPatientMed")
+    public Object selectPatientMed(@RequestBody  ImdDTO imDTO){
+        return new ResponseEntity(200,"",treatmentService.selectPatientMed(imDTO));
+    }
+
+    //住院已发药查询明细
+    @PostMapping("/selectPatientMedmx")
+    public Object selectPatientMedmx(@RequestBody  ImdDTO imDTO){
+        return new ResponseEntity(200,"",treatmentService.selectPatientMedmx(imDTO));
+    }
+
+
 }

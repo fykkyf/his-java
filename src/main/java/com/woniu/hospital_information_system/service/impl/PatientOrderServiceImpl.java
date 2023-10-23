@@ -36,9 +36,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * 获取所有住院患者医嘱信息
      * */
     @Override
-    public PatientOrderVO getAllPatientOrders(int pageNum,int pageSize) {
+    public PatientOrderVO getAllPatientOrders(int pageNum, int pageSize) {
         List<PatientOrder> patientOrders = patientOrderMapper.selectAllPatientOrders();
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         PageInfo<PatientOrder> info = new PageInfo<>(patientOrders);
         PatientOrderVO patientOrderVO = new PatientOrderVO();
         patientOrderVO.setPageNum(pageNum);
@@ -54,23 +54,30 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     @Transactional
     @Override
     public void addPatientOrder(PatientOrderDTO patientOrderDTO) {
-        for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
-            PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
-            patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
-            if (treatment.getTreatmentStatus() != 1) {
-                //非药品并且项目id不为7(出院项目)-添加费用明细
-                if (treatment.getTreatmentId().equals(7)) {
-                    //是出院项目---添加出院诊断
-                    PatientInfo patientInfo = new PatientInfo();
-                    patientInfo.setPatientId(patientOrderDTO.getPatientId());
-                    patientInfo.setDischargeDiagnosis(patientOrderDTO.getDischargeDiagnosis());
-                    patientInfoMapper.dischargeDiagnosis(patientInfo);//添加出院诊断
-                    patientBillMapper.dischargePatient(patientInfo.getPatientId());//添加出院费用--记账状态码为-1(未记账)
-                }else {
-                    patientBillMapper.insertPatientBill(getPatientBill(treatment, patientOrder));//添加项目费用
-                }
+        //TODO:从token中获取医生ID
+        TreatmentDTO treatment = patientOrderDTO.getTreatment();
+        treatment.setTreatmentName(treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId()).getTreatmentName());
+        PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
+        patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
+        if (treatment.getTreatmentCategory() == 2 ) {
+            //非药品并且项目id不为7(出院项目)-添加费用明细
+            if (treatment.getTreatmentId().equals(7)) {
+                //是出院项目---添加出院诊断
+                PatientInfo patientInfo = new PatientInfo();
+                patientInfo.setPatientId(patientOrderDTO.getPatient().getPatientId());
+                patientInfo.setDischargeDiagnosis(patientOrderDTO.getDischargeDiagnosis());
+                patientInfoMapper.dischargeDiagnosis(patientInfo);//添加出院诊断
+                patientBillMapper.dischargePatient(patientInfo.getPatientId());//添加出院费用--记账状态码为-1(未记账)
+            } else {
+                patientBillMapper.insertPatientBill(getPatientBill(treatment, patientOrder));//添加项目费用
             }
+        }else if (treatment.getTreatmentCategory() == 3){
+            //检验
+
+        }else if (treatment.getTreatmentCategory() == 4){
+            //检查
         }
+
     }
 
     /*
@@ -89,27 +96,29 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     @Transactional
     @Override
     public void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO) {
-        for (TreatmentDTO treatment : patientOrderDTO.getTreatments()) {
-            PatientOrder patientOrder = getPatientOrder(patientOrderDTO, treatment);
-            //更改执行状态
-            patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
-            if (patientOrder.getExecutionStatus() == 2) {
-                PatientBill patientBill = getPatientBill(treatment, patientOrder);
-                //判断项目类别
-                if (treatment.getTreatmentCategory() == 1) {
-                    //药品项目：住院患者费用表中添加一条数据记账状态为2的数据
-                    patientBillMapper.insertPatientBill(patientBill);
-                } else if (treatment.getTreatmentId().equals(7)) {
-                    //出院项目：修改费用明细中payment_status为2
-                    patientBillMapper.updatePatientBillByPaymentStatus(patientBill);
-                    //修改病人信息表中床位信息
-                    PatientInfo patientInfo = new PatientInfo();
-                    patientInfo.setPatientId(patientOrder.getPatient().getPatientId());
-                    patientInfo.setLocation(new Location());
-                    patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
-                    //更新床位表
-                    locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocation().getLocationId());
-                }
+        TreatmentDTO treatment = patientOrderDTO.getTreatment();
+        PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
+        //更改执行状态
+        patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
+        if (patientOrder.getExecutionStatus() == 2) {
+            Treatment byTreatmentId = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
+            treatment.setTreatmentPrice(byTreatmentId.getTreatmentPrice());//获取实际金额
+            treatment.setTreatmentCategory(byTreatmentId.getTreatmentCategory());//设置项目类别
+            PatientBill patientBill = getPatientBill(treatment, patientOrder);
+            //判断项目类别
+            if (treatment.getTreatmentCategory() == 1) {
+                //药品项目：住院患者费用表中添加一条数据记账状态为2的数据
+                patientBillMapper.insertPatientBill(patientBill);
+            } else if (treatment.getTreatmentId().equals(7)) {
+                //出院项目：修改费用明细中payment_status为2
+                patientBillMapper.updatePatientBillByPaymentStatus(patientBill);
+                //修改病人信息表中床位信息
+                PatientInfo patientInfo = new PatientInfo();
+                patientInfo.setPatientId(patientOrder.getPatient().getPatientId());
+                patientInfo.setLocation(new Location());
+                patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
+                //更新床位表
+                locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocation().getLocationId());
             }
         }
     }
@@ -138,18 +147,21 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         }
     }
 
-
-
+    /*
+    * 办理出院----费用表状态
+    * */
     @Transactional
     @Override
     public void dischargePatient(PatientInfoDTO patientInfoDTO) {
-        //添加出院医嘱
-        patientOrderMapper.dischargePatient(patientInfoDTO);
-        //添加出院费用表---需要护士审核
-//        patientBillMapper.dischargePatient(patientInfoDTO.getPatientId());
+        //修改出院病人费用表状态
+        patientBillMapper.completeDischarge(patientInfoDTO);
+
 
     }
 
+    /*
+    * 修改医嘱执行状态
+    * */
     @Override
     public void checkDischarge(Integer status, Integer patientId) {
         patientOrderMapper.checkDischarge(status, patientId);
@@ -162,28 +174,42 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     }
 
     /*
+    * 模糊查询住院患者医嘱信息
+    * */
+    @Override
+    public List<PatientOrder> getPatientOrderByKeyWord(PatientOrderDTO patientOrderDTO) {
+        return patientOrderMapper.selectPatientOrderByKeyWord(getPatientOrder(patientOrderDTO));
+    }
+
+    /*
      * PatientOrderDTO转PatientOrder
      * */
-    private PatientOrder getPatientOrder(PatientOrderDTO patientOrderDTO, TreatmentDTO treatment) {
+    private PatientOrder getPatientOrder(PatientOrderDTO patientOrderDTO) {
         PatientOrder patientOrder = new PatientOrder();
-        patientOrder.setPatientOrderId(patientOrderDTO.getPatientOrderId());
-        PatientInfo patientInfo = new PatientInfo();
-        patientInfo.setPatientId(patientOrderDTO.getPatientId());
-        patientOrder.setPatient(patientInfo);
-        Employee employee = new Employee();
-        employee.setEmployeeId(patientOrderDTO.getDoctorId());
-        patientOrder.setDoctor(employee);
-        patientOrder.setTreatmentId(treatment.getTreatmentId());
-        patientOrder.setTreatmentName(treatment.getTreatmentName());
-        Administration administration = new Administration();
-        administration.setAdministrationId(patientOrderDTO.getAdministrationId());
-        patientOrder.setAdministration(administration);
-        Dosage dosage = new Dosage();
-        dosage.setDosageId(patientOrderDTO.getDosageId());
-        patientOrder.setDosage(dosage);
-        patientOrder.setTreatmentCount(treatment.getTreatmentCount());
-        patientOrder.setExecutionStatus(patientOrderDTO.getExecutionStatus());
-        patientOrder.setOrderType(patientOrderDTO.getOrderType());
+        if (patientOrderDTO.getPatientOrderId()!=null){
+            patientOrder.setPatientOrderId(patientOrderDTO.getPatientOrderId());
+        }
+        if(patientOrderDTO.getPatient()!=null){
+            patientOrder.setPatient(patientOrderDTO.getPatient());
+        }
+        if(patientOrderDTO.getEmployee()!=null){
+            patientOrder.setEmployee(patientOrderDTO.getEmployee());
+        }
+        if (patientOrderDTO.getTreatment()!=null){
+            patientOrder.setTreatmentCount(patientOrderDTO.getTreatment().getTreatmentCount());
+        }
+        if (patientOrderDTO.getAdministration()!=null){
+            patientOrder.setAdministration(patientOrderDTO.getAdministration());
+        }
+        if (patientOrderDTO.getDosage()!=null){
+            patientOrder.setDosage(patientOrderDTO.getDosage());
+        }
+        if(patientOrderDTO.getExecutionStatus()!=null){
+            patientOrder.setExecutionStatus(patientOrderDTO.getExecutionStatus());
+        }
+        if(patientOrderDTO.getOrderType()!=null){
+            patientOrder.setOrderType(patientOrderDTO.getOrderType());
+        }
         return patientOrder;
     }
 
@@ -193,13 +219,13 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     private PatientBill getPatientBill(TreatmentDTO treatment, PatientOrder patientOrder) {
         PatientBill patientBill = new PatientBill();
         patientBill.setPatientId(patientOrder.getPatient().getPatientId());
-        patientBill.setTreatmentId(patientOrder.getTreatmentId());
-        patientBill.setDrugCount(patientOrder.getTreatmentCount());
+        patientBill.setTreatmentId(treatment.getTreatmentId());
+        patientBill.setDrugCount(treatment.getTreatmentCount());
         //计算费用
-        if (patientOrder.getTreatmentCount()==null){
+        if (treatment.getTreatmentCount() == null) {
             patientBill.setTreatmentPrice(0d);
-        }else {
-            patientBill.setTreatmentPrice(patientOrder.getTreatmentCount() * treatment.getTreatmentPrice());
+        } else {
+            patientBill.setTreatmentPrice(treatment.getTreatmentCount() * treatment.getTreatmentPrice());
         }
         return patientBill;
     }

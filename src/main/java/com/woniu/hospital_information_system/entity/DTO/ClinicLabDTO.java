@@ -5,24 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-//门诊发药
-public class OmdDTO {
-    private Integer manipulateStatus;
+//门诊检验表
+public class ClinicLabDTO {
+    private Integer clinicLabId;
     private Integer visitorId;
+    private Integer treatmentId;
+    private Integer visitorBillId;
+    private String labResult;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date executionTime;
+    private Date testDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date orderDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date orderDate1;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date dispenseTime;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date dispenseTime1;
-
+    private Date testDate1;
+    private Integer testStatus;
 }
