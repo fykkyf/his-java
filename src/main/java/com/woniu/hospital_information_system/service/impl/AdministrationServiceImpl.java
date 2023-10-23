@@ -16,4 +16,19 @@ public class AdministrationServiceImpl implements AdministrationService {
     public List<Administration> getAllAdministrations() {
         return administrationMapper.selectAdministrations();
     }
+
+    @Override
+    public void addAdministration(Administration administration) {
+        administrationMapper.addAdministration(administration);
+    }
+
+    @Override
+    public void updateAdministration(Administration administration) {
+        administrationMapper.updateAdministration(administration);
+    }
+
+    @Override
+    public void removeAdministration(int administrationId) {
+        administrationMapper.deleteAdministration(administrationId);
+    }
 }

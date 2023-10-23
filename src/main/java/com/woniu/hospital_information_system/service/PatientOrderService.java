@@ -20,10 +20,12 @@ public interface PatientOrderService {
     void modifyPatientOrderByPatientId(PatientOrderDTO patientOrderDTO);
     //根据病人id更改住院医嘱信息
     void timedExecutionAddPatientOrder();
-    //办理出院
+    //办理出院--费用表状态
     void dischargePatient(PatientInfoDTO patientInfoDTO);
     //审核出院医嘱
     void checkDischarge(Integer status, Integer patientId);
 
     void finishPayment(Integer patientId);
+    //模糊查询住院患者医嘱信息
+    List<PatientOrder> getPatientOrderByKeyWord(PatientOrderDTO patientOrderDTO);
 }

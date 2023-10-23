@@ -6,4 +6,10 @@ import java.util.List;
 
 public interface DosageService {
     List<Dosage> getAllDosages();
+
+    void addDosage(Dosage dosage);
+
+    void updateDosage(Dosage dosage);
+
+    void removeDosage(Integer dosageId);
 }

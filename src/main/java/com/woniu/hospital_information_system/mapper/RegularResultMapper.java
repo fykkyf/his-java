@@ -10,9 +10,9 @@ import java.util.List;
 @Mapper
 public interface RegularResultMapper {
     //根据patientId查询三测信息
-    @Select("select * from regualar_test where patient_id = #{patientId}")
+    @Select("select * from regular_test where patient_id = #{patientId}")
     List<RegularResult> selectRegularByPatientId(Integer patientId);
     //添加三测信息
-    @Insert("insert into regualar_test values (null,#{patientId},#{pressure},#{sugar},#{temp},now())")
+    @Insert("insert into regular_test values (null,#{patientId},#{pressure},#{sugar},#{temp},now())")
     void insertRegularResult(RegularResult regularResult);
 }
