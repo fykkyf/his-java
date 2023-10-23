@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间：对应的接口的全类名-->
+<mapper namespace="com.woniu.hospital_information_system.mapper.ClinicLabMapper">
+    <!--id和对应的mapper接口中的方法名一样-->
+    <select id="getAllClinicLab" resultType="ClinicLabVO">
+        select cl.clinic_lab_id,cl.visitor_id,vb.visitor_bill_id,vi.visitor_name,u.unit_name,e.employee_name ,cl.treatment_id,
+               t.treatment_name,cl.test_date,cl.lab_result,cl.test_status from
+        clinic_lab cl,visitor_info vi,treatment t,unit u,employee e,visitor_bill vb
+    <where>
+        cl.visitor_id=vi.visitor_id and vi.unit_id=u.unit_id and vi.doctor_id=e.employee_id and cl.treatment_id=t.treatment_id
+        and vi.visitor_id=vb.visitor_id and vb.treatment_id=cl.treatment_id and vb.payment_status=2
+        <if test="visitorId!=null and visitorId!=''">
+            and cl.visitor_id=#{visitorId}
+        </if>
+        <if test="testStatus!=null and testStatus!=''">
+            and cl.test_status=#{testStatus}
+        </if>
+        <if test="testDate!=null">
+            and cl.test_date>=#{testDate}
+        </if>
+        <if test="testDate1!=null">
+            and cl.test_date &lt;=date_add(#{testDate1},interval 1 day)
+        </if>
+    </where>
+    </select>
+    
+
+</mapper>

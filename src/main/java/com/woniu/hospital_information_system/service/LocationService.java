@@ -15,4 +15,9 @@ public interface LocationService {
     void updateLocationStatusEmpty(Integer locationId);
 
 
+    void updateLocation(Location location);
+
+    void removeLocation(Integer locationId);
+
+    void addNewLocation(Location location);
 }

@@ -230,7 +230,7 @@
     <select id="selectAllTreatments" resultType="TreatmentVO">
         select * from treatment
         <where>
-            treatment_category&lt;>1
+            treatment_category &lt;>1
             <if test="keyword!=null and keyword!=''">
               and treatment_name like "%${keyword}%"
             </if>
