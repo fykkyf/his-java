@@ -1,8 +1,7 @@
 package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.Administration;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -10,4 +9,10 @@ import java.util.List;
 public interface AdministrationMapper {
     @Select("select * from administration")
     List<Administration> selectAdministrations();
+    @Insert("insert into administration values (null,#{administrationName})")
+    void addAdministration(Administration administration);
+    @Update("update administration set administration_name = #{administrationName} where administration_id = #{administrationId}")
+    void updateAdministration(Administration administration);
+    @Delete("delete from administration where administration_id = #{administrationId}")
+    void deleteAdministration(int administrationId);
 }
