@@ -17,7 +17,7 @@ public class TreatmentDTO {
 
     private Integer treatmentCount;
     private String manufacturer;
-   // @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date productionTime;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date expiredTime;
