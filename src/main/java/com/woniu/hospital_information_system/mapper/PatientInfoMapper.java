@@ -27,6 +27,9 @@ public interface PatientInfoMapper {
     //清空床位信息
     @Update("update  patient_info set location_id = null where patient_id = #{patientId}")
     void updateLocationId(Integer patientId);
+    //给病人添加床位
+    @Update("update  patient_info set location_id = #{locationId} where patient_id = #{patientId}")
+    void addLocationId(@Param("locationId")Integer locationId,@Param("patientId") Integer patientId);
     //办理出院
     @Update("update  patient_info set stay_status = 2,out_time = now()  where patient_id = #{patientId}")
     void completeDischarge(PatientInfoDTO patientInfoDTO);
@@ -41,4 +44,6 @@ public interface PatientInfoMapper {
     //出院结算更新支付时间+支付状态
     @Update("update patient_info set payment_status = 2, paid_time = now() where patient_id = #{patientId}")
     void finishPayment(Integer patientId );
+
+
 }

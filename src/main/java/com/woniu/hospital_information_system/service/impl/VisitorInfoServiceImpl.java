@@ -83,6 +83,6 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     * */
     @Override
     public Disease getDiagnosisByVisitorId(Integer visitorId) {
-        return diseaseMapper.selectDiseaseById(visitorInfoMapper.getVisitorInfoByVisitorId(visitorId).getDiseaseId());
+        return diseaseMapper.selectDiseaseById(visitorInfoMapper.getVisitorInfoByVisitorId(visitorId).getClinicDiagnosis().getDiseaseId());
     }
 }

@@ -13,4 +13,6 @@ public interface LocationService {
     void modifyLocationStatusByLocationId(int locationId);
     //清空床位
     void updateLocationStatusEmpty(Integer locationId);
+
+
 }

@@ -31,4 +31,10 @@ public interface PatientInfoService {
     void finishPayment(Integer patientId);
     //根据身份证查询门诊信息
     PatientInfoVO getVisitorInfoByIdNumber(String idNumber);
+
+    List<PatientInfo> getPatientInfoByLocation();
+
+    void addLocationId(Integer locationId,Integer patientId);
+
+    List<PatientInfo> getPatientInfoByPatientIdAndLocation(Integer patientId);
 }
