@@ -37,4 +37,7 @@ public interface VisitorBillMapper {
     void addClinicOrderBill(@Param("visitorId") Integer visitorId, @Param("treatmentId") Integer treatmentId,@Param("drugCount") Integer drugCount, @Param("treatmentPrice") Double treatmentPrice);
 
     List<VisitorBillVO> getRefundBillsByVisitorId(Integer visitorId);
+
+    @Update("update visitor_bill set manipulate_status=2 where visitor_id=#{visitorId} and treatment_id=#{treatmentId}")
+    void updateManipulateStatus(VisitorBill visitorBill);
 }

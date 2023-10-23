@@ -82,5 +82,9 @@ public interface TreatmentMapper {
     @Update("update treatment set storage =storage-#{drugCount} where drug_code=drugCode")
     void updatestorageByImId(ImdVO imdVO);
 
+    @Select("select * from treatment where treatment_id=#{treatmentId}")
+    Treatment getTreatmentNameById(Integer treatmentId);
 
+    @Select("select treatment_id from treatment where treatment_category=4")
+    List<Integer> getExamine();
 }

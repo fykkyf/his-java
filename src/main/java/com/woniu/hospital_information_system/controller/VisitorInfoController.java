@@ -1,7 +1,9 @@
 package com.woniu.hospital_information_system.controller;
 
 
+import com.woniu.hospital_information_system.entity.DTO.VisitorInfoDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
 import com.woniu.hospital_information_system.util.JwtUtil;
@@ -31,7 +33,7 @@ public class VisitorInfoController {
         }else{
             visitorInfoService.addVisitorInfo(visitorInfo);
         }
-        visitorInfoService.addVisitorInfo(visitorInfo);
+//        visitorInfoService.addVisitorInfo(visitorInfo);
         return new ResponseEntity(200,"ok",null);
     }
 
@@ -77,12 +79,12 @@ public class VisitorInfoController {
         return new ResponseEntity(200,"ok",null);
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity getAll(){
-        List<VisitorInfo> visitorInfos=visitorInfoService.getAll();
-        System.out.println(visitorInfos);
-        return new ResponseEntity(200,"ok",visitorInfos);
-    }
+//    @GetMapping("/getAll")
+//    public ResponseEntity getAll(){
+//        List<VisitorInfo> visitorInfos=visitorInfoService.getAll();
+//        System.out.println(visitorInfos);
+//        return new ResponseEntity(200,"ok",visitorInfos);
+//    }
 
     @GetMapping("/getVisitorByEmployeeId")
     public ResponseEntity getVisitorByEmployeeId(HttpServletRequest request){
@@ -91,5 +93,18 @@ public class VisitorInfoController {
         List<VisitorInfo> visitorInfos=visitorInfoService.getVisitorByEmployeeId(eid);
         System.out.println(visitorInfos);
         return new ResponseEntity(200,"ok",visitorInfos);
+    }
+
+    @PostMapping("/getVisitorInfoIdByPaySuccessAndManipulateStatus")
+    public ResponseEntity getVisitorInfoIdByPaySuccessAndManipulateStatus(){
+        List<VisitorInfoDTO> visitorInfo=visitorInfoService.getVisitorInfoIdByPaySuccessAndManipulateStatus();
+        System.out.println("这里是"+visitorInfo);
+        return new ResponseEntity(200,"",visitorInfo);
+    }
+
+    @PostMapping("/getByCondition")
+    public ResponseEntity getByCondition(@RequestBody VisitorInfo visitorInfo){
+        List<VisitorInfo> visitorInfos=visitorInfoService.getByCondition(visitorInfo);
+        return new ResponseEntity(200,"",visitorInfos);
     }
 }

@@ -1,8 +1,8 @@
 package com.woniu.hospital_information_system.mapper;
 
 
+import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -38,8 +38,6 @@ public interface VisitorInfoMapper {
     void updateDisease(VisitorInfo visitorInfo);
 
 
-
-
     //根据身份证号码查询门诊信息
     @Select("select * from visitor_info where id_number = #{idNumber}")
     List<VisitorInfo> selectVisitorInfoByIdNumber(String idNumber);
@@ -49,4 +47,13 @@ public interface VisitorInfoMapper {
 
     @Update("update visitor_info set visitor_name=#{visitorName},gender=#{gender},age=#{age},id_number=#{idNumber},phone=#{phone},unit_id=#{unitId},doctor_id=#{doctorId}")
     void updateMessage(VisitorInfo visitorInfo);
+
+
+    @Select("select * from visitor_bill where payment_status=2 and manipulate_status=1 and treatment_id = #{treatmentId}")
+    List<VisitorBill> getVisitorInfoIdByPaySuccessAndManipulateStatus(Integer treatmentId);
+
+    @Select("select * from visitor_info where visitor_id=#{visitorId}")
+    VisitorInfo getVisByVid(Integer visitorId);
+
+    List<VisitorInfo> getByCondition(VisitorInfo visitorInfo);
 }
