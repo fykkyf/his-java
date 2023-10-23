@@ -53,4 +53,21 @@ public interface TreatmentService {
     //住院发药，根据项目ID减少库存
     @Update("update treatment set storage =storage-#{drugCount} where drug_code=drugCode")
     void updatestorageByImId(ImdVO imdVO);
+
+    //药品入库
+    @Update("update treatment set storage=storage+#{storage1} where drug_code=#{drugCode}")
+    void warehousing(TreatmentDTO treatmentDTO);
+
+    //门诊已经发药查询汇总、根据下单日期(前端默认当天日期)/门诊就诊ID(可传) 查询需要发药的患者ID和姓名
+    List<OmdVO> selectClinicMed(OmdDTO omdDTO);
+    //门诊已经发药查询明细(根据未发药、病人就诊号 可选:发药日期 前端默认当天  支付状态：待定)
+    List<OmdVO> selectClinicMedmx(OmdDTO omdDTO);
+
+    //住院已经发药查询汇总、根据记账日期(前端默认当天日期)/住院ID(可传) 查询需要发药的患者ID和姓名
+    List<ImdVO> selectPatientMed(ImdDTO imdDTO);
+    //住院已经发药查询明细、根据记账日期(前端默认当天日期)/住院ID(可传) 查询需要发药的患者ID和姓名
+    List<ImdVO> selectPatientMedmx(ImdDTO imdDTO);
+    //查询所有非药品明细
+    List<TreatmentVO> selectAllTreatments(TreatmentDTO treatmentDTO);
+
 }

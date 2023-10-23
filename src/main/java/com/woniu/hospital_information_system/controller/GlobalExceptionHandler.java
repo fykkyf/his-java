@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.woniu.hospital_information_system.exception.UnLiquidatedHospitalChargesException;
 import com.woniu.hospital_information_system.exception.VerifyCodeErrorException;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,13 @@ public class GlobalExceptionHandler {
         Map<String,String> errors = new HashMap<>();
         bindingResult.getFieldErrors().forEach(item -> errors.put(item.getField(), item.getDefaultMessage()));
         return new ResponseEntity(100,"vaild error",errors);
+    }
+
+    @ExceptionHandler(UnLiquidatedHospitalChargesException.class)
+    public ResponseEntity unLiquidatedHospitalChargesException(UnLiquidatedHospitalChargesException e){
+        log.info("exception={}",e.getClass());
+        log.info("exception={}",e.getMessage());
+        return new ResponseEntity(511,"error",e.getMessage());
     }
 
 //    @ExceptionHandler

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
+import com.woniu.hospital_information_system.exception.UnLiquidatedHospitalChargesException;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.InsuranceInfoService;
 import com.woniu.hospital_information_system.service.LocationService;
@@ -66,28 +67,33 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     @Override
     public void addPatientInfo(PatientInfoDTO patientInfoDTO) {
         PatientInfo patientInfo = new PatientInfo();
-        //TODO:转换类型PatientInfoDTO->PatientInfo
         //查询门诊诊断（diagnosisId）+基础信息
         //有门诊id就添加门诊ID、门诊诊断ID
         if (patientInfoDTO.getVisitorId() != null) {
             patientInfo.setVisitorId(patientInfoDTO.getVisitorId());
-//            patientInfo.setClinicDiagnosisId(visitorInfoService.getVisitorInfoByVisitorId(patientInfoDTO.getVisitorId()).getDiseaseId());
+            Disease disease = new Disease();
+            disease.setDiseaseId(patientInfoDTO.getClinicDiagnosisId());
+            patientInfo.setClinicDiagnosis(disease);
         }
         //根据身份证号查询住院患者信息
         List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfoByIdNumber(patientInfoDTO.getIdNumber());
         //获取结算状态为1的集合
-        List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 0).collect(Collectors.toList());
+        List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 1).collect(Collectors.toList());
         if (collect.size() != 0) {
-            //TODO:抛住院费用未结算异常
-            System.out.println("未结算");
+            System.out.println("未结清");
+            throw new UnLiquidatedHospitalChargesException("住院费用未结清");
         }
         //已结清费用则给住院患者对象赋值
         patientInfo.setPatientName(patientInfoDTO.getPatientName());//姓名
         patientInfo.setAge(patientInfoDTO.getAge());//年龄
         patientInfo.setGender(patientInfoDTO.getGender());//性别
         patientInfo.setIdNumber(patientInfoDTO.getIdNumber());//身份证号
-//        patientInfo.setUnitId(patientInfoDTO.getUnitId());//科室id
-//        patientInfo.setDoctorId(patientInfoDTO.getDoctorId());//医生id
+        Unit unit = new Unit();
+        unit.setUnitId(patientInfoDTO.getUnitId());
+        patientInfo.setUnit(unit);//科室id
+        Employee employee = new Employee();
+        employee.setEmployeeId(patientInfoDTO.getEmployeeId());
+        patientInfo.setEmployee(employee);//医生id
         //根据身份证查询医保信息
         if (insuranceInfoService.getInsuranceInfoByIdNumber(patientInfoDTO.getIdNumber()) != null) {
             //有医保
@@ -97,8 +103,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             patientInfo.setInsuranceStatus(0);
         }
         //调用insert方法，向数据库添加住院患者信息
-//        patientInfoMapper.insertPatientInfo(patientInfo);
-        System.out.println("执行添加");
+        patientInfoMapper.insertPatientInfo(patientInfo);
     }
 
     /*
