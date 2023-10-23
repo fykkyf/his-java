@@ -50,14 +50,23 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     public PatientInfoVO getAllPatientInfos(int pageNum, int pageSize) {
         List<PatientInfo> patientInfos = patientInfoMapper.selectAllPatientInfos();
         //分页
-        PageHelper.startPage(pageNum, pageSize);
-        PageInfo<PatientInfo> info = new PageInfo<>(patientInfos);
-        PatientInfoVO patientInfoVO = new PatientInfoVO();
-        patientInfoVO.setPageNum(pageNum);
-        patientInfoVO.setPageSize(pageSize);
-        patientInfoVO.setTotal((int) info.getTotal());
-        patientInfoVO.setPatientInfos(patientInfos);
-        return patientInfoVO;
+        return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
+    }
+    /*
+     * 获取所有住院患者信息---添加床位
+     * */
+    @Override
+    public PatientInfoVO getAllPatientInfosByNoLocation(int pageNum, int pageSize) {
+        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByNoLocation();
+        //分页
+        return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
+    }
+
+    @Override
+    public PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize) {
+        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByDischarge();
+        //分页
+        return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
     }
 
     /*
@@ -142,6 +151,14 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         return patientInfoMapper.selectPatientInfoByKeyWord(convertPatientInfo(patientInfoDTO));
     }
 
+    /*
+     * 模糊查询住院患者信息--未添加床位
+     * */
+    @Override
+    public List<PatientInfo> getPatientInfosByNoLocation(PatientInfoDTO patientInfoDTO) {
+        return  patientInfoMapper.selectNoLocationPatientInfosByKeyWord(convertPatientInfo(patientInfoDTO));
+    }
+
     @Override
     public void finishPayment(Integer patientId) {
         patientInfoMapper.finishPayment(patientId);
@@ -188,10 +205,14 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfoMapper.updateLocationId(patientId);
     }
 
+    /*
+    * 出院办理
+    * */
     @Override
     public void completeDischarge(PatientInfoDTO patientInfoDTO) {
+        //修改病人信息表
         patientInfoMapper.completeDischarge(patientInfoDTO);
-        //费用结算
+        //修改费用信息表的操作状态
         patientBillMapper.completeDischarge(patientInfoDTO);
     }
 
@@ -204,6 +225,20 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         patientInfoMapper.updatePatientInfo(convertPatientInfo(patientInfoDTO));
     }
 
+
+    /*
+    *   查询所有----分页包装
+    * */
+    private PatientInfoVO getPatientInfoVOByPageInfo(int pageNum, int pageSize, List<PatientInfo> patientInfos) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<PatientInfo> info = new PageInfo<>(patientInfos);
+        PatientInfoVO patientInfoVO = new PatientInfoVO();
+        patientInfoVO.setPageNum(pageNum);
+        patientInfoVO.setPageSize(pageSize);
+        patientInfoVO.setTotal((int) info.getTotal());
+        patientInfoVO.setPatientInfos(patientInfos);
+        return patientInfoVO;
+    }
 
     /*
      * patientInfoDTO-->patientInfo

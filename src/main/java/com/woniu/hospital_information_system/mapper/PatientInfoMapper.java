@@ -41,4 +41,10 @@ public interface PatientInfoMapper {
     //出院结算更新支付时间+支付状态
     @Update("update patient_info set payment_status = 2, paid_time = now() where patient_id = #{patientId}")
     void finishPayment(Integer patientId );
+    //查询未安排床位信息的住院患者信息
+    List<PatientInfo> selectPatientInfosByNoLocation();
+    //根据关键字查询--添加床位查询
+    List<PatientInfo> selectNoLocationPatientInfosByKeyWord(PatientInfo convertPatientInfo);
+    //查询有出院诊断--未办理出院的病人信息
+    List<PatientInfo> selectPatientInfosByDischarge();
 }

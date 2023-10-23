@@ -16,9 +16,9 @@ public interface LocationMapper {
     @Select("select * from location where location_status = #{status}")
     List<Location> selectLocationsByStatus(int status);
     //添加床位
-    @Update("update location set location_status = 1 where location_id = #{locationId}")
+    @Update("update location set location_status = 2 where location_id = #{locationId}")
     void updateLocationStatus(int locationId);
     //清空床位
-    @Update("update location set location_status = 0 where location_id = #{locationId}")
+    @Update("update location set location_status = 1 where location_id = #{locationId}")
     void updateLocationStatusEmpty(Integer locationId);
 }

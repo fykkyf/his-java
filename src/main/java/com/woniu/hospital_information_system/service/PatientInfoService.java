@@ -31,4 +31,9 @@ public interface PatientInfoService {
     void finishPayment(Integer patientId);
     //根据身份证查询门诊信息
     PatientInfoVO getVisitorInfoByIdNumber(String idNumber);
+    //查询未安排床位信息的住院患者信息
+    List<PatientInfo> getPatientInfosByNoLocation(PatientInfoDTO patientInfoDTO);
+    PatientInfoVO getAllPatientInfosByNoLocation(int pageNum, int pageSize);
+    //获取所有住院患者信息--出院办理
+    PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize);
 }

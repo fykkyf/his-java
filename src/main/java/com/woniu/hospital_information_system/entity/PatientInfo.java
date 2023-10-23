@@ -23,9 +23,9 @@ public class PatientInfo {
     private Unit unit;
     private Employee employee;
     private Integer insuranceStatus;
-    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime inTime;
-    @JsonFormat(pattern = "yyyy年MM月dd日 HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime outTime;
     private Disease clinicDiagnosis;//门诊疾病
     private Disease admissionDiagnosis;//入院诊断

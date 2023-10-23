@@ -1,8 +1,7 @@
 package com.woniu.hospital_information_system.entity.DTO;
 
 import cn.hutool.core.date.DateTime;
-import com.woniu.hospital_information_system.entity.Disease;
-import com.woniu.hospital_information_system.entity.Treatment;
+import com.woniu.hospital_information_system.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,11 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 public class PatientOrderDTO {
     private Integer patientOrderId;
-    private Integer patientId;
-    private Integer doctorId;
-    private List<TreatmentDTO> treatments;
-    private Integer administrationId;
-    private Integer dosageId;
+    private PatientInfo patient;
+    private Employee employee;
+    private TreatmentDTO treatment;
+    private Administration administration;
+    private Dosage dosage;
     private Integer treatmentCount;
     private DateTime executionTime;
     private DateTime dispenseTime;

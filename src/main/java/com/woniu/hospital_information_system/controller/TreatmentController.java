@@ -32,13 +32,12 @@ public class TreatmentController {
     //查询所有项目信息，前端判断项目类型 后端写死启用类型为1 启用 如果是药品，设置库存>=1的条件
     @PostMapping("/selectAllTreatmentByCategory")
     public Object selectAllTreatmentByCategory(@RequestBody  TreatmentDTO treatmentDTO){
+        System.out.println(treatmentDTO);
         treatmentDTO.setTreatmentStatus(1);
-        if (treatmentDTO.getTreatmentCategory()==1){
+        if (treatmentDTO.getTreatmentCategory()!=null && treatmentDTO.getTreatmentCategory()==1){
             treatmentDTO.setStorage(1);
-            return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
-        }else{
-            return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
         }
+        return new ResponseEntity(200,"",treatmentService.selectAllTreatment(treatmentDTO));
 
     }
     //近期药品处理、药房盘点，减少库存

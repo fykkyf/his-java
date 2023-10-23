@@ -157,25 +157,8 @@
         </association>
     </resultMap>
     <select id="selectAllPatientInfos" resultMap="PatientInfoMap">
-        SELECT
-            pi.patient_id,
-            pi.visitor_id,
-            pi.patient_name,
-            pi.gender,
-            pi.age,
-            pi.id_number,
-            pi.insurance_status,
-            pi.in_time,
-            pi.out_time,
-            l.location_id,
-            l.location_name,
-            pi.paid_time,
-            pi.stay_status,
-            pi.payment_status,
-            u.unit_id,
-            u.unit_name,
-            e.employee_id,
-            e.employee_name,
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,
+            l.location_id,l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
             clinic_d.disease_id AS clinic_disease_id,
             clinic_d.disease_name AS clinic_disease_name,
             admission_d.disease_id AS admission_disease_id,
@@ -192,25 +175,8 @@
     </select>
     <select id="selectPatientInfoByPatientId"
             resultMap="PatientInfoMap">
-        SELECT
-            pi.patient_id,
-            pi.visitor_id,
-            pi.patient_name,
-            pi.gender,
-            pi.age,
-            pi.id_number,
-            pi.insurance_status,
-            pi.in_time,
-            pi.out_time,
-            l.location_id,
-            l.location_name,
-            pi.paid_time,
-            pi.stay_status,
-            pi.payment_status,
-            u.unit_id,
-            u.unit_name,
-            e.employee_id,
-            e.employee_name,
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,
+            l.location_id,l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
             clinic_d.disease_id AS clinic_disease_id,
             clinic_d.disease_name AS clinic_disease_name,
             admission_d.disease_id AS admission_disease_id,
@@ -225,5 +191,79 @@
                  LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
                  LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
         where patient_id = #{patientId}
+    </select>
+    <select id="selectPatientInfosByNoLocation" resultMap="PatientInfoMap">
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,
+            l.location_id,l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
+            clinic_d.disease_id AS clinic_disease_id,clinic_d.disease_name AS clinic_disease_name,
+            admission_d.disease_id AS admission_disease_id,admission_d.disease_name AS admission_disease_name,
+            discharge_d.disease_id AS discharge_disease_id,discharge_d.disease_name AS discharge_disease_name
+        FROM patient_info pi
+                 LEFT JOIN unit u ON pi.unit_id = u.unit_id
+                 LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+                 LEFT JOIN location l ON pi.location_id = l.location_id
+                 LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
+                 LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
+                 LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
+        where pi.location_id is null
+    </select>
+    <select id="selectNoLocationPatientInfosByKeyWord" resultMap="PatientInfoMap">
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,l.location_id,
+        l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
+        clinic_d.disease_id AS clinic_disease_id,
+        clinic_d.disease_name AS clinic_disease_name,
+        admission_d.disease_id AS admission_disease_id,
+        admission_d.disease_name AS admission_disease_name,
+        discharge_d.disease_id AS discharge_disease_id,
+        discharge_d.disease_name AS discharge_disease_name
+        FROM patient_info pi
+        LEFT JOIN unit u ON pi.unit_id = u.unit_id
+        LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+        LEFT JOIN location l ON pi.location_id = l.location_id
+        LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
+        LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
+        LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
+        <where>
+            pi.location_id is null
+            <if test="patientId!=null">
+                and pi.patient_id = #{patientId}
+            </if>
+            <if test="patientName != null and patientName != ''">
+                and pi.patient_name like "%${patientName}%"
+            </if>
+            <if test="gender != null">
+                and pi.gender = #{gender}
+            </if>
+            <if test="age != null">
+                and pi.age = #{age}
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                and pi.id_number like "%${idNumber}%"
+            </if>
+            <if test="unit != null">
+                and pi.unit_id = #{unit.unitId}
+            </if>
+            <if test="employee != null">
+                and pi.doctor_id = #{employee.employeeId}
+            </if>
+        </where>
+    </select>
+    <select id="selectPatientInfosByDischarge" resultMap="PatientInfoMap">
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,l.location_id,
+               l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
+               clinic_d.disease_id AS clinic_disease_id,
+               clinic_d.disease_name AS clinic_disease_name,
+               admission_d.disease_id AS admission_disease_id,
+               admission_d.disease_name AS admission_disease_name,
+               discharge_d.disease_id AS discharge_disease_id,
+               discharge_d.disease_name AS discharge_disease_name
+        FROM patient_info pi
+                 LEFT JOIN unit u ON pi.unit_id = u.unit_id
+                 LEFT JOIN employee e ON pi.doctor_id = e.employee_id
+                 LEFT JOIN location l ON pi.location_id = l.location_id
+                 LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
+                 LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
+                 LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
+        where pi.discharge_diagnosis_id is not null and pi.stay_status = 1
     </select>
 </mapper>

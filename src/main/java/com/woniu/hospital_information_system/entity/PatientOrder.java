@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class PatientOrder {
     private Integer patientOrderId;
     private PatientInfo patient;
-    private Employee doctor;
+    private Employee employee;
     private Integer treatmentId;
     private String treatmentName;
     private Administration administration;

@@ -34,13 +34,33 @@ public class PatientInfoController {
     public Object getPatientInfoByPatientInfoId(@PathVariable("patientId") Integer patientId) {
         return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByPatientId(patientId));
     }
-
+    /*
+     * 查询所有住院患者信息---添加床位
+     * */
+    @PostMapping("/get/allNoLocation")
+    public Object getAllNoLocationPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
+        return new ResponseEntity(200,"request success",patientInfoService.getAllPatientInfosByNoLocation(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize()));
+    }
+    /*
+     * 查询所有住院患者信息---出院办理
+     * */
+    @PostMapping("/get/allDischarge")
+    public Object getAllDischarge(@RequestBody PatientInfoDTO patientInfoDTO) {
+        return new ResponseEntity(200,"request success",patientInfoService.getAllDischarge(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize()));
+    }
     /*
     *   模糊查询患者信息
     * */
     @PostMapping("/getByKeyWord")
     public Object getPatientInfoByKeyWord(@RequestBody PatientInfoDTO patientInfoDTO) {
         return new ResponseEntity(200,"request success",new PageInfo<>(patientInfoService.getPatientInfoByKeyWord(patientInfoDTO)));
+    }
+    /*
+     *   模糊查询患者信息--未安排床位
+     * */
+    @PostMapping("/getNoLocationByKeyWord")
+    public Object getPatientInfoByNoLocation(@RequestBody PatientInfoDTO patientInfoDTO) {
+        return new ResponseEntity(200,"request success",new PageInfo<>(patientInfoService.getPatientInfosByNoLocation(patientInfoDTO)));
     }
 
     /*
