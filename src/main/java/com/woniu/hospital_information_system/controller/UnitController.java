@@ -26,15 +26,16 @@ public class UnitController {
         List<Unit> allUnits = unitService.getAllUnits();
         return new ResponseEntity(200,"ok",allUnits);
     }
-    @PostMapping("/add")
-    public ResponseEntity addUnit(@RequestBody Unit unit){
-        unitService.add(unit);
-        return new ResponseEntity(200,"success","添加成功");
-    }
     @PostMapping("/update")
     public ResponseEntity updateUnit(@RequestBody Unit unit){
-        unitService.update(unit);
-        return new ResponseEntity(200,"success","修改成功");
+        if (unit.getUnitId()==null){
+            unitService.add(unit);
+            return new ResponseEntity(200,"添加成功",null);
+        }else {
+            unitService.update(unit);
+            return new ResponseEntity(200,"修改成功",null);
+        }
+
     }
     @RequestMapping("/remove/{unitId}")
     public ResponseEntity removeUnit(@PathVariable int unitId){

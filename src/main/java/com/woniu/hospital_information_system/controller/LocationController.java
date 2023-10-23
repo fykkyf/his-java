@@ -1,12 +1,15 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
+import com.woniu.hospital_information_system.entity.Location;
+import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.service.AdministrationService;
 import com.woniu.hospital_information_system.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("location")
@@ -17,6 +20,30 @@ public class LocationController {
     public ResponseEntity emptyLocation(){
         return new ResponseEntity(200,"success",locationService.getLocationByStatus(0));
     }
+    @GetMapping("getAll")
+    public ResponseEntity getAll(){
+        return new ResponseEntity(200,"success",locationService.getAllLocation());
+    }
+    @PostMapping("/updateLocation")
+    public Object getVisitorInfoByIdNumber(@RequestBody Location location) {
+        if(location.getLocationId()==null){
+            locationService.addNewLocation(location);
+            return new ResponseEntity(200,"request success","成功");
+        }else {
+            locationService.updateLocation(location);
+            return new ResponseEntity(200,"request success","成功");
+        }
+
+
+    }
+    @PostMapping("/removeLocation/{locationId}")
+    public ResponseEntity removeLocation(@PathVariable Integer locationId){
+
+        locationService.removeLocation(locationId);
+
+        return new ResponseEntity(200,"success","删除成功");
+    }
+
 
     @GetMapping("/get/all")
     /*
