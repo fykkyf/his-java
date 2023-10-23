@@ -21,11 +21,12 @@ public class OmdVO {
     private String employeeName;
     private Integer drugCode;
     private String treatmentName;
-    private Integer drugCount;//总数
+    private Integer drugCount;
     private String specification;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date dispenseTime;
+
 
 }

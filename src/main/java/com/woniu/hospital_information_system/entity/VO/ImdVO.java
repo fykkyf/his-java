@@ -23,5 +23,7 @@ public class ImdVO {
     private String specification;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date orderDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dispenseTime;
 
 }

@@ -24,6 +24,7 @@ public class TreatmentDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date expiredTime1;
     private Integer storage;
+    private Integer storage1;//药品出库  所出库的数量
     private String specification;
     private Double treatmentPrice;
     private Double insurancePrice;
