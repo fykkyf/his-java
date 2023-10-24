@@ -18,12 +18,9 @@ public class LocationController {
     LocationService locationService;
     @GetMapping("emptyLocation")
     public ResponseEntity emptyLocation(){
-        return new ResponseEntity(200,"success",locationService.getLocationByStatus(0));
+        return new ResponseEntity(200,"success",locationService.getLocationByStatus(1));
     }
-    @GetMapping("getAll")
-    public ResponseEntity getAll(){
-        return new ResponseEntity(200,"success",locationService.getAllLocation());
-    }
+
     @PostMapping("/updateLocation")
     public Object getVisitorInfoByIdNumber(@RequestBody Location location) {
         if(location.getLocationId()==null){
