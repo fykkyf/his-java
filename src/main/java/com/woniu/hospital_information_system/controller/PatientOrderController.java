@@ -27,6 +27,13 @@ public class PatientOrderController {
         return new ResponseEntity(200,"request success",patientOrderService.getAllPatientOrders(patientOrderDTO.getPageNum(),patientOrderDTO.getPageSize()));
     }
     /*
+     * 查询所有住院患者医嘱信息
+     * */
+    @PostMapping("/get/daily")
+    public Object getAllPatientOrdersByDaily(@RequestBody PatientOrderDTO patientOrderDTO) {
+        return new ResponseEntity(200,"request success",patientOrderService.getAllPatientOrdersByDaily(patientOrderDTO.getPageNum(),patientOrderDTO.getPageSize(),patientOrderDTO.getPatient().getPatientId()));
+    }
+    /*
      *   模糊查询患者医嘱信息
      * */
     @PostMapping("/getByKeyWord")
@@ -47,7 +54,9 @@ public class PatientOrderController {
     * */
     @PostMapping("/add")
     public Object addPatientInfo(@RequestBody PatientOrderDTO patientOrderDTO) {
+//        System.out.println(patientOrderDTO);
         patientOrderService.addPatientOrder(patientOrderDTO);
+
         return new ResponseEntity(200,"request success",null);
     }
     //办理出院--修改费用表信息
@@ -62,6 +71,15 @@ public class PatientOrderController {
     @PostMapping("/checkDischarge")
     public ResponseEntity checkDischarge(@RequestBody PatientOrderDTO patientOrderDTO){
         patientOrderService.modifyPatientOrderByPatientId(patientOrderDTO);
+        return new ResponseEntity(200,"request success",null);
+    }
+
+    /*
+    *   医生修改病人医嘱
+    * */
+    @PostMapping("/modify")
+    public Object modifyPatientOrder(@RequestBody PatientOrderDTO patientOrderDTO) {
+        patientOrderService.modifyPatientOrder(patientOrderDTO);
         return new ResponseEntity(200,"request success",null);
     }
 

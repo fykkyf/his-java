@@ -10,11 +10,13 @@ import com.woniu.hospital_information_system.entity.VO.PatientInfoVO;
 import com.woniu.hospital_information_system.service.LocationService;
 import com.woniu.hospital_information_system.service.PatientInfoService;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
+import com.woniu.hospital_information_system.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -42,6 +44,15 @@ public class PatientInfoController {
         return new ResponseEntity(200,"success","添加成功");
     }
     /*
+    * 根据doctorId查询患者信息
+    * */
+    @GetMapping("/getByDoctorId")
+    public Object getPatientInfoByDoctorId(HttpServletRequest request) {
+        String token = request.getHeader("token");
+//        patientInfoService.getPatientInfoByDoctorId(Integer.valueOf(JwtUtil.getEid(token)))
+        return new ResponseEntity(200,"request success",patientInfoService.getPatientInfoByDoctorId(2));
+    }
+    /*
     *根据患者id查询患者信息
     * */
     @GetMapping("/getById/{patientId}")
@@ -60,7 +71,7 @@ public class PatientInfoController {
      * */
     @PostMapping("/get/allDischarge")
     public Object getAllDischarge(@RequestBody PatientInfoDTO patientInfoDTO) {
-        return new ResponseEntity(200,"request success",patientInfoService.getAllDischarge(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize()));
+        return new ResponseEntity(200,"request success",patientInfoService.getAllDischarge(patientInfoDTO.getPageNum(),patientInfoDTO.getPageSize(), patientInfoDTO.getPatientId()));
     }
     @GetMapping("/getPatientInfoByLocation")
     public Object getPatientInfoByLocation() {

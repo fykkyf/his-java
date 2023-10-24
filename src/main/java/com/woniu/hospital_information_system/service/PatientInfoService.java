@@ -35,11 +35,13 @@ public interface PatientInfoService {
     List<PatientInfo> getPatientInfosByNoLocation(PatientInfoDTO patientInfoDTO);
     PatientInfoVO getAllPatientInfosByNoLocation(int pageNum, int pageSize);
     //获取所有住院患者信息--出院办理
-    PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize);
+    PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize,Integer patientId);
 
     List<PatientInfo> getPatientInfoByLocation();
 
     void addLocationId(Integer locationId,Integer patientId);
 
     List<PatientInfo> getPatientInfoByPatientIdAndLocation(Integer patientId);
+
+    List<PatientInfo> getPatientInfoByDoctorId(Integer doctorId);
 }

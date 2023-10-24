@@ -21,4 +21,9 @@ public class PatientRaidologyServiceImpl implements PatientRaidologyService {
     public String getPictureFileName(VisitorInfo visitorInfo) {
         return patientRaidologyMapper.getPictureFileName(visitorInfo);
     }
+
+    @Override
+    public void addPatientRaidology(Integer patientId, Integer treatmentId) {
+        patientRaidologyMapper.insertPatientRaidology(patientId,treatmentId);
+    }
 }

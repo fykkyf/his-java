@@ -1,10 +1,7 @@
 package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.VisitorInfo;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface PatientRaidologyMapper {
@@ -14,4 +11,6 @@ public interface PatientRaidologyMapper {
 
     @Select("select fileName from patient_raidology where visitor_id=#{visitorId}")
     String getPictureFileName(VisitorInfo visitorInfo);
+    @Insert("insert into patient_raidology values(null,#{patientId}),#{treatmentId},null,null,1,null")
+    void insertPatientRaidology(@Param("patientId") Integer patientId, @Param("treatmentId")Integer treatmentId);
 }

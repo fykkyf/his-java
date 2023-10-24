@@ -33,7 +33,7 @@
               and   drug_code=#{drugCode}
           </if>
           <if test="storage!=null and storage!=''">
-              and   storage&lt;=#{storage}
+              and   storage >= #{storage}
           </if>
           <if test="expiredTime!=null ">
               and expired_time >= #{expiredTime}

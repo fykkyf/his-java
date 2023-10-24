@@ -63,8 +63,8 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     }
 
     @Override
-    public PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize) {
-        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByDischarge();
+    public PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize,Integer patientId) {
+        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByDischarge(patientId);
         //分页
         return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
     }
@@ -219,6 +219,14 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             }
         }
         return result;
+    }
+
+    /*
+    * 根据doctorId查询病人
+    * */
+    @Override
+    public List<PatientInfo> getPatientInfoByDoctorId(Integer doctorId) {
+        return patientInfoMapper.selectPatientInfoByDoctorId(doctorId);
     }
 
     /*
