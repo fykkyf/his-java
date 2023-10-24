@@ -13,6 +13,8 @@ public interface PatientOrderMapper {
     //获取所有住院医嘱信息
 //    @Select("select * from patient_order")
     List<PatientOrder> selectAllPatientOrders();
+    //获取当天所有医嘱信息
+    List<PatientOrder> selectAllPatientOrdersByDaily(int patientId);
     //给住院患者下医嘱
     void addPatientOrderByPatientOrderId(PatientOrder patientOrder);
     //根据住院患者id查询住院患者医嘱信息
@@ -36,5 +38,6 @@ public interface PatientOrderMapper {
     void finishPayment(Integer patientId);
     //模糊查询住院患者医嘱信息
     List<PatientOrder> selectPatientOrderByKeyWord(PatientOrder patientOrder);
-
+    //医生修改病人医嘱
+    void updatePatientOrderByPatientId(PatientOrder patientOrder);
 }

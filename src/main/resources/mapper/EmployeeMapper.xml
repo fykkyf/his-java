@@ -40,4 +40,35 @@
             <result property="roleName" column="role_name" ></result>
         </association>
     </resultMap>
+
+    <insert id="addNewEmployee">
+        <selectKey keyProperty="employeeId" resultType="Integer" statementType="PREPARED" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into employee values(null,#{employeeName})
+    </insert>
+    <insert id="addNewEmployeeRole">
+        insert into employee_role values (null,#{employeeId},#{roleId})
+    </insert>
+    <insert id="addNewEmployeeUnit">
+        insert into employee_unit values (null,#{employeeId},#{unitId})
+    </insert>
+    <update id="updateEmployeeDTO">
+        update employee set employee_name = #{employeeName} where employee_id = #{employeeId}
+    </update>
+    <update id="updateEmployeeRole">
+        update employee_role set role_id =#{roleId} where employee_id = #{employeeId}
+    </update>
+    <update id="updateEmployeeUnit">
+        update employee_unit set unit_id =#{unitId} where employee_id = #{employeeId}
+    </update>
+    <delete id="removeEmployee">
+        delete from employee where employee_id = #{employeeId}
+    </delete>
+    <delete id="removeEmployeeRole">
+        delete from employee_role where employee_id = #{employeeId}
+    </delete>
+    <delete id="removeEmployeeUnit">
+        delete from employee_unit where employee_id = #{employeeId}
+    </delete>
 </mapper>

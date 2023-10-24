@@ -7,7 +7,8 @@
     <!--添加住院医嘱信息-->
     <insert id="addPatientOrderByPatientOrderId">
         insert into patient_order
-        values (null, #{patient.patientId}, #{employee.employeeId}, #{treatmentId}, #{treatmentName}, #{administration.administrationId}, #{dosage.dosageId},
+        values (null, #{patient.patientId}, #{employee.employeeId}, #{treatmentId}, #{treatmentName},
+                #{administration.administrationId}, #{dosage.dosageId},
                 #{treatmentCount}, null, null, 1, #{orderType})
     </insert>
     <resultMap id="PatientOrderMap" type="patientOrder">
@@ -37,8 +38,9 @@
         </association>
     </resultMap>
     <select id="selectAllPatientOrders" resultMap="PatientOrderMap">
-        SELECT po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
-               a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        SELECT po.patient_order_id,po.patient_id, pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,
+               po.treatment_name, po.administration_id,a.administration_name,po.dosage_id,d.dosage_name,
+               po.treatment_count, po.execution_time,po.dispense_time,po.execution_status,po.order_type
         FROM patient_order po
                  left join patient_info pi on po.patient_id = pi.patient_id
                  left join employee e on po.doctor_id = e.employee_id
@@ -47,28 +49,70 @@
         where po.execution_status = 1
     </select>
     <select id="selectPatientOrderByPatientId" resultMap="PatientOrderMap">
-        SELECT po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
-               a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        SELECT po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,
+               po.treatment_name,po.administration_id,a.administration_name,po.dosage_id,d.dosage_name,
+               po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
         FROM patient_order po
                  left join patient_info pi on po.patient_id = pi.patient_id
                  left join employee e on po.doctor_id = e.employee_id
                  left join administration a on po.administration_id = a.administration_id
                  left join dosage d on po.dosage_id = d.dosage_id
-        where po.patient_id = #{patientId}
+        where po.patient_id = #{patientId} and po.execution_status = 3
     </select>
     <select id="selectPatientOrderByKeyWord" resultMap="PatientOrderMap">
-        SELECT po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
-               a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        SELECT
+        po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
+        a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
         FROM patient_order po
-                 left join patient_info pi on po.patient_id = pi.patient_id
-                 left join employee e on po.doctor_id = e.employee_id
-                 left join administration a on po.administration_id = a.administration_id
-                 left join dosage d on po.dosage_id = d.dosage_id
+        left join patient_info pi on po.patient_id = pi.patient_id
+        left join employee e on po.doctor_id = e.employee_id
+        left join administration a on po.administration_id = a.administration_id
+        left join dosage d on po.dosage_id = d.dosage_id
         <where>
-                po.execution_status = 1
+            <if test="executionStatus != null">
+                po.execution_status = #{executionStatus}
+            </if>
             <if test="patientOrderId!=null">
                 and po.patient_order_id = #{patientOrderId}
             </if>
+            <if test="patient !=null">
+                and po.patient_id = #{patient.patientId}
+            </if>
+            <if test="treatmentId !=null">
+                and po.treatment_id = #{treatmentId}
+            </if>
+            <if test="orderType !=null">
+                and po.order_type = #{orderType}
+            </if>
         </where>
     </select>
+    <select id="selectAllPatientOrdersByDaily" resultMap="PatientOrderMap">
+        SELECT
+            po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
+            a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        FROM patient_order po
+                 left join patient_info pi on po.patient_id = pi.patient_id
+                 left join employee e on po.doctor_id = e.employee_id
+                 left join administration a on po.administration_id = a.administration_id
+                 left join dosage d on po.dosage_id = d.dosage_id
+        where po.patient_id = #{patientId} and date(po.execution_time) = current_date
+    </select>
+
+    <update id="updatePatientOrderByPatientId">
+        update patient_order
+        set treatment_id = #{treatmentId},
+            treatment_name = #{treatmentName},
+            <if test="administration != null">
+                administration_id = #{administration.administrationId},
+            </if>
+            <if test="dosage != null">
+                dosage_id = #{dosage.dosageId},
+            </if>
+            <if test="treatmentCount != null">
+                treatment_count = #{treatmentCount},
+            </if>
+            order_type = #{orderType},
+            execution_status = 1
+        where patient_order_id = #{patientOrderId}
+    </update>
 </mapper>

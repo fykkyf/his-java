@@ -14,7 +14,6 @@ import java.util.Date;
 public class TreatmentDTO {
     private Integer treatmentId;
     private String treatmentName;
-
     private Integer treatmentCount;
     private String manufacturer;
     @JsonFormat(pattern = "yyyy-MM-dd")

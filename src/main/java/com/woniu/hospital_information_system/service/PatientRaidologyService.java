@@ -6,6 +6,7 @@ public interface PatientRaidologyService {
 
     void addPicture(String path, String fileName,Integer patientRaidologyId);
 
-
     String getPictureFileName(VisitorInfo visitorInfo);
+
+    void addPatientRaidology(Integer patientId,Integer treatmentId);
 }

@@ -20,9 +20,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void giveMenu(RoleMenuDTO roleMenuDTO) {
-        menuMapper.removeMenuByRoleId(roleMenuDTO.getRole().getRoleId());
+        menuMapper.removeMenuByRoleId(roleMenuDTO.getRoleId());
         for(Integer menuId : roleMenuDTO.getMenuIds()){
-            roleMapper.insertMenusByRid(roleMenuDTO.getRole().getRoleId(),menuId);
+            roleMapper.insertMenusByRid(roleMenuDTO.getRoleId(),menuId);
         }
     }
 

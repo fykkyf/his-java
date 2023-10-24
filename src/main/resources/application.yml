@@ -8,7 +8,8 @@ spring:
     password: 123
 
   redis:
-    host: 192.168.228.60
+    host: 192.168.70.133
+
     port: 6379
     password: 123
     database: 0
@@ -19,7 +20,8 @@ spring:
         max-idle: 10   # 最da连接数
         max-active: 5 # 最大活动数
   rabbitmq:
-    host: 192.168.228.60
+    host: 192.168.6.104
+
     port: 5672
     username: guest
     password: guest

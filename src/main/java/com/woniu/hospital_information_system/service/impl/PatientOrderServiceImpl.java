@@ -9,7 +9,9 @@ import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
 import com.woniu.hospital_information_system.entity.VO.PatientOrderVO;
 import com.woniu.hospital_information_system.mapper.*;
+import com.woniu.hospital_information_system.service.PatientLabService;
 import com.woniu.hospital_information_system.service.PatientOrderService;
+import com.woniu.hospital_information_system.service.PatientRaidologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,10 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     TreatmentMapper treatmentMapper;
     @Autowired
     LocationMapper locationMapper;
+    @Autowired
+    PatientRaidologyMapper patientRaidologyMapper;//检查--4
+    @Autowired
+    PatientLabMapper patientLabMapper;//检验--3
 
     /*
      * 获取所有住院患者医嘱信息
@@ -38,6 +44,19 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     @Override
     public PatientOrderVO getAllPatientOrders(int pageNum, int pageSize) {
         List<PatientOrder> patientOrders = patientOrderMapper.selectAllPatientOrders();
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo<PatientOrder> info = new PageInfo<>(patientOrders);
+        PatientOrderVO patientOrderVO = new PatientOrderVO();
+        patientOrderVO.setPageNum(pageNum);
+        patientOrderVO.setPageSize(pageSize);
+        patientOrderVO.setTotal((int) info.getTotal());
+        patientOrderVO.setPatientOrders(patientOrders);
+        return patientOrderVO;
+    }
+
+    @Override
+    public PatientOrderVO getAllPatientOrdersByDaily(int pageNum, int pageSize, int patientId) {
+        List<PatientOrder> patientOrders = patientOrderMapper.selectAllPatientOrdersByDaily(patientId);
         PageHelper.startPage(pageNum, pageSize);
         PageInfo<PatientOrder> info = new PageInfo<>(patientOrders);
         PatientOrderVO patientOrderVO = new PatientOrderVO();
@@ -57,6 +76,8 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         //TODO:从token中获取医生ID
         TreatmentDTO treatment = patientOrderDTO.getTreatment();
         treatment.setTreatmentName(treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId()).getTreatmentName());
+        System.out.println(patientOrderDTO.getAdministrationId());
+        System.out.println(patientOrderDTO.getDosageId());
         PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
         if (treatment.getTreatmentCategory()!=1){
             patientOrder.setOrderType(1);
@@ -76,9 +97,10 @@ public class PatientOrderServiceImpl implements PatientOrderService {
             }
         }else if (treatment.getTreatmentCategory() == 3){
             //检验
-
+            patientLabMapper.insertPatientLab(patientOrder.getPatient().getPatientId(),treatment.getTreatmentId());
         }else if (treatment.getTreatmentCategory() == 4){
             //检查
+            patientRaidologyMapper.insertPatientRaidology(patientOrder.getPatient().getPatientId(),treatment.getTreatmentId());
         }
 
     }
@@ -121,15 +143,13 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                 patientOrderMapper.updatePatientOrderTimesByPatientId(patientOrder);
                 // 修改费用明细中payment_status为2--记账时间为now
                 patientBillMapper.updatePatientBillByPaymentStatus(patientBill);
-                //修改病人信息表中床位信息
                 PatientInfo patientInfo = new PatientInfo();
                 patientInfo.setPatientId(patientOrder.getPatient().getPatientId());
+                //更新床位表
+                locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocation().getLocationId());
+                //修改病人信息表中床位信息
                 patientInfo.setLocation(new Location());
                 patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
-                //更新床位表
-                System.out.println(patientInfo.getPatientId());
-                System.out.println(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()));
-                locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocation().getLocationId());
             }
         }
     }
@@ -193,6 +213,16 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     }
 
     /*
+    *   医生修改病人医嘱信息
+    * */
+    @Override
+    public void modifyPatientOrder(PatientOrderDTO patientOrderDTO) {
+        patientOrderMapper.updatePatientOrderByPatientId(getPatientOrder(patientOrderDTO));
+    }
+
+
+
+    /*
      * PatientOrderDTO转PatientOrder
      * */
     private PatientOrder getPatientOrder(PatientOrderDTO patientOrderDTO) {
@@ -209,13 +239,17 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         if (patientOrderDTO.getTreatment()!=null){
             patientOrder.setTreatmentId(patientOrderDTO.getTreatment().getTreatmentId());
             patientOrder.setTreatmentName(patientOrderDTO.getTreatment().getTreatmentName());
-            patientOrder.setTreatmentCount(patientOrderDTO.getTreatmentCount());
+            patientOrder.setTreatmentCount(patientOrderDTO.getTreatment().getTreatmentCount());
         }
-        if (patientOrderDTO.getAdministration()!=null){
-            patientOrder.setAdministration(patientOrderDTO.getAdministration());
+        if (patientOrderDTO.getAdministrationId()!=null){
+            Administration administration = new Administration();
+            administration.setAdministrationId(patientOrderDTO.getAdministrationId());
+            patientOrder.setAdministration(administration);
         }
-        if (patientOrderDTO.getDosage()!=null){
-            patientOrder.setDosage(patientOrderDTO.getDosage());
+        if (patientOrderDTO.getDosageId()!=null){
+            Dosage dosage = new Dosage();
+            dosage.setDosageId(patientOrderDTO.getDosageId());
+            patientOrder.setDosage(dosage);
         }
         if(patientOrderDTO.getExecutionStatus()!=null){
             patientOrder.setExecutionStatus(patientOrderDTO.getExecutionStatus());

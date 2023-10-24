@@ -1,15 +1,18 @@
 package com.woniu.hospital_information_system.controller;
 
+import com.woniu.hospital_information_system.entity.DTO.EmployeeDTO;
 import com.woniu.hospital_information_system.entity.Employee;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.Unit;
 import com.woniu.hospital_information_system.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Slf4j
 @RequestMapping("employee")
 public class EmployeeController {
     @Autowired
@@ -43,6 +46,23 @@ public class EmployeeController {
     @GetMapping("/getAllVO")
     public Object getAllVO(){
         return new ResponseEntity(200,"success",employeeService.getAllVO());
+    }
+    @PostMapping("/updateEmployee")
+    public Object addNewEmployee(@RequestBody EmployeeDTO employeeDTO){
+
+        if(employeeDTO.getEmployeeId()==null){
+            employeeService.addNewEmployee(employeeDTO);
+            return new ResponseEntity(200,"添加成功",null);
+        }else {
+            employeeService.updateEmployeeDTO(employeeDTO);
+            return new ResponseEntity(200,"修改成功",null);
+        }
+
+    }
+    @PostMapping("/removeEmployeeVO/{employeeId}")
+    public ResponseEntity removeEmployee(@PathVariable Integer employeeId){
+        employeeService.removeEmployee(employeeId);
+        return new ResponseEntity(200,"success",null);
     }
 
 }

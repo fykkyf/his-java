@@ -63,8 +63,8 @@ public class PatientInfoServiceImpl implements PatientInfoService {
     }
 
     @Override
-    public PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize) {
-        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByDischarge();
+    public PatientInfoVO getAllDischarge(Integer pageNum, Integer pageSize,Integer patientId) {
+        List<PatientInfo> patientInfos = patientInfoMapper.selectPatientInfosByDischarge(patientId);
         //分页
         return getPatientInfoVOByPageInfo(pageNum, pageSize, patientInfos);
     }
@@ -89,7 +89,6 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         //获取结算状态为1的集合
         List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 1).collect(Collectors.toList());
         if (collect.size() != 0) {
-            System.out.println("未结清");
             throw new UnLiquidatedHospitalChargesException("住院费用未结清");
         }
         //已结清费用则给住院患者对象赋值
@@ -214,11 +213,19 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         List<PatientInfo> patientInfoList = patientInfoMapper.selectAllPatientInfos();
         List<PatientInfo> result = new ArrayList<>();
         for (PatientInfo p : patientInfoList){
-            if (p.getLocation()==null&&p.getPatientId().equals(patientId)){
+            if (p.getLocation()==null && p.getPatientId().equals(patientId) && p.getStayStatus()==1){
                 result.add(p);
             }
         }
         return result;
+    }
+
+    /*
+    * 根据doctorId查询病人
+    * */
+    @Override
+    public List<PatientInfo> getPatientInfoByDoctorId(Integer doctorId) {
+        return patientInfoMapper.selectPatientInfoByDoctorId(doctorId);
     }
 
     /*

@@ -18,6 +18,8 @@ public class PatientOrderDTO {
     private TreatmentDTO treatment;
     private Administration administration;
     private Dosage dosage;
+    private Integer administrationId;
+    private Integer dosageId;
     private Integer treatmentCount;
     private DateTime executionTime;
     private DateTime dispenseTime;
