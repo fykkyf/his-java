@@ -17,7 +17,8 @@ public class ClinicRaidologyServiceImpl implements ClinicRaidologyService {
     }
 
     @Override
-    public String getPictureFileName(VisitorInfo visitorInfo) {
-        return clinicRaidologyMapper.getPictureFileName(visitorInfo);
+    public String getPictureFileName(Integer visitorId) {
+        System.out.println("这里是service:"+clinicRaidologyMapper.getPictureFileName(visitorId));
+        return clinicRaidologyMapper.getPictureFileName(visitorId);
     }
 }

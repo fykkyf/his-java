@@ -5,6 +5,7 @@ import com.woniu.hospital_information_system.controller.ClinicOrderController;
 import com.woniu.hospital_information_system.controller.ClinicRaidologyController;
 import com.woniu.hospital_information_system.controller.VisitorInfoController;
 import com.woniu.hospital_information_system.entity.ClinicOrder;
+import com.woniu.hospital_information_system.entity.DTO.ClinicOrderDTO;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.ClinicOrderService;
 
@@ -38,11 +39,7 @@ class HospitalInformationSystemApplicationTests {
 
 
 
-    @Test
-    void test1(){
-        ClinicOrder clinicOrder = new ClinicOrder(null,3,3,3,"33",3,3,3,null,null);
-        clinicOrderController.addClinicOrder(clinicOrder);
-    }
+
 
 
     void test2(){

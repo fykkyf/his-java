@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.controller;
 
 
 import com.woniu.hospital_information_system.entity.ClinicRaidology;
+import com.woniu.hospital_information_system.entity.FormData;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.ClinicRaidologyService;
@@ -21,8 +22,10 @@ public class ClinicRaidologyController {
 
     @PostMapping("/upload")
     //门诊检查处，上传图片
-    public ResponseEntity upload(@RequestParam(value = "file",required = false) MultipartFile file, ClinicRaidology clinicRaidology) throws IOException {
-        Integer clinicRaidologyId = clinicRaidology.getClinicRaidologyId();
+    public ResponseEntity upload(FormData formData) throws IOException {
+        MultipartFile file = formData.getFile();
+        Integer clinicRaidologyId = formData.getId();
+        System.out.println("这里是clinicRaidologyId:"+clinicRaidologyId);
         // 判断文件是否为空
         if(file.isEmpty()){
             return new ResponseEntity(402,"文件为空",null);
@@ -33,9 +36,10 @@ public class ClinicRaidologyController {
         String fileName=System.currentTimeMillis()+"."+OriginalFilename.substring(OriginalFilename.lastIndexOf(".")+1);
         // 设置保存地址（这里是转义字符）
         //1.后台保存位置
-        String path = "D:\\vue_project\\travel\\src\\assets\\images\\";
+        String path = "D:\\vscode\\code\\his\\his\\src\\assets\\images\\";
         //dest是上传图片的路径名字
         File dest=new File(path+fileName);
+        System.out.println("这里是dest："+dest);
         // 判断文件是否存在
         if(!dest.getParentFile().exists()){
             // 不存在就创建一个
@@ -52,10 +56,12 @@ public class ClinicRaidologyController {
         }
     }
 
-    @PostMapping("/getPictureFileName")
+    @PostMapping("/getPictureFileName/{visitorId}")
     //在门诊医生界面，带着visitorInfo_id去门诊检查表中查出图片的名字fileName
-    public ResponseEntity getPictureFileName(@RequestBody VisitorInfo visitorInfo){
-        String fileName=clinicRaidologyService.getPictureFileName(visitorInfo);
+    public ResponseEntity getPictureFileName(@PathVariable("visitorId") Integer visitorId){
+        System.out.println("这里是controller:"+visitorId);
+        String fileName=clinicRaidologyService.getPictureFileName(visitorId);
+        System.out.println(fileName);
         return new ResponseEntity(200,"ok",fileName);
     }
 }

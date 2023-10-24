@@ -7,5 +7,5 @@ public interface ClinicRaidologyService {
     void addPicture(String path, String fileName,Integer clinicRaidologyId);
 
 
-    String getPictureFileName(VisitorInfo visitorInfo);
+    String getPictureFileName(Integer visitorId);
 }

@@ -3,6 +3,7 @@ package com.woniu.hospital_information_system.controller;
 
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.VO.VisitorBillResultVO;
+import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.service.VisitorBillService;
@@ -59,5 +60,11 @@ public class VisitorBillController {
     public ResponseEntity changeAllStatus(@PathVariable Integer visitorId){
         visitorBillService.changeAllStatus(visitorId);
         return new ResponseEntity(200,"success","支付成功");
+    }
+
+    @PostMapping("/updateManipulateStatus")
+    public ResponseEntity updateManipulateStatus(@RequestBody VisitorBill visitorBill){
+        visitorBillService.updateManipulateStatus(visitorBill);
+        return new ResponseEntity(200,"ok",null);
     }
 }

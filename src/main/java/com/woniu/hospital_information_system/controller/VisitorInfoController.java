@@ -1,12 +1,17 @@
 package com.woniu.hospital_information_system.controller;
 
 
+import com.woniu.hospital_information_system.entity.DTO.VisitorInfoDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.service.VisitorInfoService;
+import com.woniu.hospital_information_system.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -22,8 +27,10 @@ public class VisitorInfoController {
     @PostMapping("/add")
     //挂号时，向门诊患者信息表添加患者信息,且在门诊患者费用表中生成数据
     public ResponseEntity addVisitorInfo(@RequestBody VisitorInfo visitorInfo){
-        visitorInfoService.addVisitorInfo(visitorInfo);
-        return new ResponseEntity(200,"挂号成功",null);
+        System.out.println(visitorInfo);
+            visitorInfoService.addVisitorInfo(visitorInfo);
+//        visitorInfoService.addVisitorInfo(visitorInfo);
+        return new ResponseEntity(200,"ok",null);
     }
 
     @PostMapping("/getByVid")
@@ -63,15 +70,47 @@ public class VisitorInfoController {
 
     @PostMapping("/updateDisease")
 //下完医嘱，修改状态为过诊且给病人添加疾病
-    public ResponseEntity updateDisease(@RequestBody VisitorInfo visitorInfo){
-        visitorInfoService.updateDisease(visitorInfo);
+    public ResponseEntity updateDisease(Integer visitorId,Integer diseaseId){
+        visitorInfoService.updateDisease(visitorId,diseaseId);
         return new ResponseEntity(200,"ok",null);
     }
 
-    @GetMapping("/getAll")
-    public ResponseEntity getAll(){
-        List<VisitorInfo> visitorInfos=visitorInfoService.getAll();
+//    @GetMapping("/getAll")
+//    public ResponseEntity getAll(){
+//        List<VisitorInfo> visitorInfos=visitorInfoService.getAll();
+//        System.out.println(visitorInfos);
+//        return new ResponseEntity(200,"ok",visitorInfos);
+//    }
+
+    @GetMapping("/getVisitorByEmployeeId")
+    public ResponseEntity getVisitorByEmployeeId(HttpServletRequest request){
+        String token = request.getHeader("token");
+        Integer eid = Integer.valueOf(JwtUtil.getEid(token));
+        List<VisitorInfo> visitorInfos=visitorInfoService.getVisitorByEmployeeId(eid);
         System.out.println(visitorInfos);
         return new ResponseEntity(200,"ok",visitorInfos);
     }
+
+    @PostMapping("/getVisitorInfoIdByPaySuccessAndManipulateStatus")
+    public ResponseEntity getVisitorInfoIdByPaySuccessAndManipulateStatus(){
+        List<VisitorInfoDTO> visitorInfo=visitorInfoService.getVisitorInfoIdByPaySuccessAndManipulateStatus();
+        System.out.println("这里是"+visitorInfo);
+        return new ResponseEntity(200,"",visitorInfo);
+    }
+
+    @PostMapping("/getByCondition")
+    public ResponseEntity getByCondition(@RequestBody VisitorInfo visitorInfo){
+        List<VisitorInfo> visitorInfos=visitorInfoService.getByCondition(visitorInfo);
+        return new ResponseEntity(200,"",visitorInfos);
+    }
+
+    @PostMapping("/updateDoc")
+    public ResponseEntity updateDoc(Integer visitorId,Integer employeeId,Integer unitId){
+        visitorInfoService.updateDoc(visitorId,employeeId,unitId);
+        System.out.println("visitorId:"+visitorId);
+        System.out.println("employeeId:"+employeeId);
+        System.out.println("unitId:"+unitId);
+        return new ResponseEntity(200,"","修改成功");
+    }
+
 }

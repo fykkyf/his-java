@@ -6,15 +6,12 @@
 <mapper namespace="com.woniu.hospital_information_system.mapper.VisitorInfoMapper">
     <!--id和对应的mapper接口中的方法名一样-->
     <insert id="addVisitorInfo" >
-        <selectKey keyProperty="visitor_id" resultType="int" statementType="PREPARED" order="AFTER">
+        <selectKey keyProperty="visitorId" resultType="Integer" statementType="PREPARED" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        <if test="gender==1">,
-            insert into visitor_info values (null,#{visitorName},1,#{age},#{idNumber},#{phone},#{unitId},#{doctorId},null,null,1)
-        </if>
-        <if test="gender==0">
-            insert into visitor_info values (null,#{visitorName},0,#{age},#{idNumber},#{phone},#{unitId},#{doctorId},null,null,1)
-        </if>
+
+            insert into visitor_info values (null,#{visitorName},#{gender},#{age},#{idNumber},#{phone},#{unit.unitId},#{employee.employeeId},null,null,1)
+
     </insert>
 
     <select id="getVisitorInfoByPaySuccess" resultType="VisitorInfo">
@@ -45,6 +42,7 @@
             <result property="diseaseName" column="disease_name" ></result>
         </association>
     </resultMap>
+
     <select id="getAll" resultMap="VisitorInfoMap">
         SELECT
             vi.visitor_id,
@@ -70,6 +68,8 @@
                  LEFT JOIN disease d ON vi.disease_id = d.disease_id;
 
     </select>
+
+
     <select id="getVisitorInfoByVisitorId" resultMap="VisitorInfoMap">
         SELECT
             vi.visitor_id,
@@ -94,5 +94,42 @@
                  LEFT JOIN employee e ON vi.doctor_id = e.employee_id
                  LEFT JOIN disease d ON vi.disease_id = d.disease_id
         where visitor_id =#{visitorId}
+    </select>
+
+
+    <select id="getByCondition" resultMap="VisitorInfoMap">
+        SELECT
+            vi.visitor_id,
+            vi.visitor_name,
+            vi.gender,
+            vi.age,
+            vi.id_number,
+            vi.phone,
+
+            vi.clinic_start_time,
+            vi.clinic_status,
+
+            u.unit_id,
+            u.unit_name,
+            e.employee_id,
+            e.employee_name,
+            d.disease_id ,
+            d.disease_name
+
+
+        FROM visitor_info vi
+                 LEFT JOIN unit u ON vi.unit_id = u.unit_id
+                 LEFT JOIN employee e ON vi.doctor_id = e.employee_id
+                 LEFT JOIN disease d ON vi.disease_id = d.disease_id
+        <where>
+            <if test="idNumber!=null and idNumber!=''">
+                    and id_number=#{idNumber}
+            </if>
+            <if test="visitorName!=null and visitorName!=''">
+                and visitor_name=#{visitorName}
+            </if>
+        </where>
+
+
     </select>
 </mapper>

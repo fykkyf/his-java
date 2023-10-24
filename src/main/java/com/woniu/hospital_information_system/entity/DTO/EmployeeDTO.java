@@ -1,0 +1,17 @@
+package com.woniu.hospital_information_system.entity.DTO;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class EmployeeDTO {
+    private Integer employeeId;
+    private String employeeName;
+    private Integer roleId;
+    private Integer unitId;
+
+}
