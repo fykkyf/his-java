@@ -105,11 +105,12 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         //根据身份证查询医保信息
         if (insuranceInfoService.getInsuranceInfoByIdNumber(patientInfoDTO.getIdNumber()) != null) {
             //有医保
-            patientInfo.setInsuranceStatus(1);
+            patientInfo.setInsuranceStatus(2);
         } else {
             //无医保
-            patientInfo.setInsuranceStatus(0);
+            patientInfo.setInsuranceStatus(1);
         }
+        patientInfo.setAdmissionDiagnosis(patientInfo.getAdmissionDiagnosis());
         //调用insert方法，向数据库添加住院患者信息
         patientInfoMapper.insertPatientInfo(patientInfo);
     }

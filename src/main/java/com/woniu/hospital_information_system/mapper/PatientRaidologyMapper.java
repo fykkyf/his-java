@@ -14,8 +14,8 @@ public interface PatientRaidologyMapper {
     @Update("update patient_raidology set path=#{path},file_name=#{fileName},test_date = now() where patient_raidology_id=#{patientRaidologyId}")
     void addPicture(@Param("path") String path,@Param("fileName") String fileName,@Param("patientRaidologyId") Integer patientRaidologyId);
 
-    @Select("select fileName from patient_raidology where visitor_id=#{visitorId}")
-    String getPictureFileName(VisitorInfo visitorInfo);
+    @Select("select file_name from patient_raidology where patient_id=#{patientId}")
+    String getPictureFileName(Integer patientId);
     @Insert("insert into patient_raidology values(null,#{patientId},#{treatmentId},null,null,1,null)")
     void insertPatientRaidology(@Param("patientId") Integer patientId, @Param("treatmentId")Integer treatmentId);
 

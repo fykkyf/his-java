@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -83,6 +84,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
         if (treatment.getTreatmentCategory()!=1){
             patientOrder.setOrderType(1);
+        }
+        if (treatment.getTreatmentPrice() == 1 || treatment.getTreatmentId().equals(7)){
+            patientOrder.setExecutionTime(null);
+        }else {
+            patientOrder.setExecutionTime(LocalDateTime.now());
         }
         patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
         if (treatment.getTreatmentCategory() == 2 ) {

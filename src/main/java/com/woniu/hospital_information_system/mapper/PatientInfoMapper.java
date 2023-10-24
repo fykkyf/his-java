@@ -49,7 +49,7 @@ public interface PatientInfoMapper {
     //根据关键字查询--添加床位查询
     List<PatientInfo> selectNoLocationPatientInfosByKeyWord(PatientInfo convertPatientInfo);
     //查询有出院诊断--未办理出院的病人信息
-    List<PatientInfo> selectPatientInfosByDischarge(int patientId);
+    List<PatientInfo> selectPatientInfosByDischarge(Integer patientId);
     @Select("select * from patient_info where doctor_id = #{doctorId} and stay_status = 1")
     List<PatientInfo> selectPatientInfoByDoctorId(Integer doctorId);
 }

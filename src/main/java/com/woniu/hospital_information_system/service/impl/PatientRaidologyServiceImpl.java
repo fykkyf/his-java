@@ -23,8 +23,8 @@ public class PatientRaidologyServiceImpl implements PatientRaidologyService {
     }
 
     @Override
-    public String getPictureFileName(VisitorInfo visitorInfo) {
-        return patientRaidologyMapper.getPictureFileName(visitorInfo);
+    public String getPictureFileName(Integer patientId) {
+        return patientRaidologyMapper.getPictureFileName(patientId);
     }
 
     @Override

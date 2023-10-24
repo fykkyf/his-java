@@ -9,7 +9,7 @@
         insert into patient_order
         values (null, #{patient.patientId}, #{employee.employeeId}, #{treatmentId}, #{treatmentName},
                 #{administration.administrationId}, #{dosage.dosageId},
-                #{treatmentCount}, null, null, 1, #{orderType})
+                #{treatmentCount}, #{executionTime}, null, 1, #{orderType})
     </insert>
     <resultMap id="PatientOrderMap" type="patientOrder">
         <id property="patientOrderId" column="patient_order_id"></id>
@@ -47,7 +47,7 @@
                  left join employee e on po.doctor_id = e.employee_id
                  left join administration a on po.administration_id = a.administration_id
                  left join dosage d on po.dosage_id = d.dosage_id
-        where po.execution_status = 1 and t.treatment_category = 1
+        where po.execution_status = 1 and t.treatment_category = 1 or t.treatment_id = 7
     </select>
     <select id="selectPatientOrderByPatientId" resultMap="PatientOrderMap">
         SELECT po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,
@@ -70,6 +70,9 @@
         left join administration a on po.administration_id = a.administration_id
         left join dosage d on po.dosage_id = d.dosage_id
         <where>
+            <if test="executionStatus == null">
+                po.execution_status = 3
+            </if>
             <if test="executionStatus != null">
                 po.execution_status = #{executionStatus}
             </if>

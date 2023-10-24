@@ -37,7 +37,8 @@ public class PatientRaidologyController {
         String fileName=System.currentTimeMillis()+"."+OriginalFilename.substring(OriginalFilename.lastIndexOf(".")+1);
         // 设置保存地址（这里是转义字符）
         //1.后台保存位置
-        String path = "D:\\vue_project\\travel\\src\\assets\\images\\";
+//        String path = "D:\\vue_project\\travel\\src\\assets\\images\\";
+        String path = "E:\\project\\study\\his\\src\\assets\\images\\";
         //dest是上传图片的路径名字
         File dest=new File(path+fileName);
         // 判断文件是否存在
@@ -56,10 +57,10 @@ public class PatientRaidologyController {
         }
     }
 
-    @PostMapping("/getPictureFileName")
+    @PostMapping("/getPictureFileName/{patientId}")
     //住院医生界面，带着visitorInfo_id去住院检查表中查出图片的名字fileName
-    public ResponseEntity getPictureFileName(@RequestBody VisitorInfo visitorInfo){
-        String fileName=patientRaidologyService.getPictureFileName(visitorInfo);
+    public ResponseEntity getPictureFileName(@PathVariable("patientId") Integer patientId){
+        String fileName=patientRaidologyService.getPictureFileName(patientId);
         return new ResponseEntity(200,"ok",fileName);
     }
 
