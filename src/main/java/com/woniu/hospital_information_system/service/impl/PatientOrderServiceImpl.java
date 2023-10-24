@@ -58,6 +58,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         TreatmentDTO treatment = patientOrderDTO.getTreatment();
         treatment.setTreatmentName(treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId()).getTreatmentName());
         PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
+        if (treatment.getTreatmentCategory()!=1){
+            patientOrder.setOrderType(1);
+        }
         patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
         if (treatment.getTreatmentCategory() == 2 ) {
             //非药品并且项目id不为7(出院项目)-添加费用明细
@@ -99,7 +102,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         TreatmentDTO treatment = patientOrderDTO.getTreatment();
         PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
         //更改执行状态
-        patientOrderMapper.updatePatientOrderByPatientId(patientOrder);
+        patientOrderMapper.updatePatientOrderStatusByPatientId(patientOrder);
         if (patientOrder.getExecutionStatus() == 2) {
             Treatment byTreatmentId = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
             treatment.setTreatmentPrice(byTreatmentId.getTreatmentPrice());//获取实际金额
@@ -107,10 +110,16 @@ public class PatientOrderServiceImpl implements PatientOrderService {
             PatientBill patientBill = getPatientBill(treatment, patientOrder);
             //判断项目类别
             if (treatment.getTreatmentCategory() == 1) {
-                //药品项目：住院患者费用表中添加一条数据记账状态为2的数据
+                //药品项目：
+                //修改医嘱表中的执行时间
+                patientOrderMapper.updatePatientOrderTimesByPatientId(patientOrder);
+                // 住院患者费用表中添加一条数据记账状态为2的数据
                 patientBillMapper.insertPatientBill(patientBill);
             } else if (treatment.getTreatmentId().equals(7)) {
-                //出院项目：修改费用明细中payment_status为2
+                //出院项目
+                //修改医嘱表中的执行时间
+                patientOrderMapper.updatePatientOrderTimesByPatientId(patientOrder);
+                // 修改费用明细中payment_status为2--记账时间为now
                 patientBillMapper.updatePatientBillByPaymentStatus(patientBill);
                 //修改病人信息表中床位信息
                 PatientInfo patientInfo = new PatientInfo();
@@ -118,6 +127,8 @@ public class PatientOrderServiceImpl implements PatientOrderService {
                 patientInfo.setLocation(new Location());
                 patientInfoMapper.updatePatientInfo(patientInfo);//清空病人信息表中床位
                 //更新床位表
+                System.out.println(patientInfo.getPatientId());
+                System.out.println(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()));
                 locationMapper.updateLocationStatusEmpty(patientInfoMapper.selectPatientInfoByPatientId(patientInfo.getPatientId()).getLocation().getLocationId());
             }
         }
@@ -196,7 +207,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
             patientOrder.setEmployee(patientOrderDTO.getEmployee());
         }
         if (patientOrderDTO.getTreatment()!=null){
-            patientOrder.setTreatmentCount(patientOrderDTO.getTreatment().getTreatmentCount());
+            patientOrder.setTreatmentId(patientOrderDTO.getTreatment().getTreatmentId());
+            patientOrder.setTreatmentName(patientOrderDTO.getTreatment().getTreatmentName());
+            patientOrder.setTreatmentCount(patientOrderDTO.getTreatmentCount());
         }
         if (patientOrderDTO.getAdministration()!=null){
             patientOrder.setAdministration(patientOrderDTO.getAdministration());

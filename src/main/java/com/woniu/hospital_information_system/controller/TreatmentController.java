@@ -7,6 +7,7 @@ import com.woniu.hospital_information_system.entity.DTO.ImdDTO;
 import com.woniu.hospital_information_system.entity.DTO.OmdDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.Treatment;
 import com.woniu.hospital_information_system.entity.VO.ImdVO;
 import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;

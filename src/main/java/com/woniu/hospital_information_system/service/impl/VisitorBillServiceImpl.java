@@ -78,6 +78,11 @@ public class VisitorBillServiceImpl implements VisitorBillService {
     }
 
     @Override
+    public void updateManipulateStatus(VisitorBill visitorBill) {
+        visitorBillMapper.updateManipulateStatus(visitorBill);
+    }
+
+    @Override
     public void addVisitorBillByVisitorIdAndEmployeeId(Integer visitorId, Integer treatmentId, Double treatmentPrice) {
         visitorBillMapper.addVisitorBill(visitorId,treatmentId,treatmentPrice);
     }

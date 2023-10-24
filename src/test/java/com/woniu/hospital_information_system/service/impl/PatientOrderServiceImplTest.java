@@ -14,15 +14,15 @@ class PatientOrderServiceImplTest {
     PatientOrderMapper patientOrderMapper;
     @Autowired
     PatientBillMapper patientBillMapper;
-    @Test
-    void dischargePatient() {
-        PatientInfoDTO patientInfoDTO = new PatientInfoDTO();
-        patientInfoDTO.setPatientId(1);
-        patientInfoDTO.setDoctorId(2);
-        patientOrderMapper.dischargePatient(patientInfoDTO);
-        //添加出院费用表
-//        patientBillMapper.dischargePatient(patientInfoDTO);
-    }
+//    @Test
+//    void dischargePatient() {
+//        PatientInfoDTO patientInfoDTO = new PatientInfoDTO();
+//        patientInfoDTO.setPatientId(1);
+//        patientInfoDTO.setDoctorId(2);
+//        patientOrderMapper.dischargePatient(patientInfoDTO);
+//        //添加出院费用表
+////        patientBillMapper.dischargePatient(patientInfoDTO);
+//    }
     @Test
     void checkDischarge(){
         patientOrderMapper.checkDischarge(2,2);

@@ -23,13 +23,12 @@ public interface PatientBillMapper {
     void insertPatientBill(PatientBill patientBill);
     @Select("select * from patient_bill where patient_id = #{patientId}")
     List<PatientBill> getPatientBillByPatientId(Integer patientId);
-
     List<PatientBillVO> getPatientBillVO(Integer patientId);
     @Update("update patient_bill set payment_status = 3,payment_date = now() where patient_bill_id = #{patientBillId}")
     void billPaymentStatus(Integer patientBillId);
     @Select("select patient_bill_id from  patient_bill where patient_id = #{patientId} ")
     List<Integer> getAllBillIds(Integer patientId);
     //住院医嘱护士审核----修改记账状态
-    @Update("update patient_bill set payment_status = 2,execution_time = now(),dispense_time = now() where patient_id = #{patientId} and payment_status = 1 and treatment_id = #{treatmentId}")
+    @Update("update patient_bill set payment_status = 2,order_date = now() where patient_id = #{patientId} and payment_status = 1 and treatment_id = #{treatmentId}")
     void updatePatientBillByPaymentStatus(PatientBill patientBill);
 }

@@ -85,6 +85,8 @@ public interface TreatmentMapper {
     @Update("update treatment set storage =storage-#{drugCount} where drug_code=#{drugCode}")
     void updatestorageByImId(ImdVO imdVO);
 
+    @Select("select * from treatment where treatment_id=#{treatmentId}")
+    Treatment getTreatmentNameById(Integer treatmentId);
     //门诊已经发药查询汇总、根据下单日期(前端默认当天日期)/门诊就诊ID(可传) 查询需要发药的患者ID和姓名
     List<OmdVO> selectClinicMed(OmdDTO omdDTO);
 
@@ -99,4 +101,6 @@ public interface TreatmentMapper {
     //查询所有非药品明细
     List<TreatmentVO> selectAllTreatments(TreatmentDTO treatmentDTO);
 
+    @Select("select treatment_id from treatment where treatment_category=4")
+    List<Integer> getExamine();
 }

@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.controller;
 
 
 import com.woniu.hospital_information_system.entity.ClinicOrder;
+import com.woniu.hospital_information_system.entity.DTO.ClinicOrderDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.service.impl.ClinicOrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ClinicOrderController {
 
     @PostMapping("/addClinicOrder")
     //添加门诊医嘱,生成费用，争对药品和非药品，检查和检验要在检查表和检验表中新增数据
-    public ResponseEntity addClinicOrder(@RequestBody ClinicOrder clinicOrder){
-        clinicOrderService.addClinicOrder(clinicOrder);
+    public ResponseEntity addClinicOrder(@RequestBody ClinicOrderDTO clinicOrderDTO){
+        clinicOrderService.addClinicOrder(clinicOrderDTO);
         return new ResponseEntity(200,"ok",null);
     }
 }
