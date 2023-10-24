@@ -43,7 +43,7 @@ public interface VisitorInfoMapper {
     @Select("select * from visitor_info where id_number = #{idNumber}")
     List<VisitorInfo> selectVisitorInfoByIdNumber(String idNumber);
 
-    @Select("select * from visitor_info where doctor_id=#{eid} and clinic_status=1")
+    @Select("select * from visitor_info where doctor_id=#{eid}")
     List<VisitorInfo> getVisitorByEmployeeId(Integer eid);
 
     @Update("update visitor_info set visitor_name=#{visitorName},gender=#{gender},age=#{age},id_number=#{idNumber},phone=#{phone},unit_id=#{unitId},doctor_id=#{doctorId}")
@@ -61,4 +61,17 @@ public interface VisitorInfoMapper {
 
     @Update("update visitor_info set unit_id=#{unitId} , doctor_id=#{employeeId} where visitor_id = #{visitorId}")
     void updateDoc(@Param("visitorId") Integer visitorId,@Param("employeeId") Integer employeeId,@Param("unitId") Integer unitId);
+
+    List<VisitorInfo> getVisitorByIdAndCondition(VisitorInfo visitorInfo);
+
+
+    @Update("update visitor_info set clinic_status=2,clinic_start_time=now() where visitor_id = #{visitorId}")
+    void updateChecking(Integer visitorId);
+
+
+//    @Select("select * from visitor_info where clinic_status=3")
+    List<VisitorInfo> getCheckOver();
+
+//    @Select("select * from visitor_info where visitor_id=#{visitorId}")
+//    VisitorInfo getByVid(Integer visitorId);
 }

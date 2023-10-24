@@ -2,6 +2,8 @@ package com.woniu.hospital_information_system.service.impl;
 
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.mapper.ClinicRaidologyMapper;
+import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
+import com.woniu.hospital_information_system.mapper.VisitorInfoMapper;
 import com.woniu.hospital_information_system.service.ClinicRaidologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +12,13 @@ import org.springframework.stereotype.Service;
 public class ClinicRaidologyServiceImpl implements ClinicRaidologyService {
     @Autowired
     ClinicRaidologyMapper clinicRaidologyMapper;
+    @Autowired
+    VisitorBillMapper visitorBillMapper;
 
     @Override
     public void addPicture(String path, String fileName,Integer clinicRaidologyId) {
         clinicRaidologyMapper.addPicture(path,fileName,clinicRaidologyId);
+
     }
 
     @Override

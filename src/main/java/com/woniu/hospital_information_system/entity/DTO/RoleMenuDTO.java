@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RoleMenuDTO {
 
-    private Role role;
+    private Integer roleId;
     private Integer[] menuIds;
 
 
