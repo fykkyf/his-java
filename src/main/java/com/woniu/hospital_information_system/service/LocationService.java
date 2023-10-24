@@ -20,4 +20,6 @@ public interface LocationService {
     void removeLocation(Integer locationId);
 
     void addNewLocation(Location location);
+
+
 }

@@ -197,7 +197,7 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         List<PatientInfo> patientInfoList = patientInfoMapper.selectAllPatientInfos();
         List<PatientInfo> result = new ArrayList<>();
         for (PatientInfo p : patientInfoList){
-            if (p.getLocation()==null){
+            if (p.getLocation()==null && p.getStayStatus()==1){
                 result.add(p);
             }
         }

@@ -13,6 +13,7 @@ public interface LocationMapper {
     //根据床位状态查询床位信息
     @Select("select * from location where location_status = #{status}")
     List<Location> selectLocationsByStatus(int status);
+
     //添加床位
     @Update("update location set location_status = 2 where location_id = #{locationId}")
     void updateLocationStatus(int locationId);
@@ -24,6 +25,6 @@ public interface LocationMapper {
     void updateLocation(Location location);
     @Delete("delete from location where location_id = #{locationId}")
     void removeLocation(Integer locationId);
-    @Insert("insert into location values (null,#{locationName},0)")
+    @Insert("insert into location values (null,#{locationName},2)")
     void addNewlocation(Location location);
 }
