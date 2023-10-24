@@ -84,7 +84,10 @@ public class PatientBillServiceImpl implements PatientBillService {
         return patientBillMapper.getAllBillIds(patientId);
     }
 
-
+    @Override
+    public void modifyManipulateStatusByBillId(Integer patientBillId) {
+        patientBillMapper.updateManipulateStatusByBillId(patientBillId);
+    }
 
 
 }

@@ -18,5 +18,5 @@ public interface PatientBillService {
     List<Integer> getAllBillIds(Integer patientId);
 
 
-
+    void modifyManipulateStatusByBillId(Integer patientBillId);
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniu.hospital_information_system.mapper.PatientRaidologyMapper">
+
+    <select id="selectPatientRaidosByKeyWord"
+            resultType="com.woniu.hospital_information_system.entity.VO.PatientRaidologyVO">
+        select pr.patient_raidology_id,
+        pr.patient_id,
+        pb.patient_bill_id,
+        pi.patient_name,
+        u.unit_name,
+        e.employee_name,
+        pr.treatment_id,
+        t.treatment_name,
+        pr.path,
+        pr.test_date,
+        pr.test_status,
+        pr.file_name
+        from patient_raidology pr,
+        patient_info pi,
+        treatment t,
+        unit u,
+        employee e,
+        patient_bill pb
+        <where>
+         pr.patient_id = pi.patient_id
+        and pi.unit_id = u.unit_id
+        and pi.doctor_id = e.employee_id
+        and pr.treatment_id = t.treatment_id
+        and pi.patient_id = pb.patient_id
+        and pb.treatment_id = pr.treatment_id
+        and pb.payment_status != 1
+        and manipulate_status = 1
+            <if test="patientId!=null and patientId!=''">
+                and pr.patient_id=#{patientId}
+            </if>
+            <if test="testStatus!=null and testStatus!=''">
+                and pr.test_status=#{testStatus}
+            </if>
+            <if test="testDate!=null">
+                and pr.test_date>=#{testDate}
+            </if>
+            <if test="testDate1!=null">
+                and pr.test_date &lt;=date_add(#{testDate1},interval 1 day)
+            </if>
+        </where>
+    </select>
+    <select id="selectAllPatientRaido"
+            resultType="com.woniu.hospital_information_system.entity.VO.PatientRaidologyVO">
+        select pr.patient_raidology_id,
+               pr.patient_id,
+               pb.patient_bill_id,
+               pi.patient_name,
+               u.unit_name,
+               e.employee_name,
+               pr.treatment_id,
+               t.treatment_name,
+               pr.path,
+               pr.test_date,
+               pr.test_status,
+               pr.file_name
+        from patient_raidology pr,
+             patient_info pi,
+             treatment t,
+             unit u,
+             employee e,
+             patient_bill pb
+        where pr.patient_id = pi.patient_id
+          and pi.unit_id = u.unit_id
+          and pi.doctor_id = e.employee_id
+          and pr.treatment_id = t.treatment_id
+          and pi.patient_id = pb.patient_id
+          and pb.treatment_id = pr.treatment_id
+          and pb.payment_status != 1
+          and manipulate_status = 1
+    </select>
+</mapper>

@@ -1,6 +1,7 @@
 package com.woniu.hospital_information_system.controller;
 
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
+import com.woniu.hospital_information_system.entity.PatientBill;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.VO.PatientBillResultVO;
 import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
@@ -48,5 +49,14 @@ public class PatientBillController {
         //更改医嘱表执行状态
         patientOrderService.finishPayment(patientId);
         return new ResponseEntity(200, "success", "修改成功");
+    }
+
+    /*
+    * 修改完成状态
+    * */
+    @PostMapping("/modifyManipulateStatus")
+    public Object modifyManipulateStatus(@RequestBody PatientBill patientBill) {
+        patientBillService.modifyManipulateStatusByBillId(patientBill.getPatientBillId());
+        return new ResponseEntity(200,"request success",null);
     }
 }

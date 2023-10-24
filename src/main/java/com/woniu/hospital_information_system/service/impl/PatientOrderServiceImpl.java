@@ -75,9 +75,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     public void addPatientOrder(PatientOrderDTO patientOrderDTO) {
         //TODO:从token中获取医生ID
         TreatmentDTO treatment = patientOrderDTO.getTreatment();
-        treatment.setTreatmentName(treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId()).getTreatmentName());
-        System.out.println(patientOrderDTO.getAdministrationId());
-        System.out.println(patientOrderDTO.getDosageId());
+        Treatment oldTreatment = treatmentMapper.selectTreatmentByTreatmentId(treatment.getTreatmentId());
+        treatment.setTreatmentName(oldTreatment.getTreatmentName());
+        if (treatment.getTreatmentPrice()==null){
+            treatment.setTreatmentPrice(oldTreatment.getTreatmentPrice());
+        }
         PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
         if (treatment.getTreatmentCategory()!=1){
             patientOrder.setOrderType(1);
@@ -98,9 +100,17 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         }else if (treatment.getTreatmentCategory() == 3){
             //检验
             patientLabMapper.insertPatientLab(patientOrder.getPatient().getPatientId(),treatment.getTreatmentId());
+            if (treatment.getTreatmentCount() == null){
+                treatment.setTreatmentCount(1);
+            }
+            patientBillMapper.insertPatientBill(getPatientBill(treatment, patientOrder));//添加项目费用
         }else if (treatment.getTreatmentCategory() == 4){
             //检查
             patientRaidologyMapper.insertPatientRaidology(patientOrder.getPatient().getPatientId(),treatment.getTreatmentId());
+            if (treatment.getTreatmentCount() == null){
+                treatment.setTreatmentCount(1);
+            }
+            patientBillMapper.insertPatientBill(getPatientBill(treatment, patientOrder));//添加项目费用
         }
 
     }
