@@ -13,7 +13,7 @@ public class RoleController {
     @Autowired
     RoleService roleService;
     //给指定职位添加或修改菜单权限
-    @RequestMapping("/givemenu")
+    @RequestMapping("/giveMenu")
     public ResponseEntity giveMenu(@RequestBody RoleMenuDTO roleMenuDTO){
 
         roleService.giveMenu(roleMenuDTO);
@@ -37,7 +37,7 @@ public class RoleController {
         return new ResponseEntity(200,"success","添加成功");
     }
     //通过职位id获取拥有的菜单权限
-    @RequestMapping("/getmenuIds/{roleId}")
+    @RequestMapping("/getMenuIds/{roleId}")
     public ResponseEntity selectMenuIdsByRoleId(@PathVariable("roleId") int roleId){
         return new ResponseEntity(200,"",roleService.selectMenuIdsByRoleId(roleId));
     }
