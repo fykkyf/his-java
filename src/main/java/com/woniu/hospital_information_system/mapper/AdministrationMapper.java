@@ -15,4 +15,7 @@ public interface AdministrationMapper {
     void updateAdministration(Administration administration);
     @Delete("delete from administration where administration_id = #{administrationId}")
     void deleteAdministration(int administrationId);
+
+    @Select("select administration_name from administration where administration_id=#{administrationId}")
+    String getById(Integer administrationId);
 }

@@ -105,18 +105,14 @@
             vi.age,
             vi.id_number,
             vi.phone,
-
             vi.clinic_start_time,
             vi.clinic_status,
-
             u.unit_id,
             u.unit_name,
             e.employee_id,
             e.employee_name,
             d.disease_id ,
             d.disease_name
-
-
         FROM visitor_info vi
                  LEFT JOIN unit u ON vi.unit_id = u.unit_id
                  LEFT JOIN employee e ON vi.doctor_id = e.employee_id
@@ -128,8 +124,84 @@
             <if test="visitorName!=null and visitorName!=''">
                 and visitor_name=#{visitorName}
             </if>
+            <if test="clinicStatus==1">
+                and clinic_status = 1
+            </if>
+            <if test="clinicStatus==2">
+                and clinic_status = 2
+            </if>
+            <if test="clinicStatus==3">
+                and clinic_status = 3
+            </if>
         </where>
-
-
     </select>
+
+
+
+
+    <select id="getVisitorByIdAndCondition" resultMap="VisitorInfoMap">
+        SELECT
+        vi.visitor_id,
+        vi.visitor_name,
+        vi.gender,
+        vi.age,
+        vi.id_number,
+        vi.phone,
+        vi.clinic_start_time,
+        vi.clinic_status,
+        u.unit_id,
+        u.unit_name,
+        e.employee_id,
+        e.employee_name,
+        d.disease_id ,
+        d.disease_name
+        FROM visitor_info vi
+        LEFT JOIN unit u ON vi.unit_id = u.unit_id
+        LEFT JOIN employee e ON vi.doctor_id = e.employee_id
+        LEFT JOIN disease d ON vi.disease_id = d.disease_id
+        <where>
+            <if test="idNumber!=null and idNumber!=''">
+                and id_number=#{idNumber}
+            </if>
+            <if test="visitorName!=null and visitorName!=''">
+                and visitor_name=#{visitorName}
+            </if>
+            <if test="clinicStatus==1">
+                and clinic_status = 1
+            </if>
+            <if test="clinicStatus==2">
+                and clinic_status = 2
+            </if>
+            <if test="clinicStatus==3">
+                and clinic_status = 3
+            </if>
+            and doctor_id=#{employee.employeeId}
+        </where>
+    </select>
+
+
+
+    <select id="getCheckOver" resultMap="VisitorInfoMap">
+        SELECT
+        vi.visitor_id,
+        vi.visitor_name,
+        vi.gender,
+        vi.age,
+        vi.id_number,
+        vi.phone,
+        vi.clinic_start_time,
+        vi.clinic_status,
+        u.unit_id,
+        u.unit_name,
+        e.employee_id,
+        e.employee_name,
+        d.disease_id ,
+        d.disease_name
+        FROM visitor_info vi
+        LEFT JOIN unit u ON vi.unit_id = u.unit_id
+        LEFT JOIN employee e ON vi.doctor_id = e.employee_id
+        LEFT JOIN disease d ON vi.disease_id = d.disease_id
+        where clinic_status=3
+    </select>
+
 </mapper>

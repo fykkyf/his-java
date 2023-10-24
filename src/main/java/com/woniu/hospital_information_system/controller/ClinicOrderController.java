@@ -4,12 +4,15 @@ package com.woniu.hospital_information_system.controller;
 import com.woniu.hospital_information_system.entity.ClinicOrder;
 import com.woniu.hospital_information_system.entity.DTO.ClinicOrderDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
+import com.woniu.hospital_information_system.entity.VO.ClinicOrderVO;
 import com.woniu.hospital_information_system.service.impl.ClinicOrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("clinicOrder")
@@ -24,5 +27,11 @@ public class ClinicOrderController {
     public ResponseEntity addClinicOrder(@RequestBody ClinicOrderDTO clinicOrderDTO){
         clinicOrderService.addClinicOrder(clinicOrderDTO);
         return new ResponseEntity(200,"ok",null);
+    }
+
+    @PostMapping("/getOrderByVisitorId")
+    public ResponseEntity getOrderByVisitorId(Integer visitorId){
+        List<ClinicOrderVO> clinicOrderDTOList = clinicOrderService.getOrderByVisitorId(visitorId);
+        return new ResponseEntity(200,"ok",clinicOrderDTOList);
     }
 }

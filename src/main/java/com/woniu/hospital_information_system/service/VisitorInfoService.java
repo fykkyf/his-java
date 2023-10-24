@@ -36,4 +36,10 @@ public interface VisitorInfoService {
     List<VisitorInfo> getByCondition(VisitorInfo visitorInfo);
 
     void updateDoc(Integer visitorId,Integer employeeId,Integer unitId);
+
+    List<VisitorInfo> getVisitorByIdAndCondition(VisitorInfo visitorInfo);
+
+    void updateChecking(Integer visitorId);
+
+    List<VisitorInfo> getCheckOver();
 }

@@ -167,6 +167,23 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         visitorInfoMapper.updateDoc(visitorId,employeeId,unitId);
     }
 
+    @Override
+    public List<VisitorInfo> getVisitorByIdAndCondition(VisitorInfo visitorInfo) {
+        return visitorInfoMapper.getVisitorByIdAndCondition(visitorInfo);
+    }
+
+    @Override
+    public void updateChecking(Integer visitorId) {
+        visitorInfoMapper.updateChecking(visitorId);
+    }
+
+    @Override
+    public List<VisitorInfo> getCheckOver() {
+        List<VisitorInfo> checkOver = visitorInfoMapper.getCheckOver();
+        System.out.println("这里是checkover:"+checkOver);
+        return checkOver;
+    }
+
     /*
     *   查询病人疾病信息
     * */

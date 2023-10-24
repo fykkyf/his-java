@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.controller;
 
 
 import com.woniu.hospital_information_system.entity.DTO.VisitorInfoDTO;
+import com.woniu.hospital_information_system.entity.Employee;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
@@ -111,6 +112,33 @@ public class VisitorInfoController {
         System.out.println("employeeId:"+employeeId);
         System.out.println("unitId:"+unitId);
         return new ResponseEntity(200,"","修改成功");
+    }
+
+
+    @PostMapping("/getVisitorByIdAndCondition")
+    public ResponseEntity getVisitorByIdAndCondition(@RequestBody VisitorInfo visitorInfo,HttpServletRequest request){
+        String token = request.getHeader("token");
+        Integer eid = Integer.valueOf(JwtUtil.getEid(token));
+        Employee employee=new Employee();
+        employee.setEmployeeId(eid);
+        visitorInfo.setEmployee(employee);
+        List<VisitorInfo> visitorInfos=visitorInfoService.getVisitorByIdAndCondition(visitorInfo);
+        return new ResponseEntity(200,"",visitorInfos);
+    }
+
+    @PostMapping("/updateChecking")
+    public ResponseEntity updateChecking(Integer visitorId){
+        visitorInfoService.updateChecking(visitorId);
+        return new ResponseEntity(200,"",null);
+    }
+
+
+
+    @GetMapping("/getCheckOver")
+    //注意要通过医生的id去查
+    public ResponseEntity getCheckOver(){
+        List<VisitorInfo> visitorInfos = visitorInfoService.getCheckOver();
+        return new ResponseEntity(200,"",visitorInfos);
     }
 
 }

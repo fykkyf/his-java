@@ -17,4 +17,8 @@ public interface DosageMapper {
     void updateDosage(Dosage dosage);
     @Delete("delete from dosage where dosage_id = #{dosageId}")
     void deleteDosage(int dosageId);
+
+
+    @Select("select dosage_name from dosage where dosage_id=#{dosageId}")
+    String getById(Integer dosageId);
 }

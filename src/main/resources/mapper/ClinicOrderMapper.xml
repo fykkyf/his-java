@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间：对应的接口的全类名-->
+<mapper namespace="com.woniu.hospital_information_system.mapper.ClinicOrderMapper">
+    <resultMap id="ClinicOrderMap" type="ClinicOrderVO"></resultMap>
+    <select id="getOrderByVisitorId" resultMap="ClinicOrderMap">
+        SELECT
+--             co.clinic_order_id,
+--             co.treatment_name,
+--             co.treatment_count,
+--             a.administration_name,
+--             d.dosage_name,
+--             co.execution_time
+        *
+        FROM clinic_order co
+        LEFT JOIN administration a ON co.administration_id=a.administration_id
+        LEFT JOIN dosage d ON co.dosage_id=d.dosage_id
+        where visitor_id=#{visitorId}
+    </select>
+
+
+</mapper>
