@@ -2,6 +2,7 @@ package com.woniu.hospital_information_system.mapper;
 
 import com.woniu.hospital_information_system.entity.Employee;
 import com.woniu.hospital_information_system.entity.Unit;
+import com.woniu.hospital_information_system.entity.VO.EmployeeVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -20,4 +21,6 @@ public interface EmployeeMapper {
     List<Employee> selectEmployee();
     //根据医生id查询科室
     Unit selectUnitByDoctorId(Integer doctorId);
+
+    List<EmployeeVO> getAllVO();
 }
