@@ -1,5 +1,6 @@
 package com.woniu.hospital_information_system.service;
 
+import com.woniu.hospital_information_system.entity.DTO.EmployeeDTO;
 import com.woniu.hospital_information_system.entity.Employee;
 import com.woniu.hospital_information_system.entity.Unit;
 import com.woniu.hospital_information_system.entity.VO.EmployeeVO;
@@ -14,4 +15,10 @@ public interface EmployeeService {
     Unit getUnitByDoctorId(Integer doctorId);
 
     List<EmployeeVO> getAllVO();
+
+    void addNewEmployee(EmployeeDTO employeeDTO);
+
+    void updateEmployeeDTO(EmployeeDTO employeeDTO);
+
+    void removeEmployee(Integer employeeId);
 }
