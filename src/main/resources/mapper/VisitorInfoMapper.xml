@@ -12,9 +12,6 @@
 
             insert into visitor_info values (null,#{visitorName},#{gender},#{age},#{idNumber},#{phone},#{unit.unitId},#{employee.employeeId},null,null,1)
 
-
-
-
     </insert>
 
     <select id="getVisitorInfoByPaySuccess" resultType="VisitorInfo">

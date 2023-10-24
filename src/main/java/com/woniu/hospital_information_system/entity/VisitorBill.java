@@ -19,7 +19,7 @@ public class VisitorBill {
     private Integer visitorBillId;
     private Integer visitorId;
     private Integer treatmentId;
-    private Integer drugId;
+    private Integer drugCount;
     private Double treatmentPrice;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime orderDate;
@@ -27,4 +27,6 @@ public class VisitorBill {
     private LocalDateTime paymentDate;
     private Integer paymentStatus;
     private Integer manipulateStatus;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dispenseTime;
 }

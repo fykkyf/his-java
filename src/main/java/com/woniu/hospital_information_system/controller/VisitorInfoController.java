@@ -28,11 +28,7 @@ public class VisitorInfoController {
     //挂号时，向门诊患者信息表添加患者信息,且在门诊患者费用表中生成数据
     public ResponseEntity addVisitorInfo(@RequestBody VisitorInfo visitorInfo){
         System.out.println(visitorInfo);
-        if(visitorInfo.getVisitorId()!=null){
-            visitorInfoService.updateMessage(visitorInfo);
-        }else{
             visitorInfoService.addVisitorInfo(visitorInfo);
-        }
 //        visitorInfoService.addVisitorInfo(visitorInfo);
         return new ResponseEntity(200,"ok",null);
     }
@@ -74,8 +70,8 @@ public class VisitorInfoController {
 
     @PostMapping("/updateDisease")
 //下完医嘱，修改状态为过诊且给病人添加疾病
-    public ResponseEntity updateDisease(@RequestBody VisitorInfo visitorInfo){
-        visitorInfoService.updateDisease(visitorInfo);
+    public ResponseEntity updateDisease(Integer visitorId,Integer diseaseId){
+        visitorInfoService.updateDisease(visitorId,diseaseId);
         return new ResponseEntity(200,"ok",null);
     }
 
@@ -107,4 +103,14 @@ public class VisitorInfoController {
         List<VisitorInfo> visitorInfos=visitorInfoService.getByCondition(visitorInfo);
         return new ResponseEntity(200,"",visitorInfos);
     }
+
+    @PostMapping("/updateDoc")
+    public ResponseEntity updateDoc(Integer visitorId,Integer employeeId,Integer unitId){
+        visitorInfoService.updateDoc(visitorId,employeeId,unitId);
+        System.out.println("visitorId:"+visitorId);
+        System.out.println("employeeId:"+employeeId);
+        System.out.println("unitId:"+unitId);
+        return new ResponseEntity(200,"","修改成功");
+    }
+
 }
