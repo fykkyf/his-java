@@ -12,7 +12,6 @@ public class EmployeeDTO {
     private Integer employeeId;
     private String employeeName;
     private Integer roleId;
-
     private Integer unitId;
 
 }
