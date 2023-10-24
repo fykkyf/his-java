@@ -72,8 +72,8 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     }
 
     @Override
-    public void updateDisease(VisitorInfo visitorInfo) {
-        visitorInfoMapper.updateDisease(visitorInfo);
+    public void updateDisease(Integer visitorId,Integer diseaseId) {
+        visitorInfoMapper.updateDisease(visitorId,diseaseId);
     }
 
 
@@ -96,57 +96,75 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
     @Transactional
     @Override
     public List<VisitorInfoDTO> getVisitorInfoIdByPaySuccessAndManipulateStatus() {
-        VisitorInfoDTO visitorInfoDTO = new VisitorInfoDTO();
-        List<VisitorInfoDTO> allVisitorDTO=new ArrayList<>();
-        //先从检查表查出,状态为1的未检查
         List<ClinicRaidology> noChecks = clinicRaidologyMapper.getNoCheck();
-        for (ClinicRaidology noCheck:noChecks) {
-            //得到检查单号
+        List<VisitorInfoDTO> allVisitorDTO = new ArrayList<>();
+        for (ClinicRaidology noCheck : noChecks) {
             Integer clinicRaidologyId = noCheck.getClinicRaidologyId();
-            //得到病人id
             Integer visitorId = noCheck.getVisitorId();
-            //通过病人id，查出病人信息
-            VisitorInfo visByVid = visitorInfoMapper.getVisByVid(visitorId);
-            //得到项目id
             Integer treatmentId = noCheck.getTreatmentId();
-            //等到项目名称
             Treatment treatmentNameById = treatmentMapper.getTreatmentNameById(treatmentId);
-            //封装到visitorInfoDTO中
-            visitorInfoDTO.setClinicRaidologyId(clinicRaidologyId);
-            visitorInfoDTO.setVisitorInfo(visByVid);
-            visitorInfoDTO.setTreatment(treatmentNameById);
-            if (!allVisitorDTO.contains(visitorInfoDTO)) {
+            List<VisitorInfo> visByVids = visitorInfoMapper.getVisByVid(visitorId);
+            for (VisitorInfo visByVid : visByVids) {
+                VisitorInfoDTO visitorInfoDTO = new VisitorInfoDTO();  // 创建新的 VisitorInfoDTO 实例
+                visitorInfoDTO.setClinicRaidologyId(clinicRaidologyId);
+                visitorInfoDTO.setVisitorInfo(visByVid);
+                visitorInfoDTO.setTreatment(treatmentNameById);
+                if (!allVisitorDTO.contains(visitorInfoDTO)) {
                     allVisitorDTO.add(visitorInfoDTO);
                 }
+            }
         }
         return allVisitorDTO;
+    }
+//    @Transactional
+//    @Override
+//    public List<VisitorInfoDTO> getVisitorInfoIdByPaySuccessAndManipulateStatus() {
 //        VisitorInfoDTO visitorInfoDTO = new VisitorInfoDTO();
 //        List<VisitorInfoDTO> allVisitorDTO=new ArrayList<>();
-//        //通过项目状态为4，查出其项目id
-//        List<Integer> treatmentIds=treatmentMapper.getExamine();
-//        for (Integer tid: treatmentIds) {
-//            //项目id到门诊费用表中，查出已支付，未完成的门诊id
-//            List<VisitorBill> visitorBills = visitorInfoMapper.getVisitorInfoIdByPaySuccessAndManipulateStatus(tid);
-//            for (VisitorBill vb : visitorBills) {
-//                Integer visitorId = vb.getVisitorId();
-//                //再用门诊id得到患者姓名，性别
-//                VisitorInfo visByVid = visitorInfoMapper.getVisByVid(visitorId);
-//                //得到项目名称
-//                Integer treatmentId = vb.getTreatmentId();
-//                String treatmentNameById = treatmentMapper.getTreatmentNameById(treatmentId);
+//        //先从检查表查出,状态为1的未检查
+//        List<ClinicRaidology> noChecks = clinicRaidologyMapper.getNoCheck();
+//        for (ClinicRaidology noCheck:noChecks) {
+//            //得到检查单号
+//            Integer clinicRaidologyId = noCheck.getClinicRaidologyId();
+//            //得到病人id
+//            Integer visitorId = noCheck.getVisitorId();
+//            //得到项目id
+//            Integer treatmentId = noCheck.getTreatmentId();
+//            //等到项目名称
+//            Treatment treatmentNameById = treatmentMapper.getTreatmentNameById(treatmentId);
+//            //通过病人id，查出病人信息
+//            List<VisitorInfo> visByVids= visitorInfoMapper.getVisByVid(visitorId);
+//            for (VisitorInfo visByVid:visByVids) {
+//                visitorInfoDTO.setClinicRaidologyId(clinicRaidologyId);
 //                visitorInfoDTO.setVisitorInfo(visByVid);
-//                visitorInfoDTO.setTreatmentName(treatmentNameById);
+//                visitorInfoDTO.setTreatment(treatmentNameById);
 //                if (!allVisitorDTO.contains(visitorInfoDTO)) {
 //                    allVisitorDTO.add(visitorInfoDTO);
 //                }
 //            }
+////            //得到项目id
+////            Integer treatmentId = noCheck.getTreatmentId();
+////            //等到项目名称
+////            Treatment treatmentNameById = treatmentMapper.getTreatmentNameById(treatmentId);
+//            //封装到visitorInfoDTO中
+////            visitorInfoDTO.setClinicRaidologyId(clinicRaidologyId);
+////            visitorInfoDTO.setVisitorInfo(visByVid);
+////            visitorInfoDTO.setTreatment(treatmentNameById);
+////            if (!allVisitorDTO.contains(visitorInfoDTO)) {
+////                    allVisitorDTO.add(visitorInfoDTO);
+////                }
 //        }
 //        return allVisitorDTO;
-    }
+//    }
 
     @Override
     public List<VisitorInfo> getByCondition(VisitorInfo visitorInfo) {
         return visitorInfoMapper.getByCondition(visitorInfo);
+    }
+
+    @Override
+    public void updateDoc(Integer visitorId,Integer employeeId,Integer unitId) {
+        visitorInfoMapper.updateDoc(visitorId,employeeId,unitId);
     }
 
     /*

@@ -20,7 +20,7 @@ public interface VisitorInfoService {
 
     void updateClinicStatusAfterVisiting(VisitorInfo visitorInfo);
 
-    void updateDisease(VisitorInfo visitorInfo);
+    void updateDisease(Integer visitorId,Integer diseaseId);
 
 //    List<VisitorInfo> getAll();
 
@@ -35,4 +35,5 @@ public interface VisitorInfoService {
 
     List<VisitorInfo> getByCondition(VisitorInfo visitorInfo);
 
+    void updateDoc(Integer visitorId,Integer employeeId,Integer unitId);
 }
