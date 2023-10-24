@@ -33,6 +33,7 @@ public class PatientInfo {
     private Location location;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime paidTime;
+    private RegularResult regularResult;
     private Integer stayStatus;
     private Integer paymentStatus;
 }

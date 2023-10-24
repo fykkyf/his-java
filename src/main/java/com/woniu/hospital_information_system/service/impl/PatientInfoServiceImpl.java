@@ -89,7 +89,6 @@ public class PatientInfoServiceImpl implements PatientInfoService {
         //获取结算状态为1的集合
         List<PatientInfo> collect = patientInfos.stream().filter(patientInfo1 -> patientInfo1.getPaymentStatus() == 1).collect(Collectors.toList());
         if (collect.size() != 0) {
-            System.out.println("未结清");
             throw new UnLiquidatedHospitalChargesException("住院费用未结清");
         }
         //已结清费用则给住院患者对象赋值

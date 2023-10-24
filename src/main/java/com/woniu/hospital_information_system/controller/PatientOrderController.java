@@ -46,6 +46,9 @@ public class PatientOrderController {
     * */
     @GetMapping("/getById/{patientId}")
     public Object getPatientOrderByPatientOrderId(@PathVariable("patientId") Integer patientId) {
+        if (patientId==null){
+            return new ResponseEntity(201,"request success",null);
+        }
         return new ResponseEntity(200,"request success",patientOrderService.getPatientOrderByPatientId(patientId));
     }
 

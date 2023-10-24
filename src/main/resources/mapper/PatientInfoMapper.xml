@@ -155,10 +155,16 @@
             <id property="diseaseId" column="discharge_disease_id"></id>
             <result property="diseaseName" column="discharge_disease_name"></result>
         </association>
+        <association property="regularResult" javaType="regularResult">
+            <id property="regularTestId" column="regular_test_id"></id>
+            <result property="pressure" column="pressure"></result>
+            <result property="sugar" column="sugar"></result>
+            <result property="temp" column="temp"></result>
+        </association>
     </resultMap>
     <select id="selectAllPatientInfos" resultMap="PatientInfoMap">
-        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,
-               l.location_id,l.location_name,pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,
+        SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,l.location_id,l.location_name,
+               pi.paid_time,pi.stay_status,pi.payment_status,u.unit_id,u.unit_name,e.employee_id,e.employee_name,rt.regular_test_id,rt.pressure,rt.sugar,rt.temp,
                clinic_d.disease_id AS clinic_disease_id,
                clinic_d.disease_name AS clinic_disease_name,
                admission_d.disease_id AS admission_disease_id,
@@ -169,6 +175,7 @@
                  LEFT JOIN unit u ON pi.unit_id = u.unit_id
                  LEFT JOIN employee e ON pi.doctor_id = e.employee_id
                  LEFT JOIN location l ON pi.location_id = l.location_id
+                 LEFT JOIN regular_test rt ON pi.patient_id = rt.patient_id
                  LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
                  LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
                  LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
@@ -205,7 +212,7 @@
                  LEFT JOIN disease clinic_d ON pi.clinic_diagnosis_id = clinic_d.disease_id
                  LEFT JOIN disease admission_d ON pi.admission_diagnosis_id = admission_d.disease_id
                  LEFT JOIN disease discharge_d ON pi.discharge_diagnosis_id = discharge_d.disease_id
-        where pi.location_id is null
+        where pi.location_id is null and pi.stay_status = 1
     </select>
     <select id="selectNoLocationPatientInfosByKeyWord" resultMap="PatientInfoMap">
         SELECT pi.patient_id,pi.visitor_id,pi.patient_name,pi.gender,pi.age,pi.id_number,pi.insurance_status,pi.in_time,pi.out_time,l.location_id,

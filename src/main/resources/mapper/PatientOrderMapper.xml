@@ -57,7 +57,7 @@
                  left join employee e on po.doctor_id = e.employee_id
                  left join administration a on po.administration_id = a.administration_id
                  left join dosage d on po.dosage_id = d.dosage_id
-        where po.patient_id = #{patientId}
+        where po.patient_id = #{patientId} and po.execution_status = 3
     </select>
     <select id="selectPatientOrderByKeyWord" resultMap="PatientOrderMap">
         SELECT
@@ -102,10 +102,17 @@
         update patient_order
         set treatment_id = #{treatmentId},
             treatment_name = #{treatmentName},
-            administration_id = #{administration.administrationId},
-            dosage_id = #{dosage.dosageId},
-            treatment_count = #{treatmentCount},
-            order_type = #{orderType}
+            <if test="administration != null">
+                administration_id = #{administration.administrationId},
+            </if>
+            <if test="dosage != null">
+                dosage_id = #{dosage.dosageId},
+            </if>
+            <if test="treatmentCount != null">
+                treatment_count = #{treatmentCount},
+            </if>
+            order_type = #{orderType},
+            execution_status = 1
         where patient_order_id = #{patientOrderId}
     </update>
 </mapper>
