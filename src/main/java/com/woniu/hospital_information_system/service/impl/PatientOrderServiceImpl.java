@@ -14,6 +14,7 @@ import com.woniu.hospital_information_system.service.PatientOrderService;
 import com.woniu.hospital_information_system.service.PatientRaidologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -175,7 +176,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * 1:添加医嘱信息
      * 2:添加费用信息
      * */
-//    @Scheduled(fixedRate = 1000 * 10)
+    @Scheduled(fixedRate = 1000 * 60 * 2,initialDelay = 1000 * 60 * 2)
     @Override
     public void timedExecutionAddPatientOrder() {
         //获取执行状态为2和医嘱类型为2的住院患者医嘱

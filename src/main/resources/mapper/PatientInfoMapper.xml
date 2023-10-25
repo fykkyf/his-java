@@ -7,8 +7,7 @@
     <insert id="insertPatientInfo">
         insert into patient_info
         values (null, #{visitorId}, #{patientName}, #{gender}, #{age}, #{idNumber}, #{unit.unitId}, #{employee.employeeId},
-                #{insuranceStatus}, now(),
-                null, #{clinicDiagnosis.diseaseId}, #{admissionDiagnosis.diseaseId}, null, null, null, 1, 1)
+                #{insuranceStatus}, now(),null, #{clinicDiagnosis.diseaseId}, #{admissionDiagnosis.diseaseId}, null, null, null, 1, 1)
     </insert>
     <select id="selectPatientInfoByIdNumber"
             resultType="com.woniu.hospital_information_system.entity.PatientInfo">
