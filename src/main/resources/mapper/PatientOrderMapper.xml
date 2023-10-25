@@ -58,7 +58,7 @@
                  left join employee e on po.doctor_id = e.employee_id
                  left join administration a on po.administration_id = a.administration_id
                  left join dosage d on po.dosage_id = d.dosage_id
-        where po.patient_id = #{patientId} and po.execution_status = 3
+        where po.patient_id = #{patientId}
     </select>
     <select id="selectPatientOrderByKeyWord" resultMap="PatientOrderMap">
         SELECT
