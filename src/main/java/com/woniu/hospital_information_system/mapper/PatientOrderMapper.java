@@ -32,8 +32,8 @@ public interface PatientOrderMapper {
     @Update("update patient_order set execution_status = #{executionStatus} where patient_id = #{patientId}")
     void checkDischarge(@Param("executionStatus")int executionStatus, @Param("patientId")int patientId);
     //通过医嘱类型和执行状态查询住院医嘱信息
-    @Update("select * from patient_order where execution_status = #{executionStatus} and patient_id = #{patientId}")
-    List<PatientOrder> selectPatientOrderByStatus(@Param("executionStatus")int executionStatus, @Param("patientId")int patientId);
+//    @Select("select * from patient_order where execution_status = #{executionStatus} and order_type = #{orderType}")
+    List<PatientOrder> selectPatientOrderByStatus(@Param("executionStatus")int executionStatus, @Param("orderType")int orderType);
     @Update("update patient_order set  execution_status = 4 where patient_id = #{patientId} ")
     void finishPayment(Integer patientId);
     //模糊查询住院患者医嘱信息

@@ -101,6 +101,16 @@
                  left join dosage d on po.dosage_id = d.dosage_id
         where po.patient_id = #{patientId} and date(po.execution_time) = current_date
     </select>
+    <select id="selectPatientOrderByStatus" resultMap="PatientOrderMap">
+        SELECT
+            po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
+            a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        FROM patient_order po
+                 left join patient_info pi on po.patient_id = pi.patient_id
+                 left join employee e on po.doctor_id = e.employee_id
+                 left join administration a on po.administration_id = a.administration_id
+                 left join dosage d on po.dosage_id = d.dosage_id where execution_status = #{executionStatus} and order_type = #{orderType}
+    </select>
 
     <update id="updatePatientOrderByPatientId">
         update patient_order
