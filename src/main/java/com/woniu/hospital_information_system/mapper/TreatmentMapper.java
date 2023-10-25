@@ -27,7 +27,7 @@ public interface TreatmentMapper {
     void updateStorage(TreatmentDTO treatmentDTO);
 
     //药品近期查询
-    @Select("select * from treatment where expired_time between  date_add(#{expiredTime},interval -10 day) and #{expiredTime}")
+    @Select("select * from treatment where expired_time between #{expiredTime} and date_add(#{expiredTime},interval 10 day) ")
     List<TreatmentVO> selectAllTreatmentByExptime(TreatmentDTO treatmentDTO);
 
     //近期药品处理，减少库存

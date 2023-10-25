@@ -7,6 +7,7 @@ import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
+import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import com.woniu.hospital_information_system.entity.VO.PatientOrderVO;
 import com.woniu.hospital_information_system.mapper.*;
 import com.woniu.hospital_information_system.service.PatientLabService;
@@ -57,16 +58,16 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     }
 
     @Override
-    public PatientOrderVO getAllPatientOrdersByDaily(int pageNum, int pageSize, int patientId) {
-        List<PatientOrder> patientOrders = patientOrderMapper.selectAllPatientOrdersByDaily(patientId);
+    public PatientBillVO getAllPatientOrdersByDaily(int pageNum, int pageSize, int patientId) {
+        List<PatientBillVO> patientBills = patientOrderMapper.selectAllPatientOrdersByDaily(patientId);
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<PatientOrder> info = new PageInfo<>(patientOrders);
-        PatientOrderVO patientOrderVO = new PatientOrderVO();
-        patientOrderVO.setPageNum(pageNum);
-        patientOrderVO.setPageSize(pageSize);
-        patientOrderVO.setTotal((int) info.getTotal());
-        patientOrderVO.setPatientOrders(patientOrders);
-        return patientOrderVO;
+        PageInfo<PatientBillVO> info = new PageInfo<>(patientBills);
+        PatientBillVO patientBillVO = new PatientBillVO();
+        patientBillVO.setPageNum(pageNum);
+        patientBillVO.setPageSize(pageSize);
+        patientBillVO.setTotal((int) info.getTotal());
+        patientBillVO.setPatientBills(patientBills);
+        return patientBillVO;
     }
 
     /*
@@ -85,9 +86,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         PatientOrder patientOrder = getPatientOrder(patientOrderDTO);
         if (treatment.getTreatmentCategory()!=1){
             patientOrder.setOrderType(1);
+            patientOrder.setExecutionStatus(2);
         }
-        if (treatment.getTreatmentPrice() == 1 || treatment.getTreatmentId().equals(7)){
+        if (treatment.getTreatmentCategory() == 1 || treatment.getTreatmentId().equals(7)){
             patientOrder.setExecutionTime(null);
+            patientOrder.setExecutionStatus(1);
         }else {
             patientOrder.setExecutionTime(LocalDateTime.now());
         }
@@ -181,15 +184,21 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     public void timedExecutionAddPatientOrder() {
         //获取执行状态为2和医嘱类型为2的住院患者医嘱
         List<PatientOrder> patientOrders = patientOrderMapper.selectPatientOrderByStatus(2, 2);
+        LocalDateTime twoMinutesAgo = LocalDateTime.now().minusMinutes(2);
+        LocalDateTime fourMinutesBefore = LocalDateTime.now().minusMinutes(4);
         for (PatientOrder patientOrder : patientOrders) {
-            //判断执行时间与当前时间的日期是否是昨天的日期并且审核状态为2
-            if (patientOrder.getExecutionTime().toLocalDate().equals(LocalDate.now().minusDays(1)) && patientOrder.getExecutionStatus() == 2) {
+            //判断执行时间与当前时间的日期是否是昨天的日期
+            if (patientOrder.getExecutionTime().isBefore(twoMinutesAgo)
+                    && patientOrder.getExecutionTime().isAfter(fourMinutesBefore)) {
                 PatientBill patientBill = new PatientBill();
                 patientBill.setPatientId(patientOrder.getPatient().getPatientId());
                 patientBill.setTreatmentId(patientOrder.getTreatmentId());
                 patientBill.setDrugCount(patientOrder.getTreatmentCount());
                 patientBill.setTreatmentPrice(treatmentMapper.selectTreatmentByTreatmentId(patientOrder.getTreatmentId()).getTreatmentPrice() * patientOrder.getTreatmentCount());
+                System.out.println(patientOrder);
+                patientOrder.setExecutionTime(LocalDateTime.now());
                 patientOrderMapper.addPatientOrderByPatientOrderId(patientOrder);//添加医嘱
+                System.out.println(patientBill);
                 patientBillMapper.insertPatientBill(patientBill);//添加费用
             }
         }
@@ -227,6 +236,11 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     @Override
     public List<PatientOrder> getPatientOrderByKeyWord(PatientOrderDTO patientOrderDTO) {
         return patientOrderMapper.selectPatientOrderByKeyWord(getPatientOrder(patientOrderDTO));
+    }
+
+    @Override
+    public List<PatientOrder> selectPatientOrderByKeyWordLong(PatientOrderDTO patientOrderDTO) {
+        return patientOrderMapper.selectPatientOrderByKeyWordLong(getPatientOrder(patientOrderDTO));
     }
 
     /*
@@ -273,6 +287,9 @@ public class PatientOrderServiceImpl implements PatientOrderService {
         }
         if(patientOrderDTO.getOrderType()!=null){
             patientOrder.setOrderType(patientOrderDTO.getOrderType());
+        }
+        if (patientOrderDTO.getPatient()!=null){
+            patientOrder.setFlog(1);
         }
         return patientOrder;
     }

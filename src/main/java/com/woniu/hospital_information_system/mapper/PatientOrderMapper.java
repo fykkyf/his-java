@@ -4,6 +4,7 @@ import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
+import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface PatientOrderMapper {
 //    @Select("select * from patient_order")
     List<PatientOrder> selectAllPatientOrders();
     //获取当天所有医嘱信息
-    List<PatientOrder> selectAllPatientOrdersByDaily(int patientId);
+    List<PatientBillVO> selectAllPatientOrdersByDaily(int patientId);
     //给住院患者下医嘱
     void addPatientOrderByPatientOrderId(PatientOrder patientOrder);
     //根据住院患者id查询住院患者医嘱信息
@@ -38,6 +39,8 @@ public interface PatientOrderMapper {
     void finishPayment(Integer patientId);
     //模糊查询住院患者医嘱信息
     List<PatientOrder> selectPatientOrderByKeyWord(PatientOrder patientOrder);
+    List<PatientOrder> selectPatientOrderByKeyWordLong(PatientOrder patientOrder);
+
     //医生修改病人医嘱
     void updatePatientOrderByPatientId(PatientOrder patientOrder);
 }

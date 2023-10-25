@@ -29,4 +29,5 @@ public class PatientOrderDTO {
     private Disease dischargeDiagnosis;
     private Integer pageNum;
     private Integer pageSize;
+    private Integer flog;
 }

@@ -9,7 +9,7 @@
         insert into patient_order
         values (null, #{patient.patientId}, #{employee.employeeId}, #{treatmentId}, #{treatmentName},
                 #{administration.administrationId}, #{dosage.dosageId},
-                #{treatmentCount}, #{executionTime}, null, 1, #{orderType})
+                #{treatmentCount}, #{executionTime}, null, #{executionStatus}, #{orderType})
     </insert>
     <resultMap id="PatientOrderMap" type="patientOrder">
         <id property="patientOrderId" column="patient_order_id"></id>
@@ -71,7 +71,7 @@
         left join dosage d on po.dosage_id = d.dosage_id
         <where>
             <if test="executionStatus == null">
-                po.execution_status = 3
+                po.execution_status in (1,2,3,4)
             </if>
             <if test="executionStatus != null">
                 po.execution_status = #{executionStatus}
@@ -90,16 +90,42 @@
             </if>
         </where>
     </select>
-    <select id="selectAllPatientOrdersByDaily" resultMap="PatientOrderMap">
+    <select id="selectPatientOrderByKeyWordLong" resultMap="PatientOrderMap">
         SELECT
-            po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
-            a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
+        po.patient_order_id,po.patient_id,pi.patient_name,po.doctor_id,e.employee_name,po.treatment_id,po.treatment_name,po.administration_id,
+        a.administration_name,po.dosage_id,d.dosage_name,po.treatment_count,po.execution_time,po.dispense_time,po.execution_status,po.order_type
         FROM patient_order po
-                 left join patient_info pi on po.patient_id = pi.patient_id
-                 left join employee e on po.doctor_id = e.employee_id
-                 left join administration a on po.administration_id = a.administration_id
-                 left join dosage d on po.dosage_id = d.dosage_id
-        where po.patient_id = #{patientId} and date(po.execution_time) = current_date
+        left join patient_info pi on po.patient_id = pi.patient_id
+        left join employee e on po.doctor_id = e.employee_id
+        left join administration a on po.administration_id = a.administration_id
+        left join dosage d on po.dosage_id = d.dosage_id
+        <where>
+            <if test="executionStatus == null">
+                po.execution_status in (1,2)
+            </if>
+            <if test="executionStatus != null">
+                po.execution_status = #{executionStatus}
+            </if>
+            <if test="patientOrderId!=null">
+                and po.patient_order_id = #{patientOrderId}
+            </if>
+            <if test="patient !=null">
+                and po.patient_id = #{patient.patientId}
+            </if>
+            <if test="treatmentId !=null">
+                and po.treatment_id = #{treatmentId}
+            </if>
+            <if test="flog == 1">
+                and po.order_type in (1,2)
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAllPatientOrdersByDaily" resultType="patientBillVO">
+        SELECT
+            pb.patient_bill_id,pb.patient_id,pi.patient_name,pi.doctor_id,e.employee_name,pb.treatment_id,po.treatment_name,pb.drug_count,pb.amount,po.execution_status,po.order_type
+        FROM patient_bill pb ,patient_info pi ,employee e , patient_order po
+        where pb.patient_id = pi.patient_id and pi.doctor_id = e.employee_id and po.patient_id = pi.patient_id  and po.patient_id = #{patientId} and date(pb.order_date) = current_date GROUP BY pb.patient_bill_id
     </select>
     <select id="selectPatientOrderByStatus" resultMap="PatientOrderMap">
         SELECT

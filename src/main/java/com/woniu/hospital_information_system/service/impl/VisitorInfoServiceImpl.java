@@ -184,6 +184,11 @@ public class VisitorInfoServiceImpl implements VisitorInfoService {
         return checkOver;
     }
 
+    @Override
+    public List<VisitorInfo> getByWaitCheck(VisitorInfo visitorInfo) {
+        return visitorInfoMapper.getByWaitCheck(visitorInfo);
+    }
+
     /*
     *   查询病人疾病信息
     * */

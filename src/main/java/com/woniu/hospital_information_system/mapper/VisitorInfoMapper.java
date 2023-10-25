@@ -72,6 +72,8 @@ public interface VisitorInfoMapper {
 //    @Select("select * from visitor_info where clinic_status=3")
     List<VisitorInfo> getCheckOver();
 
+    List<VisitorInfo> getByWaitCheck(VisitorInfo visitorInfo);
+
 //    @Select("select * from visitor_info where visitor_id=#{visitorId}")
 //    VisitorInfo getByVid(Integer visitorId);
 }

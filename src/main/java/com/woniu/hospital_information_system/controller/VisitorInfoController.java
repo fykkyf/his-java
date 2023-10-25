@@ -140,5 +140,10 @@ public class VisitorInfoController {
         List<VisitorInfo> visitorInfos = visitorInfoService.getCheckOver();
         return new ResponseEntity(200,"",visitorInfos);
     }
+    @PostMapping("/getByWaitCheck")
+    public ResponseEntity getByWaitCheck(@RequestBody VisitorInfo visitorInfo){
+        List<VisitorInfo> visitorInfos=visitorInfoService.getByWaitCheck(visitorInfo);
+        return new ResponseEntity(200,"",visitorInfos);
+    }
 
 }

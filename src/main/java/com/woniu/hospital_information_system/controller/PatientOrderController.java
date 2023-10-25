@@ -41,6 +41,11 @@ public class PatientOrderController {
         return new ResponseEntity(200,"request success",new PageInfo<>(patientOrderService.getPatientOrderByKeyWord(patientOrderDTO)));
     }
 
+    @PostMapping("/getByKeyWordLong")
+    public Object getPatientInfoByKeyWordLong(@RequestBody PatientOrderDTO patientOrderDTO) {
+        return new ResponseEntity(200,"request success",new PageInfo<>(patientOrderService.selectPatientOrderByKeyWordLong(patientOrderDTO)));
+    }
+
     /*
     *根据id查询患者医嘱信息
     * */

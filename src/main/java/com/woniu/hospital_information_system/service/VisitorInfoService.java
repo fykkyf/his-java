@@ -42,4 +42,6 @@ public interface VisitorInfoService {
     void updateChecking(Integer visitorId);
 
     List<VisitorInfo> getCheckOver();
+
+    List<VisitorInfo> getByWaitCheck(VisitorInfo visitorInfo);
 }

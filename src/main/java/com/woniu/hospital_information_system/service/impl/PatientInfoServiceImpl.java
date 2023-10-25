@@ -110,7 +110,9 @@ public class PatientInfoServiceImpl implements PatientInfoService {
             //无医保
             patientInfo.setInsuranceStatus(1);
         }
-        patientInfo.setAdmissionDiagnosis(patientInfo.getAdmissionDiagnosis());
+        Disease disease = new Disease();
+        disease.setDiseaseId(patientInfoDTO.getAdmissionDiagnosisId());
+        patientInfo.setAdmissionDiagnosis(disease);
         //调用insert方法，向数据库添加住院患者信息
         patientInfoMapper.insertPatientInfo(patientInfo);
     }

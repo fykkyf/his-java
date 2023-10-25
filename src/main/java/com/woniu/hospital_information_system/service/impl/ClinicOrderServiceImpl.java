@@ -59,24 +59,31 @@ public class ClinicOrderServiceImpl implements ClinicOrderService {
         System.out.println("这里是金额:"+priceByTreatmentId);
         System.out.println("这里是service"+clinicOrderDTO.getTreatment().getTreatmentId());
         visitorBillMapper.addClinicOrderBill(clinicOrderDTO.getVisitorId(),clinicOrderDTO.getTreatment().getTreatmentId(),clinicOrderDTO.getTreatmentCount(),priceByTreatmentId);
-        TreatmentDTO treatmentDTO = new TreatmentDTO();
-        treatmentDTO.setTreatmentId(clinicOrderDTO.getTreatmentId());
-        Map<Integer, Boolean> addedTreatmentIds = new HashMap<>();
-        List<TreatmentVO> treatmentVOS = treatmentMapper.selectAllTreatment(treatmentDTO);
-        for (TreatmentVO treatmentVO : treatmentVOS) {
-            Integer treatmentCategory = treatmentVO.getTreatmentCategory();
-            if (treatmentCategory == 3) {
-                if (!addedTreatmentIds.containsKey(treatmentCategory)) {
-                    clinicOrderMapper.addClinicLab(clinicOrderDTO);
-                    addedTreatmentIds.put(treatmentCategory, true);
-                }
-            } else if (treatmentCategory == 4) {
-                if (!addedTreatmentIds.containsKey(treatmentCategory)) {
-                    clinicOrderMapper.addClinicRaidology(clinicOrderDTO);
-                    addedTreatmentIds.put(treatmentCategory, true);
-                }
-            }
+        Integer treatmentCategory = clinicOrderDTO.getTreatment().getTreatmentCategory();
+        System.out.println("这里是treatmentCategory:"+treatmentCategory);
+        if (treatmentCategory==3){
+            clinicOrderMapper.addClinicLab(clinicOrderDTO);
+        } else if (treatmentCategory==4) {
+            clinicOrderMapper.addClinicRaidology(clinicOrderDTO);
         }
+//        TreatmentDTO treatmentDTO = new TreatmentDTO();
+//        treatmentDTO.setTreatmentId(clinicOrderDTO.getTreatmentId());
+//        Map<Integer, Boolean> addedTreatmentIds = new HashMap<>();
+//        List<TreatmentVO> treatmentVOS = treatmentMapper.selectAllTreatment(treatmentDTO);
+//        for (TreatmentVO treatmentVO : treatmentVOS) {
+//            Integer treatmentCategory = treatmentVO.getTreatmentCategory();
+//            if (treatmentCategory == 3) {
+//                if (!addedTreatmentIds.containsKey(treatmentCategory)) {
+//                    clinicOrderMapper.addClinicLab(clinicOrderDTO);
+//                    addedTreatmentIds.put(treatmentCategory, true);
+//                }
+//            } else if (treatmentCategory == 4) {
+//                if (!addedTreatmentIds.containsKey(treatmentCategory)) {
+//                    clinicOrderMapper.addClinicRaidology(clinicOrderDTO);
+//                    addedTreatmentIds.put(treatmentCategory, true);
+//                }
+//            }
+//        }
 //        for (TreatmentVO treatmentVO:treatmentVOS) {
 //            Integer treatmentCategory = treatmentVO.getTreatmentCategory();
 //            if(treatmentCategory==3){

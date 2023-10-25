@@ -36,7 +36,8 @@ public class ClinicRaidologyController {
         String fileName=System.currentTimeMillis()+"."+OriginalFilename.substring(OriginalFilename.lastIndexOf(".")+1);
         // 设置保存地址（这里是转义字符）
         //1.后台保存位置
-        String path = "D:\\vscode\\code\\his\\his\\src\\assets\\images\\";
+//        String path = "D:\\vscode\\code\\his\\his\\src\\assets\\images\\";
+        String path = "E:\\project\\study\\his\\src\\assets\\images\\";
         //dest是上传图片的路径名字
         File dest=new File(path+fileName);
         System.out.println("这里是dest："+dest);

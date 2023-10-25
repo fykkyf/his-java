@@ -96,7 +96,8 @@ public class TreatmentController {
                 treatmentVOS1.add("编号"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"10天内过期，请及时处理！");
             }
         }
-        return treatmentVOS1;
+        return new ResponseEntity(200,"",treatmentVOS1);
+
     }
 
 

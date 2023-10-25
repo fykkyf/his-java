@@ -27,4 +27,5 @@ public class PatientOrder {
     private LocalDateTime dispenseTime;
     private Integer executionStatus;
     private Integer orderType;
+    private Integer flog;
 }
