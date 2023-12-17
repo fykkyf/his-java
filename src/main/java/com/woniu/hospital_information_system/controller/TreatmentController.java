@@ -1,6 +1,7 @@
 package com.woniu.hospital_information_system.controller;
 
 import cn.hutool.core.date.DateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.woniu.hospital_information_system.entity.DTO.ImdDTO;
@@ -12,19 +13,22 @@ import com.woniu.hospital_information_system.entity.VO.ImdVO;
 import com.woniu.hospital_information_system.entity.VO.OmdVO;
 import com.woniu.hospital_information_system.entity.VO.TreatmentVO;
 import com.woniu.hospital_information_system.service.TreatmentService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/treatment")
@@ -77,28 +81,44 @@ public class TreatmentController {
         treatmentDTO.setTreatmentStatus(1);
         List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatment(treatmentDTO);
         List<String> treatmentVOS1 = new ArrayList<>();
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime expireSoon = currentTime.plus(10, ChronoUnit.DAYS);
         for (TreatmentVO treatmentVO : treatmentVOS){
             if (treatmentVO.getStorage()<=10){
-                treatmentVOS1.add("编号:"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"库存还有"+treatmentVO.getStorage()+"，请尽快补货！");
+
+                treatmentVOS1.add("ID:"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+" only "+treatmentVO.getStorage()+" in stock，please order！");
+            }
+
+            if (treatmentVO.getExpiredTime().isBefore(currentTime)){
+
+                treatmentVOS1.add("ID"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+" is expired，Please handle promptly！");
+
+            }else if(treatmentVO.getExpiredTime().isBefore(expireSoon)){
+
+                treatmentVOS1.add("ID"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+" will expire in 10 days，Please handle promptly！");
             }
         }
         return new ResponseEntity(200,"",treatmentVOS1);
     }
     //初始化加载，近期药品警告
-    @PostMapping("/selectAllTreatment3")
-    public Object selectAllTreatment3(@RequestBody  TreatmentDTO treatmentDTO){
-        treatmentDTO.setTreatmentCategory(1);
-        treatmentDTO.setTreatmentStatus(1);
-        List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatmentByExptime(treatmentDTO);
-        List<String> treatmentVOS1 = new ArrayList<>();
-        for (TreatmentVO treatmentVO : treatmentVOS){
-            if(treatmentVO.getExpiredTime()!=null){
-                treatmentVOS1.add("编号"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"10天内过期，请及时处理！");
-            }
-        }
-        return new ResponseEntity(200,"",treatmentVOS1);
-
-    }
+//    @PostMapping("/selectAllTreatment3")
+//    public Object selectAllTreatment3(@RequestBody  TreatmentDTO treatmentDTO){
+//        log.info(treatmentDTO.getTreatmentName());
+//        treatmentDTO.setTreatmentCategory(1);
+//        treatmentDTO.setTreatmentStatus(1);
+//        List<TreatmentVO> treatmentVOS = treatmentService.selectAllTreatmentByExptime(treatmentDTO);
+//        List<String> treatmentVOS1 = new ArrayList<>();
+//        LocalDateTime currentTime = LocalDateTime.now().plus(10, ChronoUnit.DAYS);
+//        for (TreatmentVO treatmentVO : treatmentVOS){
+//            if(treatmentVO.getExpiredTime().isAfter(currentTime)){
+//                log.info(treatmentVO.getTreatmentName());
+//                treatmentVOS1.add("ID"+treatmentVO.getDrugCode()+":"+treatmentVO.getTreatmentName()+"is expired，Please handle promptly！");
+//            }
+//        }
+//        return new ResponseEntity(200,"",treatmentVOS1);
+//
+//    }
 
 
     //药品添加 根据国家药品编号查询，如果药品不存在，insert一条新的数据，如果存在，更改药品库存库存
@@ -110,7 +130,7 @@ public class TreatmentController {
         }else{
             treatmentService.updateStorage(treatmentDTO);
         }
-        return new ResponseEntity(200,"","添加完成");
+        return new ResponseEntity(200,"","Add Success");
     }
 
      //整个项目明细查询、修改(管理员)
@@ -129,18 +149,18 @@ public class TreatmentController {
     @PostMapping("/updateTreatment")
     public Object updateTreatment(@RequestBody  TreatmentDTO treatmentDTO){
         treatmentService.updateTreatment(treatmentDTO);
-        return new ResponseEntity(200,"","修改成功！");
+        return new ResponseEntity(200,"","Edit Success！");
     }
 
     //添加项目 (管理员)
     @PostMapping("/addTreatment")
     public Object addTreatment(@RequestBody  TreatmentDTO treatmentDTO){
         if (treatmentService.selectTreatmentByName(treatmentDTO)!=null){
-            return new ResponseEntity(201,"","项目已存在，请勿重复添加！");
+            return new ResponseEntity(201,"","Product exist，please check name！");
         }else{
             System.out.println(treatmentDTO);
             treatmentService.addTreatment1(treatmentDTO);
-            return new ResponseEntity(200,"","添加完成");
+            return new ResponseEntity(200,"","Success");
         }
     }
 
@@ -170,7 +190,7 @@ public class TreatmentController {
             System.out.println(vbids);
         }
         treatmentService.updateMsById(vbids);
-        return new ResponseEntity(200,"","发药完成！");
+        return new ResponseEntity(200,"","Dispense Complete！");
     }
 
 
@@ -195,7 +215,7 @@ public class TreatmentController {
             pbids.add(imdVO.getPatientBillId());
         }
         treatmentService.updatePbById(pbids);
-        return new ResponseEntity(200,"","发药完成！");
+        return new ResponseEntity(200,"","Dispense Complete！");
     }
 
     //门诊已发药查询汇总

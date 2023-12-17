@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class VisitorInfoMapperTest {
@@ -13,5 +16,8 @@ class VisitorInfoMapperTest {
     @Test
     void selectVisitorInfoByIdNumber() {
         System.out.println(visitorInfoMapper.selectVisitorInfoByIdNumber("223456789"));
+        
+
+
     }
 }

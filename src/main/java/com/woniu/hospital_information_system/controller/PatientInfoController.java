@@ -41,7 +41,7 @@ public class PatientInfoController {
     public Object addLoaction(@RequestBody LocationDTO location){
         patientInfoService.addLocationId(location.getLocationId(),location.getPatientId());
         locationService.modifyLocationStatusByLocationId(location.getLocationId());
-        return new ResponseEntity(200,"success","添加成功");
+        return new ResponseEntity(200,"success","Success");
     }
     /*
     * 根据doctorId查询患者信息
@@ -98,7 +98,7 @@ public class PatientInfoController {
     @PostMapping("/add")
     public Object addPatientInfo(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.addPatientInfo(patientInfoDTO);
-        return new ResponseEntity(200,"request success","添加成功");
+        return new ResponseEntity(200,"request success","Success");
     }
     /*
     * 给住院患者安排床位
@@ -106,7 +106,7 @@ public class PatientInfoController {
     @PostMapping("/add/location")
     public Object modifyPatientInfoByPatientInfoId(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.modifyPatientInfoByPatientId(patientInfoDTO.getPatientId(),patientInfoDTO.getLocationId());
-        return new ResponseEntity(200,"request success","添加成功");
+        return new ResponseEntity(200,"request success","Success");
     }
     /*
      * 添加入院诊断
@@ -114,19 +114,19 @@ public class PatientInfoController {
     @PostMapping("/admissionDiagnosis")
     public Object admissionDiagnosis(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.admissionDiagnosis(patientInfoDTO);
-        return new ResponseEntity(200,"request success","添加成功");
+        return new ResponseEntity(200,"request success","Success");
     }
     //添加出院诊断
     @PostMapping("/dischargeDiagnosis")
     public ResponseEntity dischargeDiagnosis(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.dischargeDiagnosis(patientInfoDTO);
-        return new ResponseEntity(200,"request success","添加成功");
+        return new ResponseEntity(200,"request success","Success");
     }
     //办理出院
     @PostMapping("/completeDischarge")
     public ResponseEntity completeDischarge(@RequestBody PatientInfoDTO patientInfoDTO) {
         patientInfoService.completeDischarge(patientInfoDTO);
-        return new ResponseEntity(200,"request success","办理成功");
+        return new ResponseEntity(200,"request success","Request Success");
     }
 
     /*
