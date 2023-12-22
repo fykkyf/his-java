@@ -41,7 +41,7 @@ public class UserController {
         return new ResponseEntity(200,"success","login!");
     }
 
-    @GetMapping("/postemail")
+    @GetMapping("/postemail" )
     //重置密码时，验证邮箱
     public ResponseEntity postEmail(String email){
         if (email==null||email.equals("")){
