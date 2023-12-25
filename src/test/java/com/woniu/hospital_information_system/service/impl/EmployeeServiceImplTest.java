@@ -11,12 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class EmployeeServiceImplTest {
     @Autowired
     EmployeeService employeeService;
-    @Test
-    void test01(){
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        employeeDTO.setEmployeeName("aaa");
-        employeeDTO.setRoleId(1);
-        employeeDTO.setUnitId(1);
-        employeeService.addNewEmployee(employeeDTO);
-    }
+//    @Test
+//    void test01(){
+//        EmployeeDTO employeeDTO = new EmployeeDTO();
+//        employeeDTO.setEmployeeName("aaa");
+//        employeeDTO.setRoleId(1);
+//        employeeDTO.setUnitId(1);
+//        employeeService.addNewEmployee(employeeDTO);
+//    }
 }

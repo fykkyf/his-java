@@ -44,21 +44,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     @Options(useGeneratedKeys = true,keyColumn = "employee_id",keyProperty = "employeeId")
-    public void addNewEmployee(EmployeeDTO employeeDTO) {
-        employeeMapper.addNewEmployee(employeeDTO);
-        employeeMapper.addNewEmployeeRole(employeeDTO.getEmployeeId(),employeeDTO.getRoleId());
-        employeeMapper.addNewEmployeeUnit(employeeDTO.getEmployeeId(),employeeDTO.getUnitId());
+    public void addNewEmployee(EmployeeVO employeeVO) {
+        employeeMapper.addNewEmployee(employeeVO);
+        employeeMapper.addNewEmployeeRole(employeeVO.getEmployeeId(),employeeVO.getRole().getRoleId());
+        employeeMapper.addNewEmployeeUnit(employeeVO.getEmployeeId(),employeeVO.getUnit().getUnitId());
 
     }
 
     @Override
     @Transactional
-    public void updateEmployeeDTO(EmployeeDTO employeeDTO) {
-        employeeMapper.updateEmployeeDTO(employeeDTO);
-        log.info("eid = "+employeeDTO.getEmployeeId());
-
-        employeeMapper.updateEmployeeRole(employeeDTO.getEmployeeId(),employeeDTO.getRoleId());
-        employeeMapper.updateEmployeeUnit(employeeDTO.getEmployeeId(),employeeDTO.getUnitId());
+    public void updateEmployeeDTO(EmployeeVO employeeVO) {
+        employeeMapper.updateEmployeeDTO(employeeVO);
+        log.info("eid = "+employeeVO.getEmployeeId());
+        log.info("roleId = " + employeeVO.getRole().getRoleId());
+        log.info("unitId = " + employeeVO.getUnit().getUnitId());
+        employeeMapper.updateEmployeeRole(employeeVO.getEmployeeId(),employeeVO.getRole().getRoleId());
+        employeeMapper.updateEmployeeUnit(employeeVO.getEmployeeId(),employeeVO.getUnit().getUnitId());
     }
 
     @Override

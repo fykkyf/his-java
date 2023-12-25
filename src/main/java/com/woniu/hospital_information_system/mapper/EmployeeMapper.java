@@ -28,13 +28,13 @@ public interface EmployeeMapper {
 
     List<EmployeeVO> getAllVO();
 
-    void addNewEmployee(EmployeeDTO employeeDTO);
+    void addNewEmployee(EmployeeVO employeeVO);
 
     void addNewEmployeeRole(@Param("employeeId")Integer employeeId,@Param("roleId")Integer roleId);
 
     void addNewEmployeeUnit(@Param("employeeId")Integer employeeId,@Param("unitId") Integer unitId);
 
-    void updateEmployeeDTO(EmployeeDTO employeeDTO);
+    void updateEmployeeDTO(EmployeeVO employeeVO);
 
     void updateEmployeeRole(@Param("employeeId") Integer employeeId, @Param("roleId") Integer roleId);
 

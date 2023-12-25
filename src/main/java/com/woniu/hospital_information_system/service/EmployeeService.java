@@ -16,9 +16,9 @@ public interface EmployeeService {
 
     List<EmployeeVO> getAllVO();
 
-    void addNewEmployee(EmployeeDTO employeeDTO);
+    void addNewEmployee(EmployeeVO employeeVO);
 
-    void updateEmployeeDTO(EmployeeDTO employeeDTO);
+    void updateEmployeeDTO(EmployeeVO employeeVO);
 
     void removeEmployee(Integer employeeId);
 }

@@ -4,6 +4,7 @@ import com.woniu.hospital_information_system.entity.DTO.EmployeeDTO;
 import com.woniu.hospital_information_system.entity.Employee;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.Unit;
+import com.woniu.hospital_information_system.entity.VO.EmployeeVO;
 import com.woniu.hospital_information_system.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +49,15 @@ public class EmployeeController {
         return new ResponseEntity(200,"success",employeeService.getAllVO());
     }
     @PostMapping("/updateEmployee")
-    public Object addNewEmployee(@RequestBody EmployeeDTO employeeDTO){
+    public Object addNewEmployee(@RequestBody EmployeeVO employeeVO){
 
-        if(employeeDTO.getEmployeeId()==null){
-            employeeService.addNewEmployee(employeeDTO);
-            return new ResponseEntity(200,"添加成功",null);
+        if(employeeVO.getEmployeeId()==null){
+            employeeService.addNewEmployee(employeeVO);
+            return new ResponseEntity(201,"添加成功",null);
         }else {
-            employeeService.updateEmployeeDTO(employeeDTO);
-            return new ResponseEntity(200,"修改成功",null);
+            log.info(employeeVO.toString());
+            employeeService.updateEmployeeDTO(employeeVO);
+            return new ResponseEntity(202,"修改成功",null);
         }
 
     }
