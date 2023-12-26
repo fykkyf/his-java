@@ -29,7 +29,7 @@ public class UserController {
         //验证码校验
         if(!user.getVerifycode().equals(redisTemplate.opsForValue().get(user.getUuid()))){
             //验证失败
-            throw new VerifyCodeErrorException("验证码错误");
+            throw new VerifyCodeErrorException("Wrong code");
         }else {
             //验证通过
             redisTemplate.delete(user.getUuid());

@@ -3,6 +3,7 @@ package com.woniu.hospital_information_system.controller;
 import com.woniu.hospital_information_system.entity.DTO.RoleMenuDTO;
 import com.woniu.hospital_information_system.entity.ResponseEntity;
 import com.woniu.hospital_information_system.entity.Role;
+import com.woniu.hospital_information_system.entity.Unit;
 import com.woniu.hospital_information_system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +29,29 @@ public class RoleController {
     @RequestMapping("/remove/{roleId}")
     public ResponseEntity removeByRoleId(@PathVariable int roleId){
         roleService.removeByRoleId(roleId);
-        return new ResponseEntity(200,"success","删除成功");
+        return new ResponseEntity(200,"success","Success");
+    }
+    @RequestMapping("/removeRole/{roleId}")
+    public ResponseEntity removeRoleByRoleId(@PathVariable int roleId){
+        roleService.removeRoleByRoleId(roleId);
+        return new ResponseEntity(200,"success","Success");
+    }
+    @PostMapping("/updateRole")
+    public ResponseEntity updateRole(@RequestBody Role role){
+        if (role.getRoleId()==null){
+            roleService.add(role);
+            return new ResponseEntity(200,"Create new role success",null);
+        }else {
+            roleService.update(role);
+            return new ResponseEntity(200,"Edit Success",null);
+        }
+
     }
     //添加新职位
     @PostMapping("/add")
     public ResponseEntity addRole(@RequestBody Role role){
         roleService.add(role);
-        return new ResponseEntity(200,"success","添加成功");
+        return new ResponseEntity(200,"success","Success");
     }
     //通过职位id获取拥有的菜单权限
     @RequestMapping("/getMenuIds/{roleId}")

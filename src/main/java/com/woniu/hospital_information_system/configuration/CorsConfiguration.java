@@ -13,8 +13,7 @@ public class CorsConfiguration {
 
     @Autowired
     LoginInterceptor loginInterceptor;
-//    @Autowired
-//    AuthorizationInterceptor authorizationInterceptor;
+
 
     @Bean
     public WebMvcConfigurer corsConfigurer(){

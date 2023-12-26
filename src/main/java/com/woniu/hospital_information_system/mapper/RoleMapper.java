@@ -17,4 +17,7 @@ public interface RoleMapper {
     void add(Role role);
     @Select("select menu_id from employee_menu where role_id = #{roleId}")
     List<Integer> selectMenuIdsByRoleId(int roleId);
+
+    @Select("update role set role_name = #{roleName} where role_id = #{roleId}")
+    void update(Role role);
 }
