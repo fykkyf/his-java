@@ -55,6 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void updateEmployeeDTO(EmployeeVO employeeVO) {
         employeeMapper.updateEmployeeDTO(employeeVO);
+        log.info(employeeVO.toString());
         log.info("eid = "+employeeVO.getEmployeeId());
         log.info("roleId = " + employeeVO.getRole().getRoleId());
         log.info("unitId = " + employeeVO.getUnit().getUnitId());
