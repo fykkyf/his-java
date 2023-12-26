@@ -179,7 +179,7 @@ public class PatientOrderServiceImpl implements PatientOrderService {
      * 1:添加医嘱信息
      * 2:添加费用信息
      * */
-    @Scheduled(fixedRate = 1000 * 60 * 2,initialDelay = 1000 * 60 * 2)
+//    @Scheduled(fixedRate = 1000 * 60 * 2,initialDelay = 1000 * 60 * 2)
     @Override
     public void timedExecutionAddPatientOrder() {
         //获取执行状态为2和医嘱类型为2的住院患者医嘱
