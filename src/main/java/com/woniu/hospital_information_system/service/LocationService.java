@@ -22,4 +22,5 @@ public interface LocationService {
     void addNewLocation(Location location);
 
 
+    boolean checkStatus(Integer locationId);
 }

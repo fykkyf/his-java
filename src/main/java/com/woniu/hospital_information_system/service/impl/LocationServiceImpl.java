@@ -56,7 +56,16 @@ public class LocationServiceImpl implements LocationService {
         locationMapper.addNewlocation(location);
     }
 
+    @Override
+    public boolean checkStatus(Integer locationId) {
 
+         int status = locationMapper.checkStatus(locationId);
+         if(status == 2){
+             return false;
+         }else {
+             return true;
+         }
+    }
 
 
 }

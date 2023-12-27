@@ -33,7 +33,7 @@ public class DosageController {
 
     }
     @RequestMapping("/remove/{dosageId}")
-    public ResponseEntity removeDosage(@PathVariable Integer dosageId){
+    public ResponseEntity removeDosage(@PathVariable int dosageId){
         dosageService.removeDosage(dosageId);
         return new ResponseEntity(200,"success",null);
     }

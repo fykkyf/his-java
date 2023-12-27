@@ -28,17 +28,22 @@ public class LocationController {
             return new ResponseEntity(200,"request success","Success");
         }else {
             locationService.updateLocation(location);
-            return new ResponseEntity(200,"request success","Success");
+            return new ResponseEntity(201,"request success","Success");
         }
 
 
     }
     @PostMapping("/removeLocation/{locationId}")
     public ResponseEntity removeLocation(@PathVariable Integer locationId){
+        if(locationService.checkStatus(locationId)){
+            locationService.removeLocation(locationId);
 
-        locationService.removeLocation(locationId);
+            return new ResponseEntity(200,"success","Delete Success");
+        }else {
+            return new ResponseEntity(201,"failed","Location in use");
+        }
 
-        return new ResponseEntity(200,"success","Delete Success");
+
     }
 
 

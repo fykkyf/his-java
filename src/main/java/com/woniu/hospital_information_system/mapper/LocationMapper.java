@@ -25,6 +25,8 @@ public interface LocationMapper {
     void updateLocation(Location location);
     @Delete("delete from location where location_id = #{locationId}")
     void removeLocation(Integer locationId);
-    @Insert("insert into location values (null,#{locationName},2)")
+    @Insert("insert into location values (null,#{locationName},1)")
     void addNewlocation(Location location);
+    @Select("select location_status from location where location_id = #{locationId}")
+    int checkStatus(Integer locationId);
 }
