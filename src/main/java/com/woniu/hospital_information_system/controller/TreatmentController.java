@@ -137,7 +137,7 @@ public class TreatmentController {
      //查询所有项目信息，前端判断项目明细和启用类型
      @PostMapping("/selectAllTreatment")
      public Object selectAllTreatment(@RequestBody  TreatmentDTO treatmentDTO){
-        log.info(treatmentDTO.getTreatmentCategory().toString());
+
          //分页
          PageHelper.startPage(treatmentDTO.getPageNum(),treatmentDTO.getPageSize());
          //查询
