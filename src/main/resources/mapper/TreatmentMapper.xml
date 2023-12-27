@@ -27,7 +27,7 @@
               and   treatment_status=#{treatmentStatus}
           </if>
           <if test="treatmentCategory!=null and treatmentCategory!=''">
-              and   treatment_category=#{treatmentCategory}
+              and   treatment_category = #{treatmentCategory}
           </if>
           <if test="drugCode!=null and drugCode!=''">
               and   drug_code=#{drugCode}
