@@ -125,7 +125,9 @@
         SELECT
             pb.patient_bill_id,pb.patient_id,pi.patient_name,pi.doctor_id,e.employee_name,pb.treatment_id,po.treatment_name,pb.drug_count,pb.amount,po.execution_status,po.order_type
         FROM patient_bill pb ,patient_info pi ,employee e , patient_order po
-        where pb.patient_id = pi.patient_id and pi.doctor_id = e.employee_id and po.patient_id = pi.patient_id  and po.patient_id = #{patientId} and date(pb.order_date) = current_date GROUP BY pb.patient_bill_id
+        where po.patient_id = #{patientId} and pb.patient_id = pi.patient_id and pi.doctor_id = e.employee_id and po.patient_id = pi.patient_id  and  date(pb.order_date) = current_date GROUP BY pb.patient_bill_id, pi.patient_id, pi.patient_name, pi.doctor_id,
+            e.employee_name, pb.treatment_id, po.treatment_name,
+            pb.drug_count, pb.amount, po.execution_status, po.order_type
     </select>
     <select id="selectPatientOrderByStatus" resultMap="PatientOrderMap">
         SELECT
