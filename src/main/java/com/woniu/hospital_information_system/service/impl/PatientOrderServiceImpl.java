@@ -7,19 +7,15 @@ import com.woniu.hospital_information_system.entity.*;
 import com.woniu.hospital_information_system.entity.DTO.PatientInfoDTO;
 import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.DTO.TreatmentDTO;
-import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
+import com.woniu.hospital_information_system.entity.VO.PatientDailyOrderVO;
 import com.woniu.hospital_information_system.entity.VO.PatientOrderVO;
 import com.woniu.hospital_information_system.mapper.*;
-import com.woniu.hospital_information_system.service.PatientLabService;
 import com.woniu.hospital_information_system.service.PatientOrderService;
-import com.woniu.hospital_information_system.service.PatientRaidologyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -58,16 +54,17 @@ public class PatientOrderServiceImpl implements PatientOrderService {
     }
 
     @Override
-    public PatientBillVO getAllPatientOrdersByDaily(int pageNum, int pageSize, int patientId) {
-        List<PatientBillVO> patientBills = patientOrderMapper.selectAllPatientOrdersByDaily(patientId);
+    public PatientDailyOrderVO getAllPatientOrdersByDaily(int pageNum, int pageSize, int patientId) {
+        List<PatientDailyOrderVO> patientDailyOrder = patientOrderMapper.selectAllPatientDailyOrder(patientId);
+        log.info(patientDailyOrder.toString());
         PageHelper.startPage(pageNum, pageSize);
-        PageInfo<PatientBillVO> info = new PageInfo<>(patientBills);
-        PatientBillVO patientBillVO = new PatientBillVO();
-        patientBillVO.setPageNum(pageNum);
-        patientBillVO.setPageSize(pageSize);
-        patientBillVO.setTotal((int) info.getTotal());
-        patientBillVO.setPatientBills(patientBills);
-        return patientBillVO;
+        PageInfo<PatientDailyOrderVO> info = new PageInfo<>(patientDailyOrder);
+        PatientDailyOrderVO patientDailyOrderVO = new PatientDailyOrderVO();
+        patientDailyOrderVO.setPageNum(pageNum);
+        patientDailyOrderVO.setPageSize(pageSize);
+        patientDailyOrderVO.setTotal((int) info.getTotal());
+        patientDailyOrderVO.setPatientBills(patientDailyOrder);
+        return patientDailyOrderVO;
     }
 
     /*

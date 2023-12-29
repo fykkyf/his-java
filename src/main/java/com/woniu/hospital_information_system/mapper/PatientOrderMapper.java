@@ -5,6 +5,7 @@ import com.woniu.hospital_information_system.entity.DTO.PatientOrderDTO;
 import com.woniu.hospital_information_system.entity.PatientInfo;
 import com.woniu.hospital_information_system.entity.PatientOrder;
 import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
+import com.woniu.hospital_information_system.entity.VO.PatientDailyOrderVO;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface PatientOrderMapper {
     List<PatientOrder> selectAllPatientOrders();
     //获取当天所有医嘱信息
     List<PatientBillVO> selectAllPatientOrdersByDaily(int patientId);
+    List<PatientDailyOrderVO> selectAllPatientDailyOrder(int patientId);
     //给住院患者下医嘱
     void addPatientOrderByPatientOrderId(PatientOrder patientOrder);
     //根据住院患者id查询住院患者医嘱信息
