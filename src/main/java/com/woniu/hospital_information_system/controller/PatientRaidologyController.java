@@ -29,7 +29,7 @@ public class PatientRaidologyController {
         Integer patientRaidologyId = formData.getId();
         // 判断文件是否为空
         if(file.isEmpty()){
-            return new ResponseEntity(402,"文件为空",null);
+            return new ResponseEntity(402,"No file found",null);
         }
         // 获取传过来的文件名字
         String OriginalFilename=file.getOriginalFilename();
@@ -38,7 +38,7 @@ public class PatientRaidologyController {
         // 设置保存地址（这里是转义字符）
         //1.后台保存位置
 //        String path = "D:\\vue_project\\travel\\src\\assets\\images\\";
-        String path = "E:\\project\\study\\his\\src\\assets\\images\\";
+        String path = "/Users/yukuanfeng/Projects/his-web/src/assets/images//";
         //dest是上传图片的路径名字
         File dest=new File(path+fileName);
         // 判断文件是否存在
@@ -50,10 +50,10 @@ public class PatientRaidologyController {
             // 后台上传
             patientRaidologyService.addPicture(path,fileName,patientRaidologyId);
             file.transferTo(dest);
-            return new ResponseEntity(200, "文件上传成功", fileName);
+            return new ResponseEntity(200, "Upload Success", fileName);
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity(400, "文件上传失败", null);
+            return new ResponseEntity(400, "Upload Failed", null);
         }
     }
 
