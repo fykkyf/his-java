@@ -48,6 +48,7 @@ public class PatientRaidologyController {
         }
         try {
             // 后台上传
+
             patientRaidologyService.addPicture(path,fileName,patientRaidologyId);
             file.transferTo(dest);
             return new ResponseEntity(200, "Upload Success", fileName);
