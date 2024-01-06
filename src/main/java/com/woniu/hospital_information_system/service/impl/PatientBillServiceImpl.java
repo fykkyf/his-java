@@ -25,9 +25,15 @@ public class PatientBillServiceImpl implements PatientBillService {
     public PatientBillResultVO getPatientBillVO(Integer patientId) {
         PatientBillResultVO patientBillResultVO = new PatientBillResultVO();
         PatientInfo patientInfo = patientInfoMapper.selectPatientInfoByPatientId(patientId);
+        if(patientInfo.getPaymentStatus() != 1){
+            return null;
+        }
         int insuranceStatus= patientInfo.getInsuranceStatus();
         patientBillResultVO.setPatientInfo(patientInfo);
         List<PatientBillVO> patientBillVOList = patientBillMapper.getPatientBillVO(patientId);
+        if (patientBillVOList.isEmpty()){
+            return null;
+        }
         if(insuranceStatus==2){
             for (PatientBillVO p : patientBillVOList){
                 if(p.getInsurancePrice()!= null && p.getDrugCount()!=null){

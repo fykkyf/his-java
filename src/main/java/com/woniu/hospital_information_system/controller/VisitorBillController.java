@@ -7,9 +7,10 @@ import com.woniu.hospital_information_system.entity.VisitorBill;
 import com.woniu.hospital_information_system.entity.VisitorInfo;
 import com.woniu.hospital_information_system.mapper.VisitorBillMapper;
 import com.woniu.hospital_information_system.service.VisitorBillService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+@Slf4j
 @RestController
 @RequestMapping("visitorBill")
 public class VisitorBillController {
@@ -25,6 +26,9 @@ public class VisitorBillController {
      */
     public ResponseEntity getPriceByTreatmentId(@RequestBody VisitorInfo visitorInfo){
         Integer treatmentId = visitorBillMapper.getTreatmentId(visitorInfo.getEmployee().getEmployeeId());
+
+
+
         return new ResponseEntity(200,"ok",visitorBillService.getPriceByTreatmentId(treatmentId));
     }
 
@@ -39,8 +43,14 @@ public class VisitorBillController {
     @GetMapping("/getBillByVisitorId/{visitorId}")
     public ResponseEntity getBillByVisitorId(@PathVariable Integer visitorId){
         VisitorBillResultVO visitorBillResultVO = visitorBillService.getVisitorBillVO(visitorId);
+        if (visitorBillResultVO != null){
+            return new ResponseEntity(200,"success",visitorBillResultVO);
+        }
+        else {
+            log.info("no data found");
+            return new ResponseEntity(444,"success","No information Found");
+        }
 
-        return new ResponseEntity(200,"success",visitorBillResultVO);
     }
     @GetMapping("/getRefundByVisitorId/{visitorId}")
     public ResponseEntity getRefundByVisitorId(@PathVariable Integer visitorId){

@@ -23,8 +23,14 @@ public class VisitorBillServiceImpl implements VisitorBillService {
     public VisitorBillResultVO getVisitorBillVO(Integer visitorId) {
         VisitorBillResultVO visitorBillResultVO = new VisitorBillResultVO();
         VisitorInfo visitorInfo = visitorInfoMapper.getVisitorInfoByVisitorId(visitorId);
+        if (visitorInfo == null){
+            return null;
+        }
         visitorBillResultVO.setVisitorInfo(visitorInfo);
         List<VisitorBillVO> visitorBillVOList = visitorBillMapper.getAllBillsByVisitorId(visitorId);
+        if(visitorBillVOList.isEmpty()){
+            return null;
+        }
         for (VisitorBillVO p : visitorBillVOList) {
             if (p.getTreatmentPrice() != null && p.getDrugCount() != null) {
                 int count = p.getDrugCount();

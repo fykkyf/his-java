@@ -8,13 +8,14 @@ import com.woniu.hospital_information_system.entity.VO.PatientBillVO;
 import com.woniu.hospital_information_system.service.PatientBillService;
 import com.woniu.hospital_information_system.service.PatientInfoService;
 import com.woniu.hospital_information_system.service.PatientOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("patientBill")
 public class PatientBillController {
@@ -30,8 +31,15 @@ public class PatientBillController {
     public ResponseEntity getPatientBillByPatientId(@PathVariable Integer patientId){
 
         PatientBillResultVO patientBillResultVO = patientBillService.getPatientBillVO(patientId);
-        System.out.println(patientBillResultVO);
-        return new ResponseEntity(200,"success",patientBillResultVO);
+        if(patientBillResultVO != null){
+            log.info(patientBillResultVO.toString());
+            return new ResponseEntity(200,"success",patientBillResultVO);
+        }
+        else {
+            log.info("no data found");
+            return new ResponseEntity(444,"success","No information Found");
+        }
+
     }
 
     //修改支付状态
