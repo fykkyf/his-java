@@ -44,6 +44,7 @@ public class VisitorBillController {
     public ResponseEntity getBillByVisitorId(@PathVariable Integer visitorId){
         VisitorBillResultVO visitorBillResultVO = visitorBillService.getVisitorBillVO(visitorId);
         if (visitorBillResultVO != null){
+            log.info(visitorBillResultVO.toString());
             return new ResponseEntity(200,"success",visitorBillResultVO);
         }
         else {
