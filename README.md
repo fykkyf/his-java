@@ -10,8 +10,10 @@ After the development of the project was completed, I returned to the United Sta
 
 >1. Run his-java application
 >
->2. Use `npm run serve` start his-web
->3. Click link in web storm or Use localhost://8080 to access
+>2. Load the his.sql file in his-java into DataGrip or other sql software
+>
+>3. Use `npm run serve` start his-web
+>4. Click link in web storm or Use localhost://8080 to access
 
 ## Development Background
 
