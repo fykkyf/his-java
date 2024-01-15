@@ -61,14 +61,13 @@ All operations start when the patient first enters the hospital to seek a doctor
 2. Based on the patient's description, the doctor issues a check list specifying the tests the patient needs to do, and makes a preliminary diagnosis of the patient.
 3. After the patient has completed the examination, the doctor makes a final outpatient diagnosis for the patient and feels that the patient may need to be hospitalized to prescribe medication.
 
-![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Clinic Physician.jpg)
+![image](https://github.com/fykkyf/his-java/blob/master/pic/Clinic%20Physician.jpg)
 
 ### After diagnosis
 
 1. If hospitalization is not required, the patient will go to the outpatient clinic to pay for the examination and medication.
 2. If the patient wants to go elsewhere to prescribe medicine or change the doctor, he or she can apply for a refund and re-register at the front desk of the outpatient clinic.
-
-![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Clinic Pay.jpg)
+![image](https://github.com/fykkyf/his-java/blob/master/pic/Clinic%20Pay.jpg)
 
 ## Inpatient department
 
