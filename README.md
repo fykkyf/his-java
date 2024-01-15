@@ -71,10 +71,10 @@ All operations start when the patient first enters the hospital to seek a doctor
 
 ## Inpatient department
 
-1. The patient comes to the inpatient department and registers basic personal information at the front desk of the department. If there is a registration ID, you can directly search through this ID. If you are transferred to another hospital or directly hospitalized, you need to register here.![Clinic Register](./pic/Inpatient Register.jpg)
-2. After registration, the front desk nurse is responsible for arranging a specific room and bed for the patient![Clinic Register](./pic/Add Location.jpg)
-3. After the doctor's ward rounds, the doctor makes a preliminary diagnosis of the patient's hospitalization and arranges treatment plans, medicines and examinations for the patient.![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Inpatient Physician.jpg) The doctor can place long-term medical orders and short-term medical orders. If it is a medicine that needs to be repeated every day, he can order long-term medical orders. After that, the system will automatically update to the nurse station every day for the nurse to pick up the medicine.![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Prescribe Med.jpg)When the doctor determines that the patient can be discharged, he needs to make a final diagnosis and record![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Prescribe Discharge.jpg)
-4. If the doctor prescribes drugs or judges that the patient can be discharged, a nurse is required to review the drugs or discharge decision.![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Nurse Verify.jpg)
+1. The patient comes to the inpatient department and registers basic personal information at the front desk of the department. If there is a registration ID, you can directly search through this ID. If you are transferred to another hospital or directly hospitalized, you need to register here.![image](https://github.com/fykkyf/his-java/blob/master/pic/Inpatient%20Register.jpg)
+2. After registration, the front desk nurse is responsible for arranging a specific room and bed for the patient![image](https://github.com/fykkyf/his-java/blob/master/pic/Add%20Location.jpg)
+3. After the doctor's ward rounds, the doctor makes a preliminary diagnosis of the patient's hospitalization and arranges treatment plans, medicines and examinations for the patient.![image](https://github.com/fykkyf/his-java/blob/master/pic/Inpatient%20Physician.jpg) The doctor can place long-term medical orders and short-term medical orders. If it is a medicine that needs to be repeated every day, he can order long-term medical orders. After that, the system will automatically update to the nurse station every day for the nurse to pick up the medicine.![image](https://github.com/fykkyf/his-java/blob/master/pic/Prescribe%20Med.jpg)When the doctor determines that the patient can be discharged, he needs to make a final diagnosis and record![image](https://github.com/fykkyf/his-java/blob/master/pic/Prescribe%20Discharge.jpg)
+4. If the doctor prescribes drugs or judges that the patient can be discharged, a nurse is required to review the drugs or discharge decision.![image](https://github.com/fykkyf/his-java/blob/master/pic/Nurse%20Verify.jpg)
 
 1. After the nurse confirms that the doctor’s prescription is correct, she can go to the pharmacy to get the medicine.
 2. Nurses also need to regularly check basic information on patients, such as body temperature and blood pressure.
@@ -82,20 +82,20 @@ All operations start when the patient first enters the hospital to seek a doctor
 
 ## Inspection Department
 
-Both outpatient and inpatient patients can come to the examination department to confirm their examination based on their outpatient ID and inpatient ID. After the examination, the results will be uploaded to the database, and the doctor can view the examination results in the patient information.![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Radiology Image.jpg)
+Both outpatient and inpatient patients can come to the examination department to confirm their examination based on their outpatient ID and inpatient ID. After the examination, the results will be uploaded to the database, and the doctor can view the examination results in the patient information.![image](https://github.com/fykkyf/his-java/blob/master/pic/Radiology%20Image.jpg)
 
 ## Pharmacy
 
 1. After paying, outpatients can go to the pharmacy to pick up medicines using their registration ID.
 
-2. For hospitalized patients, nurses will help patients take medicines![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Dispense.jpg)
-3. Drug management is also a task of the pharmacy. There will be reminders every day whether any drugs are about to expire or are out of stock.![Clinic Register](/Users/yukuanfeng/Library/CloudStorage/OneDrive-Personal/【Shared】YK/找工作相关/项目/医院项目/HIS Demo/pic/Med Manage.jpg)
+2. For hospitalized patients, nurses will help patients take medicines![image](https://github.com/fykkyf/his-java/blob/master/pic/Dispense.jpg)
+3. Drug management is also a task of the pharmacy. There will be reminders every day whether any drugs are about to expire or are out of stock.![image](https://github.com/fykkyf/his-java/blob/master/pic/Med%20Manage.jpg)
 
 ## Administrator
 
 Administrators can make modifications to other hospital information besides medicines, such as employees, positions, wards and employee permissions
 
-![Clinic Register](./pic/Role Setting.jpg)![Clinic Register](./pic/Menu Setting.jpg)
+![image](https://github.com/fykkyf/his-java/blob/master/pic/Menu%20Setting.jpg)
 
 ### 
 
