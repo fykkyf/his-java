@@ -46,7 +46,7 @@ Typically, hospital visits in China are much the same as in Western countries. B
 
 
 
-![MedicalTreatmentProcess](./pic/Medical Treatment Process.png)
+![image](https://github.com/fykkyf/his-java/blob/master/pic/Medical%Treatment%Process.png)
 
 
 
